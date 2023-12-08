@@ -1,7 +1,22 @@
-import "./App.css";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
+import AppLayout from "./ui/AppLayout";
+import Login from "./pages/Login";
 
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route index element={<Navigate replace to="login" />} />
+          </Route>
+
+          <Route path="login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
+    </>
+  );
 }
 
 export default App;
