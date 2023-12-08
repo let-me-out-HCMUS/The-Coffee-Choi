@@ -43,6 +43,43 @@ exports.login = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.protect = catchAsync(async (req, res, next) => {
+  // Check token in header
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+  if (!token) {
+    return next(
+      new AppError("You are not logged in! Please log in to get access.", 401)
+    );
+  }
+
+  // Verify token
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+
+  // Grant access to protected route
+  req.user = await User.findById(decoded.id);
+  next();
+});
+
+// Check roles
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    // Check roles
+    if (!roles.includes(req.user.role)) {
+      console.log(req);
+      return next(
+        new AppError("You do not have permission to perform this action", 403)
+      );
+    }
+    next();
+  };
+};
+
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
   res.status(200).json({
