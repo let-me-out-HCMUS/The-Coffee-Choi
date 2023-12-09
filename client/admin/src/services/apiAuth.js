@@ -3,7 +3,7 @@ import { account as credentials } from "../mocks/login";
 function mockValidate(email, password) {
   console.log("Validating...");
   console.log(`Provided email: ${email}, password: ${password}`);
-  console.log(`Credentials: ${(credentials.email, credentials.password)}`);
+  console.log(`Credentials: ${credentials.email}, ${credentials.password}`);
 
   if (email === credentials.email && password === credentials.password) {
     return {

@@ -105,6 +105,9 @@ export default function LoginForm() {
                 margin="normal"
                 required
                 fullWidth
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 id="email"
                 label="Email Address"
                 name="email"
@@ -112,6 +115,9 @@ export default function LoginForm() {
               />
               <TextField
                 margin="normal"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 required
                 fullWidth
                 name="password"
