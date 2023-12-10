@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -9,16 +8,22 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CircularProgress } from "@mui/material";
+import { grey } from "@mui/material/colors";
 
 import Comfortaa from "../../fonts/Comfortaa-VariableFont_wght.ttf";
 
 import { Copyright } from "../../ui/Copyright";
 import { useLogin } from "./useLogin";
+import Logo from "../../ui/Logo";
 
 const defaultTheme = createTheme({
   palette: {
     primary: {
       main: "#f8b996",
+    },
+    info: {
+      main: grey[900],
     },
   },
   typography: {
@@ -40,7 +45,7 @@ const defaultTheme = createTheme({
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useLogin();
+  const { login, isLoading } = useLogin();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -64,7 +69,7 @@ export default function LoginForm() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(/public/biglogo.jpg)",
+            backgroundImage: "url(/biglogo.jpg)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -84,14 +89,7 @@ export default function LoginForm() {
               alignItems: "center",
             }}
           >
-            <Avatar src="/public/tcc.png" sx={{ width: 96, height: 96 }} />
-            <Typography
-              component="h2"
-              color="primary.main"
-              sx={{ marginBottom: 2 }}
-            >
-              THE COFFEE CHÒI
-            </Typography>
+            <Logo />
             <Typography component="h1" variant="h5">
               Sign in to your account
             </Typography>
@@ -132,7 +130,11 @@ export default function LoginForm() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                {isLoading ? (
+                  <CircularProgress color="info" size="24px" />
+                ) : (
+                  "Sign in"
+                )}
               </Button>
 
               <Copyright sx={{ mt: 5 }} />
