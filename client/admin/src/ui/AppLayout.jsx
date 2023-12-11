@@ -1,24 +1,14 @@
 import { Outlet } from "react-router-dom";
-
-const StyledAppLayout = `
-  display: grid;
-  grid-template-columns: 26rem 1fr;
-  grid-template-rows: auto 1fr;
-  height: 100vh;
-`;
-
-const Main = `
-  background-color: var(--color-grey-50);
-  padding: 4rem 4.8rem 6.4rem;
-`;
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
+import { defaultTheme } from "./DefaultTheme";
 
 function AppLayout() {
   return (
-    <div className={StyledAppLayout}>
-      <div className={Main}>
-        <Outlet />
-      </div>
-    </div>
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <Outlet />
+    </ThemeProvider>
   );
 }
 

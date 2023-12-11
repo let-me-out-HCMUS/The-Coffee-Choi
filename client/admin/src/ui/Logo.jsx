@@ -1,12 +1,28 @@
-import { Avatar, Typography } from "@mui/material";
+/* eslint-disable react/prop-types */
+import { Avatar, Box, ThemeProvider, Typography } from "@mui/material";
 
-export default function Logo() {
+import { defaultTheme } from "./DefaultTheme";
+
+export default function Logo(props) {
   return (
-    <>
-      <Avatar src="/tcc.png" sx={{ width: 96, height: 96 }} />
-      <Typography component="h2" color="primary.main" sx={{ marginBottom: 2 }}>
-        THE COFFEE CHÒI
-      </Typography>
-    </>
+    <ThemeProvider theme={defaultTheme}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          ...props.sx,
+        }}
+      >
+        <Avatar src="/tcc.png" sx={{ width: 96, height: 96 }} />
+        <Typography
+          component="h2"
+          color="primary.main"
+          sx={{ marginBottom: 2 }}
+        >
+          THE COFFEE CHÒI
+        </Typography>
+      </Box>
+    </ThemeProvider>
   );
 }

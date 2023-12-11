@@ -4,6 +4,7 @@ import AppLayout from "./ui/AppLayout";
 import Login from "./pages/Login";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import Dashboard from "./pages/DashBoard";
 
 function App() {
   const queryClient = new QueryClient({
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route element={<AppLayout />}>
             <Route index element={<Navigate replace to="login" />} />
+            <Route path="dashboard" element={<Dashboard />} />
           </Route>
 
           <Route path="login" element={<Login />} />
