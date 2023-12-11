@@ -2,6 +2,7 @@ import { CssBaseline, ThemeProvider, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
 import Sidebar from "../ui/Sidebar";
+
 import { darkTheme } from "../ui/darkTheme";
 
 export default function Dashboard() {
