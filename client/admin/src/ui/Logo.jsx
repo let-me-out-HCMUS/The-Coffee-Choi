@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Avatar, Box, ThemeProvider, Typography } from "@mui/material";
-
-import { defaultTheme } from "./DefaultTheme";
+import { defaultTheme } from "./Theme";
 
 export default function Logo(props) {
   return (

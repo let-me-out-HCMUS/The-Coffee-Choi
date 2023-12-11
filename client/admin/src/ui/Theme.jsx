@@ -26,3 +26,13 @@ export const defaultTheme = createTheme({
     },
   },
 });
+
+export const darkTheme = createTheme({
+  ...defaultTheme,
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#f8b996",
+    },
+  },
+});

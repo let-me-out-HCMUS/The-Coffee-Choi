@@ -1,13 +1,14 @@
-import { CssBaseline, ThemeProvider, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import { useContext } from "react";
+import { CssBaseline, ThemeProvider, Typography, Grid } from "@mui/material";
 
 import Sidebar from "../ui/Sidebar";
-
-import { darkTheme } from "../ui/darkTheme";
+import { ThemeContext } from "../context/ThemeContext";
 
 export default function Dashboard() {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
 
       <Grid container spacing={2}>
