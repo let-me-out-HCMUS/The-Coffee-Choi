@@ -1,9 +1,16 @@
 const Product = require("../models/Product");
 const Category = require("../models/Category");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const APIFeatures = require("../utils/apiFeatures");
 exports.getAllProducts = catchAsync(async (req, res, next) => {
   // TODO: add filter, sort, limit, pagination
-  const products = await Product.find().populate("category");
+  const feature = new APIFeatures(Product.find(), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+  const products = await feature.query;
   res.status(200).json({
     status: "success",
     results: products.length,
