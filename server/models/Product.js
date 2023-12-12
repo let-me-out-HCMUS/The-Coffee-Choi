@@ -6,6 +6,10 @@ const productSchema = new mongoose.Schema({
     required: [true, "Please enter product name"],
     trim: true,
   },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+  },
   price: {
     type: Number,
     required: [true, "Please enter product price"],
@@ -24,14 +28,17 @@ const productSchema = new mongoose.Schema({
     {
       public_id: {
         type: String,
-        required: true,
       },
       url: {
         type: String,
-        required: true,
       },
     },
   ],
+  discount: {
+    type: String,
+    min: [0, "Discount must bigger than 0"],
+    max: [100, "Discount must smaller than 100"],
+  },
 });
 const Product = mongoose.model("Product", productSchema);
-export default Product;
+module.exports = Product;
