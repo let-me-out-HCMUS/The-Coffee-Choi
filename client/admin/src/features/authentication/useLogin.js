@@ -14,13 +14,13 @@ export function useLogin() {
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (user) => {
       queryClient.setQueryData(["user"], user.user);
-      toast.success("Singin success");
+      toast.success("Đăng nhập thành công");
       setIsAuth(true);
       navigate("/dashboard", { replace: true });
     },
     onError: (err) => {
       console.log("ERROR", err);
-      toast.error("Provided email or password are incorrect");
+      toast.error("Email hoặc mật khẩu không chính xác");
     },
   });
 
