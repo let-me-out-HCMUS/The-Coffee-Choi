@@ -29,7 +29,6 @@ const mock = {
 export default function Dashboard() {
   return (
     <DashboardLayout>
-      <h1>Dashboardddddddddddd</h1>
       <Stats
         orders={mock.orders}
         customers={mock.customers}
