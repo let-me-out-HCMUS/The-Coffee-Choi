@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export default function Navbar() {
+    // State to handle open/close in mobileview
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenStory, setIsOpenStory] = useState(false);
   const [isOpenNav, setIsOpenNav] = useState(false);
@@ -19,8 +20,10 @@ export default function Navbar() {
         <h1 className="py-[19px] text-2xl font-bold md:text-2xl lg:text-xl w-full lg:w-auto text-center">
           THE COFFE CHOI
         </h1>
+        {/* Mobile case */}
         {isOpenNav && (
           <div className="fixed left-0 top-0 z-50 h-full w-[40vw] overflow-x-hidden overflow-y-scroll bg-white bg-opacity-95 p-0 transition-all lg:hidden">
+            {/* close btn */}
             <button
               className=" w-full border-b-[1px] border-solid px-3 py-4 text-left"
               onClick={() => setIsOpenNav(false)}
@@ -28,6 +31,7 @@ export default function Navbar() {
               <i className="fa-solid fa-xmark"></i>
             </button>
 
+            {/* list header */}
             <ul className=" pl-[16px]">
               <li className=" text-left">
                 <a
@@ -45,6 +49,7 @@ export default function Navbar() {
                   Trà
                 </a>
               </li>
+              {/* Menu */}
               <li className=" text-left">
                 <button
                   type="button"
@@ -73,7 +78,7 @@ export default function Navbar() {
                   </ul>
                 )}
               </li>
-
+            
               <li className=" text-left">
                 <button
                   type="button"
