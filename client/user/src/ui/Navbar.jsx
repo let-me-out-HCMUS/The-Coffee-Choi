@@ -8,7 +8,7 @@ export default function Navbar() {
   const [isOpenUser, setIsOpenUser] = useState(false);
 
   return (
-    <header className=" fixed top-0 mx-auto flex w-full justify-center border-b-2 border-solid bg-white bg-opacity-80">
+    <header className=" fixed top-0 mx-auto flex w-full justify-center border-b-2 border-solid bg-white bg-opacity-80 z-50">
       <div className=" relative flex w-full items-center justify-between bg-opacity-80 px-10">
         <button
           className="absolute left-4 lg:hidden text-xl"
@@ -16,7 +16,7 @@ export default function Navbar() {
         >
           <i className="fa-solid fa-bars"/>
         </button>
-        <h1 className="py-[19px] text-4xl font-bold md:text-2xl lg:text-xl w-full lg:w-auto text-center">
+        <h1 className="py-[19px] text-2xl font-bold md:text-2xl lg:text-xl w-full lg:w-auto text-center">
           THE COFFE CHOI
         </h1>
         {isOpenNav && (
@@ -25,7 +25,7 @@ export default function Navbar() {
               className=" w-full border-b-[1px] border-solid px-3 py-4 text-left"
               onClick={() => setIsOpenNav(false)}
             >
-              ❌
+              <i className="fa-solid fa-xmark"></i>
             </button>
 
             <ul className=" pl-[16px]">
@@ -51,7 +51,7 @@ export default function Navbar() {
                   onClick={() => setIsOpenMenu(!isOpenMenu)}
                   className="leading-22px flex w-full items-center justify-between border-b-[1px] border-solid px-[16px] py-[17px] pr-[20px] text-base font-bold"
                 >
-                  Menu <span>🔻</span>
+                  Menu <i className="fa-solid fa-caret-down"></i>
                 </button>
                 {isOpenMenu && (
                   <ul className="m-0 p-0 pl-[10px]">
@@ -80,7 +80,7 @@ export default function Navbar() {
                   onClick={() => setIsOpenStory(!isOpenStory)}
                   className="leading-22px flex w-full items-center justify-between border-b-[1px] border-solid px-[16px] py-[17px] pr-[20px] text-base font-bold"
                 >
-                  Chuyện chòi <span>🔻</span>
+                  Chuyện chòi <i className="fa-solid fa-caret-down"></i>
                 </button>
                 {isOpenStory && (
                   <ul className="m-0 p-0 pl-[10px]">
@@ -129,7 +129,7 @@ export default function Navbar() {
                 className=" hover:cursor-pointer hover:text-amber-500"
                 href="#"
               >
-                Menu 🔻
+                Menu <i className="fa-solid fa-caret-down"></i>
               </a>
               {isOpenMenu && (
                 <div className=" absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white opacity-90">
@@ -179,7 +179,7 @@ export default function Navbar() {
                 href="#"
                 className=" hover:cursor-pointer hover:text-amber-500"
               >
-                Chuyện chòi 🔻
+                Chuyện chòi <i className="fa-solid fa-caret-down"></i>
               </a>
               {isOpenStory && (
                 <div className=" absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white opacity-90">
