@@ -1,11 +1,15 @@
 import { Outlet } from "react-router-dom";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 function AppLayout() {
   // Config style for main app
   return (
     <div>
-      <Outlet />
+      <Navbar />
+      <div className="mt-20 md:mt-20 lg:mt-16">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );
