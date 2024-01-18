@@ -5,54 +5,55 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FunctionsIcon from "@mui/icons-material/Functions";
 import { Grid } from "@mui/material";
 import { lightBlue, orange } from "@mui/material/colors";
+import useMediaSize from "../../hooks/useMediaSize";
 
 function Stats({ orders, customers, sales, AvgOrderSales }) {
-  console.log(orders, customers, sales, AvgOrderSales);
   // 1.
   const numOrders = orders.length;
 
   // 2.
   const numCustomers = customers.length;
 
-  // 3.
-  // const checkins = confirmedStays.length;
-
-  // 4.
-  // const occupation =
-  //   confirmedStays.reduce((acc, cur) => acc + cur.numNights, 0) /
-  // (numDays * cabinCount);
-  // num checked in nights / all available nights (num days * num cabins)
+  // Responsive option
+  const currentMedia = useMediaSize();
+  const iconSize = currentMedia.md ? "large" : currentMedia.sm ? "" : "40px";
+  const spacing = currentMedia.md ? 2 : currentMedia.sm ? 1 : 0;
 
   return (
     <Grid
       container
-      spacing={2}
+      spacing={spacing}
       sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        padding: 5,
+        padding: 1,
       }}
     >
       <Stat
         title="Orders"
         color={lightBlue[900]}
-        icon={<ShoppingCartIcon />}
+        icon={<ShoppingCartIcon fontSize={iconSize} />}
         value={numOrders}
       />
 
-      <Stat title="Sales" color="green" icon={<PaidIcon />} value={sales} />
+      <Stat
+        title="Sales"
+        color="green"
+        icon={<PaidIcon fontSize={iconSize} />}
+        value={sales}
+      />
 
       <Stat
         title="Customers"
         color="indigo"
-        icon={<PersonAddIcon />}
+        icon={<PersonAddIcon fontSize={iconSize} />}
         value={numCustomers}
       />
       <Stat
         title="Avg Sales"
         color={orange[900]}
-        icon={<FunctionsIcon />}
+        icon={<FunctionsIcon fontSize={iconSize} />}
         value={AvgOrderSales}
       />
     </Grid>

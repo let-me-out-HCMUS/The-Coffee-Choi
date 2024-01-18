@@ -4,6 +4,7 @@ import { ThemeContext } from "../context/ThemeContext";
 import { Switcher } from "../features/darkmode/Switcher";
 import { defaultTheme, darkTheme } from "./Theme";
 import LogoutIcon from "@mui/icons-material/Logout";
+import useMediaSize from "../hooks/useMediaSize";
 
 export default function Headerbar() {
   const { setTheme } = useContext(ThemeContext);
@@ -15,6 +16,12 @@ export default function Headerbar() {
     },
     [isDarkmode, setTheme]
   );
+
+  // responsive
+  const currentMedia = useMediaSize();
+
+  const fontSize = currentMedia.md ? 16 : 8;
+  const iconSize = currentMedia.md ? "" : "small";
 
   return (
     <Box
@@ -35,8 +42,8 @@ export default function Headerbar() {
           gap: 1,
         }}
       >
-        <LogoutIcon />
-        <Typography>Đăng xuất</Typography>
+        <LogoutIcon fontSize={iconSize} />
+        <Typography fontSize={fontSize}> Đăng xuất</Typography>
       </Button>
     </Box>
   );

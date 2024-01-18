@@ -12,11 +12,11 @@ export default function DashboardLayout({ children }) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      <Grid container spacing={2}>
-        <Grid item md={2.5}>
+      <Grid container spacing={1}>
+        <Grid item md={2.5} sm={1.5} xs={1}>
           <Sidebar />
         </Grid>
-        <Grid item md={9.5}>
+        <Grid item md={9.5} sm={10.5} xs={11}>
           <Headerbar />
           {children}
           {/* footer */}
