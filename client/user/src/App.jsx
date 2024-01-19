@@ -20,8 +20,10 @@ function App() {
               {/* Some route page that just use for admin */}
             </Route>
 
-          <Route path="/" element={<DashBoard />} />
-            {/* Another route add from here */}
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<DashBoard />} />
+              {/* Another route add from here */}
+          </Route>
 
             {/* All invalid route will render PageNotFound page */}
             <Route path="*" element={<PageNotFound />} />
