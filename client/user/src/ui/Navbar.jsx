@@ -133,13 +133,14 @@ export default function Navbar() {
                 Menu <i className="fa-solid fa-caret-down"></i>
               </a>
               
-              {isOpenMenu && (
-                <div className=" absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white opacity-90">
+              { (
+                <div className={`menu-transition menu-transition menu-transition ${isOpenMenu ? 'show' : ''} absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white`}>
+                  <div className=" absolute h-[19px] w-full top-[-19px]"></div>
                   <ul className=" flex w-4/5 flex-wrap justify-center">
                     <li className=" float-none inline-block px-[2.2%] py-[12px]">
                       <a
                         href=""
-                        className=" border-b-2 border-solid border-black">
+                        className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
                         Tất cả
                       </a>
                     </li>
@@ -147,7 +148,7 @@ export default function Navbar() {
                       <li className=" float-none inline-block px-[2.2%] py-[12px]">
                         <a
                           href=""
-                          className=" border-b-2 border-solid border-black">
+                          className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
                           {item}
                         </a>
                       </li>
@@ -166,14 +167,14 @@ export default function Navbar() {
                 className=" hover:cursor-pointer hover:text-amber-500">
                 Chuyện chòi <i className="fa-solid fa-caret-down"></i>
               </a>
-              {isOpenStory && (
-                <div className=" absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white opacity-90">
+              {(
+                <div className={`menu-transition menu-transition menu-transition ${isOpenStory ? 'show' : ''} absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white`}>
                   <ul className=" flex w-4/5 flex-wrap justify-center">
                     {story.map((item) => (
                       <li className=" float-none inline-block px-[2.2%] py-[12px]">
                         <a
                           href=""
-                          className=" border-b-2 border-solid border-black">
+                          className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
                           {item}
                         </a>
                       </li>
