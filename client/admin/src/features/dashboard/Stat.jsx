@@ -1,17 +1,16 @@
 import { Box, Typography } from "@mui/material";
 
 import useMediaSize from "../../hooks/useMediaSize";
-import DashboardItem from "./DashboardItem";
 
 function Stat({ icon, title, value, color }) {
   const currentMedia = useMediaSize();
 
   const titleSize = currentMedia.md ? 16 : 8;
   const valueSize = currentMedia.md ? 24 : 16;
-  const iconSize = currentMedia.md ? 64 : 32;
+  const iconSize = currentMedia.md ? 64 : 28;
 
   return (
-    <DashboardItem>
+    <>
       <Box
         sx={{
           display: "flex",
@@ -19,15 +18,16 @@ function Stat({ icon, title, value, color }) {
           justifyContent: "center",
           height: iconSize,
           width: iconSize,
-          borderRadius: "50%",
           bgcolor: color,
+          marginRight: "1rem",
+          borderRadius: "50%",
           color: "white",
         }}
       >
         {icon}
       </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "column", marginX: 2 }}>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
         <Typography
           sx={{
             fontSize: titleSize,
@@ -38,7 +38,7 @@ function Stat({ icon, title, value, color }) {
         </Typography>
         <Typography sx={{ fontSize: valueSize }}>{value}</Typography>
       </Box>
-    </DashboardItem>
+    </>
   );
 }
 

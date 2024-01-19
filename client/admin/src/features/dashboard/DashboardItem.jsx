@@ -4,7 +4,7 @@ import useMediaSize from "../../hooks/useMediaSize";
 
 export default function DashboardItem({ children, md, sm, sx }) {
   const currentMedia = useMediaSize();
-  const iconPadding = currentMedia.md ? 2 : 1;
+  const iconPadding = currentMedia.md ? 1.5 : 0.5;
 
   return (
     <Grid

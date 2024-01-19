@@ -25,6 +25,9 @@ export default function DashboardLayout({ children }) {
               flexWrap: "wrap",
               padding: 0,
               margin: 0,
+              scrollBehavior: "smooth",
+              height: "90vh",
+              overflow: "auto",
             }}
           >
             {children}
