@@ -35,6 +35,7 @@ export default function Sidebar() {
       color: var(--color-grey-800);
       background-color: var(--color-grey-50);
       border-radius: var(--border-radius-sm);
+      transition: all 0.3s;
     }
 
     & svg {
@@ -48,6 +49,7 @@ export default function Sidebar() {
     &:active svg,
     &.active:link svg,
     &.active:visited svg {
+      transition: all 0.3s;
       color: var(--color-brand-600);
     }
   `;

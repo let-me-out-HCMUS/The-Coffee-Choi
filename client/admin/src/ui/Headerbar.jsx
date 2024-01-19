@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Box, Typography, Button } from "@mui/material";
+import { Typography, Button, Paper } from "@mui/material";
 import { ThemeContext } from "../context/ThemeContext";
 import { Switcher } from "../features/darkmode/Switcher";
 import { defaultTheme, darkTheme } from "./Theme";
@@ -24,14 +24,16 @@ export default function Headerbar() {
   const iconSize = currentMedia.md ? "" : "small";
 
   return (
-    <Box
+    <Paper
       sx={{
-        gap: 4,
-        mx: 5,
-        my: 2,
         display: "flex",
         flexDirection: "row",
         justifyContent: "flex-end",
+        width: "100%",
+        background: "none",
+        boxShadow: "none",
+        padding: 1,
+        paddingRight: 5,
       }}
     >
       <Switcher defaultChecked onClick={() => setIsDarkmode(!isDarkmode)} />
@@ -45,6 +47,6 @@ export default function Headerbar() {
         <LogoutIcon fontSize={iconSize} />
         <Typography fontSize={fontSize}> Đăng xuất</Typography>
       </Button>
-    </Box>
+    </Paper>
   );
 }

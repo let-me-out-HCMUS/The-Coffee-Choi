@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
-import { CssBaseline, Grid, ThemeProvider } from "@mui/material";
+import { Container, CssBaseline, Grid, ThemeProvider } from "@mui/material";
 import Sidebar from "../../ui/Sidebar";
 import Headerbar from "../../ui/Headerbar";
 
@@ -13,13 +13,22 @@ export default function DashboardLayout({ children }) {
       <CssBaseline />
 
       <Grid container spacing={1}>
-        <Grid item md={2.5} sm={1.5} xs={1}>
+        <Grid item md={2.5} sm={1.2} xs={1}>
           <Sidebar />
         </Grid>
-        <Grid item md={9.5} sm={10.5} xs={11}>
+        <Grid item md={9.5} sm={10.8} xs={11}>
           <Headerbar />
-          {children}
-          {/* footer */}
+          <Container
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              padding: 0,
+              margin: 0,
+            }}
+          >
+            {children}
+          </Container>
         </Grid>
       </Grid>
     </ThemeProvider>

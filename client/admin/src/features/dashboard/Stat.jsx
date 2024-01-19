@@ -1,31 +1,17 @@
-import { Box, Grid } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { Box, Typography } from "@mui/material";
 
 import useMediaSize from "../../hooks/useMediaSize";
+import DashboardItem from "./DashboardItem";
 
 function Stat({ icon, title, value, color }) {
   const currentMedia = useMediaSize();
 
   const titleSize = currentMedia.md ? 16 : 8;
   const valueSize = currentMedia.md ? 24 : 16;
-
-  const iconPadding = currentMedia.md ? 2 : 1;
   const iconSize = currentMedia.md ? 64 : 32;
 
   return (
-    <Grid
-      item
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: grey[900],
-        borderRadius: "10px",
-        padding: iconPadding,
-        margin: 1,
-      }}
-    >
+    <DashboardItem>
       <Box
         sx={{
           display: "flex",
@@ -42,10 +28,17 @@ function Stat({ icon, title, value, color }) {
       </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column", marginX: 2 }}>
-        <Box sx={{ fontSize: titleSize, fontWeight: "Medium" }}>{title}</Box>
-        <Box sx={{ fontSize: valueSize }}>{value}</Box>
+        <Typography
+          sx={{
+            fontSize: titleSize,
+            fontWeight: "Medium",
+          }}
+        >
+          {title}
+        </Typography>
+        <Typography sx={{ fontSize: valueSize }}>{value}</Typography>
       </Box>
-    </Grid>
+    </DashboardItem>
   );
 }
 
