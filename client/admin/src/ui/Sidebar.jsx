@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { MenuItem, MenuList } from "@mui/material";
+import { MenuItem, MenuList, Paper } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import BrunchDiningIcon from "@mui/icons-material/BrunchDining";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -53,8 +53,12 @@ export default function Sidebar() {
   `;
 
   return (
-    <div>
-      <Logo sx={{ marginTop: 1 }} />
+    <Paper
+      sx={{
+        height: "100vh",
+      }}
+    >
+      <Logo sx={{ paddingTop: 2 }} />
 
       <MenuList>
         <MenuItem>
@@ -82,6 +86,6 @@ export default function Sidebar() {
           </StyledNavLink>
         </MenuItem>
       </MenuList>
-    </div>
+    </Paper>
   );
 }
