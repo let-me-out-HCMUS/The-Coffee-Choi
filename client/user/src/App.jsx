@@ -1,10 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import DashBoard from "./pages/DashBoard";
+import Menu from "./pages/Menu";
 import PageNotFound from "./pages/PageNotFound";
 
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
+
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
 
           <Route element={<AppLayout />}>
             <Route path="/" element={<DashBoard />} />
+            <Route path="/menu" element={<Menu />} />
               {/* Another route add from here */}
           </Route>
 

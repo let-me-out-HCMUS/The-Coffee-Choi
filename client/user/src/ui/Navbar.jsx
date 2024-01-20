@@ -3,7 +3,13 @@ import { useState } from "react";
 export default function Navbar() {
   // State to handle open/close in mobileview
 
-  const menu = ["Cà phê", "Trà", "Đá xây", "Bánh"];
+  // const menu = ["Cà phê", "Trà", "Đá xây", "Bánh"];
+  const menu = [
+    { name: "Cà phê", link: "/" },
+    { name: "Trà", link: "/" },
+    { name: "Đá xây", link: "/" },
+    { name: "Bánh", link: "/" },
+  ];
 
   const story = ["Coffeeholic", "Teaholic", "Blog"];
   const cart = [
@@ -31,7 +37,7 @@ export default function Navbar() {
           <i className="fa-solid fa-bars" />
         </button>
         <h1 className="py-[19px] text-2xl font-bold md:text-2xl lg:text-xl w-full lg:w-auto text-center">
-          THE COFFE CHOI
+          <a href="/">THE COFFE CHOI</a>
         </h1>
         {/* Mobileview */}
         {isOpenNav && (
@@ -69,12 +75,14 @@ export default function Navbar() {
                 </button>
                 {isOpenMenu && (
                   <ul className="m-0 p-0 pl-[10px]">
-                    <li className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
-                      Tất cả
+                    <li key={999} className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
+                      <a href="menu">Tất cả</a>
                     </li>
-                    {menu.map((item) => (
-                      <li className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
-                        {item}
+                    {menu.map((item, index) => (
+                      <li
+                        key={index}
+                        className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
+                        <a href={item.link}>{item.name}</a>
                       </li>
                     ))}
                   </ul>
@@ -90,8 +98,8 @@ export default function Navbar() {
                 </button>
                 {isOpenStory && (
                   <ul className="m-0 p-0 pl-[10px]">
-                    {story.map((item) => (
-                      <li className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
+                    {story.map((item, index) => (
+                      <li key={index} className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
                         {item}
                       </li>
                     ))}
@@ -132,23 +140,25 @@ export default function Navbar() {
                 href="#">
                 Menu <i className="fa-solid fa-caret-down"></i>
               </a>
-              
+
               {isOpenMenu && (
                 <div className=" absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white opacity-90">
                   <ul className=" flex w-4/5 flex-wrap justify-center">
-                    <li className=" float-none inline-block px-[2.2%] py-[12px]">
+                    <li key={999} className=" float-none inline-block px-[2.2%] py-[12px]">
                       <a
-                        href=""
+                        href="menu"
                         className=" border-b-2 border-solid border-black">
                         Tất cả
                       </a>
                     </li>
-                    {menu.map((item) => (
-                      <li className=" float-none inline-block px-[2.2%] py-[12px]">
+                    {menu.map((item, index) => (
+                      <li
+                        key={index}
+                        className=" float-none inline-block px-[2.2%] py-[12px]">
                         <a
-                          href=""
+                          href={item.link}
                           className=" border-b-2 border-solid border-black">
-                          {item}
+                          {item.name}
                         </a>
                       </li>
                     ))}
@@ -169,8 +179,8 @@ export default function Navbar() {
               {isOpenStory && (
                 <div className=" absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white opacity-90">
                   <ul className=" flex w-4/5 flex-wrap justify-center">
-                    {story.map((item) => (
-                      <li className=" float-none inline-block px-[2.2%] py-[12px]">
+                    {story.map((item, index) => (
+                      <li key={index} className=" float-none inline-block px-[2.2%] py-[12px]">
                         <a
                           href=""
                           className=" border-b-2 border-solid border-black">
@@ -191,7 +201,7 @@ export default function Navbar() {
         </div>
 
         <div className=" flex">
-            {/* Cart */}
+          {/* Cart */}
           <div
             className=" relative"
             onClick={() => setIsOpenCart(!isOpenCart)}
