@@ -7,7 +7,6 @@ const Item = styled(Grid)(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  justifyContent: "center",
   backgroundColor: theme.palette.mode === "dark" ? grey[900] : grey[200],
   borderRadius: "10px",
   margin: 5,

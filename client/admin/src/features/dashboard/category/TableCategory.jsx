@@ -12,7 +12,7 @@ import React from "react";
 import { formatCurrency } from "../../../utils/helpers";
 
 const columns = [
-  { id: "name", label: "Tên", minWidth: 250 },
+  { id: "name", label: "Tên", minWidth: 300 },
   { id: "category", label: "Danh mục", minWidth: 250 },
   {
     id: "quantity",
@@ -51,7 +51,22 @@ const rows = [
   createData("Bánh da đen", "Bánh", 234, 12),
 ];
 
-export default function TableCategory() {
+const sortFunction = (a, b, sort) => {
+  switch (sort) {
+    case "name":
+      return a.name.localeCompare(b.name);
+    case "category":
+      return a.category.localeCompare(b.category);
+    case "priceDown":
+      return b.price - a.price;
+    case "priceUp":
+      return a.price - b.price;
+    case "quantity":
+      return b.quantity - a.quantity;
+  }
+};
+
+export default function TableCategory({ sort }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -83,8 +98,8 @@ export default function TableCategory() {
           </TableHead>
           <TableBody>
             {rows
+              .sort((a, b) => sortFunction(a, b, sort))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .sort((a, b) => a.price < b.price)
               .map((row) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>

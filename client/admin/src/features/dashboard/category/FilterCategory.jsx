@@ -1,15 +1,15 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useState } from "react";
 
-export default function FilterCategory() {
-  const [sort, setSort] = useState("name");
-
+export default function FilterCategory({ sort, setSort }) {
   const handleChange = (event) => {
     setSort(event.target.value);
   };
-
   return (
-    <FormControl fullWidth>
+    <FormControl
+      sx={{
+        width: 340,
+      }}
+    >
       <InputLabel id="demo-simple-select-label">Sắp xếp</InputLabel>
       <Select
         labelId="demo-simple-select-label"
@@ -20,6 +20,7 @@ export default function FilterCategory() {
       >
         <MenuItem value={"name"}>Sắp xếp theo tên (A-Z)</MenuItem>
         <MenuItem value={"category"}>Sắp xếp theo danh mục (A-Z)</MenuItem>
+        <MenuItem value={"quantity"}>Sắp xếp theo số lượng (giảm dần)</MenuItem>
         <MenuItem value={"priceUp"}>Sắp xếp theo giá (thấp đến cao)</MenuItem>
         <MenuItem value={"priceDown"}>Sắp xếp theo giá (cao đến thấp)</MenuItem>
       </Select>

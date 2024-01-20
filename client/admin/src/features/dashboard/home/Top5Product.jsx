@@ -54,7 +54,7 @@ export default function Top5Product() {
         sx={{
           paddingX: 1,
           marginBottom: 2,
-          fontSize: currentMedia.md ? 32 : 12,
+          fontSize: currentMedia.md ? 24 : 12,
         }}
         fontWeight={550}
       >
