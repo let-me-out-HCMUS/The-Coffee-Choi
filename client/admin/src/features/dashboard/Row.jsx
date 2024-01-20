@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 
-export default function Row({ children }) {
+export default function Row({ children, sx }) {
   return (
     <Grid
       container
@@ -8,6 +8,7 @@ export default function Row({ children }) {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
+        ...sx,
       }}
     >
       {children}
