@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function Navbar() {
   // State to handle open/close in mobileview
 
-  const menu = ["Cà phê", "Trà", "Đá xây", "Bánh"];
+  const menu = ["Cà phê", "Trà", "Đá xay", "Bánh"];
 
   const story = ["Coffeeholic", "Teaholic", "Blog"];
   const cart = [

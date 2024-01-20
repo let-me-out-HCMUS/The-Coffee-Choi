@@ -6,7 +6,7 @@ import CarouselBanner from "../features/Dashboard/CarouselBanner/CarouselBann"
 const DashBoard = () => {
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div>
       <CarouselBanner />
       <ProductList />
       <CloudTeaIntro />
