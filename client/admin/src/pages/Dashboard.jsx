@@ -4,6 +4,7 @@ import Stats from "../features/dashboard/Status";
 import DashboardItem from "../features/dashboard/DashboardItem";
 import Row from "../features/dashboard/Row";
 import LineChart from "../features/dashboard/LineChart";
+import Top5Product from "../features/dashboard/Top5Product";
 
 const mock = {
   orders: [
@@ -26,7 +27,7 @@ const mock = {
       name: "Jane Doe",
     },
   ],
-  sales: 94912929000,
+  sales: 9491,
   AvgOrderSales: 100,
 };
 
@@ -42,13 +43,21 @@ export default function Dashboard() {
         />
       </Row>
 
-      <DashboardItem md={5} sm={6}>
-        <PieChart />
-      </DashboardItem>
+      <Row>
+        <DashboardItem md={5.5} sm={5.5}>
+          <PieChart />
+        </DashboardItem>
 
-      <DashboardItem md={12} sm={12}>
-        <LineChart />
-      </DashboardItem>
+        <DashboardItem md={6} sm={6}>
+          <Top5Product />
+        </DashboardItem>
+      </Row>
+
+      <Row>
+        <DashboardItem md={12} sm={12}>
+          <LineChart />
+        </DashboardItem>
+      </Row>
     </DashboardLayout>
   );
 }
