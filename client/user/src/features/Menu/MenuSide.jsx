@@ -5,16 +5,18 @@ export default function MenuSide({ category }) {
         <select
           name=""
           id=""
-          className=" w-64 my-2 border-2 border-solid border-amber-800 rounded-lg">
+          className=" w-64 my-2 border-2 border-solid border-amber-800 rounded-lg px-2 py-1">
+          <option value="All">Tất cả</option>
           {category.map((item, index) => (
-            <option key={index}>{item.name}</option>
+            <option key={index} value={item.name}>{item.name}</option>
           ))}
         </select>
       </div>
-      <div className=" hidden lg:block">
-        <div>Menuside</div>
-        <div>Menuside</div>
-        <div>Menuside</div>
+      <div className=" hidden lg:block leading-loose">
+        <div>Tất cả</div>
+        {category.map((item, index) => (
+          <div>{item.name}</div>
+        ))}
       </div>
     </div>
   );

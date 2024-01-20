@@ -1,6 +1,8 @@
 import MenuSide from "../features/Menu/MenuSide";
 import MenuContent from "../features/Menu/MenuContent";
 
+import productlist from '../mocks/ProductListHome/data';
+
 export default function Menu() {
   const category = [
     {
@@ -24,7 +26,7 @@ export default function Menu() {
   return (
     <div className=" flex lg:my-28 lg:mx-16 ">
       <MenuSide category={category} />
-      <MenuContent />
+      <MenuContent products={productlist} category={category} />
     </div>
   );
 }
