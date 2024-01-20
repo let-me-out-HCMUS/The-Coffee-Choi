@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import useMediaSize from "../../hooks/useMediaSize";
+import useMediaSize from "../../../hooks/useMediaSize";
 
 const top5Color = ["#FFC542", "#FF575F", "#3A77FF", "#1BC5BD", "#8950FC"];
 

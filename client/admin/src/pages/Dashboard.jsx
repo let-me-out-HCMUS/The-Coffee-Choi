@@ -1,10 +1,10 @@
 import DashboardLayout from "../features/dashboard/DashboardLayout";
-import PieChart from "../features/dashboard/PieChart";
-import Stats from "../features/dashboard/Status";
+import PieChart from "../features/dashboard/home/PieChart";
+import Stats from "../features/dashboard/home/Status";
 import DashboardItem from "../features/dashboard/DashboardItem";
 import Row from "../features/dashboard/Row";
-import LineChart from "../features/dashboard/LineChart";
-import Top5Product from "../features/dashboard/Top5Product";
+import LineChart from "../features/dashboard/home/LineChart";
+import Top5Product from "../features/dashboard/home/Top5Product";
 
 const mock = {
   orders: [

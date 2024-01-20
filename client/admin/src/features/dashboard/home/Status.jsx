@@ -4,9 +4,9 @@ import PaidIcon from "@mui/icons-material/Paid";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FunctionsIcon from "@mui/icons-material/Functions";
 import { lightBlue, orange } from "@mui/material/colors";
-import useMediaSize from "../../hooks/useMediaSize";
-import DashboardItem from "./DashboardItem";
-import { formatCurrency } from "../../utils/helpers";
+import useMediaSize from "../../../hooks/useMediaSize";
+import DashboardItem from "../DashboardItem";
+import { formatCurrency } from "../../../utils/helpers";
 
 function Stats({ orders, customers, sales, AvgOrderSales }) {
   // 1.

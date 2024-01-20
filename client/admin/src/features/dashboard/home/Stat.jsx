@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-import useMediaSize from "../../hooks/useMediaSize";
+import useMediaSize from "../../../hooks/useMediaSize";
 
 function Stat({ icon, title, value, color }) {
   const currentMedia = useMediaSize();

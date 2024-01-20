@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import ProductItem from "./ProductItem";
-import useMediaSize from "../../hooks/useMediaSize";
+import useMediaSize from "../../../hooks/useMediaSize";
 
 const mockProduct = [
   {
