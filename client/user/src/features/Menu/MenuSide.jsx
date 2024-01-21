@@ -1,23 +1,21 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
-export default function MenuSide({
-  category,
-  selectedCategory,
-  onClickCategory,
-}) {
-  // const [selectedCategory, setSelectedCategory] = useState(category);
+export default function MenuSide({ category, selectedCategory }) {
+  const onClickCategory = (category) => {
+    window.location.href = `/menu/${category}`;
+  };
 
   return (
     <div className=" lg:w-1/4">
-      <div className="w-full px-4 fixed top-[70px] bg-white flex justify-center shadow-xl lg:hidden">
+      <div className=" w-full px-4 fixed top-[70px] bg-white flex justify-center shadow-xl lg:hidden">
         <select
           name=""
           id=""
           onChange={(e) => onClickCategory(e.target.value)}
           className=" w-full my-2 border-2 border-solid border-amber-800 rounded-lg px-4 py-1">
-          <option value="All">Tất cả</option>
+          <option value="all">Tất cả</option>
           {category.map((item, index) => (
-            <option key={index} value={item.id}>
+            <option key={index} value={item.slug}>
               {item.name}
             </option>
           ))}
@@ -25,7 +23,7 @@ export default function MenuSide({
       </div>
       <div className=" hidden lg:block leading-loose">
         <div
-          onClick={() => onClickCategory("All")}
+          // onClick={() => onClickCategory("All")}
           className=" cursor-pointer flex relative">
           {selectedCategory?.length > 1 && (
             <img
@@ -41,12 +39,12 @@ export default function MenuSide({
                 ? " text-amber-600 font-semibold"
                 : " font-light"
             }>
-            Tất cả
+            <Link to={"/menu/all"}>Tất cả</Link>
           </p>
         </div>
         {category.map((item) => (
           <div
-            onClick={() => onClickCategory(item.id)}
+            // onClick={() => onClickCategory(item.id)}
             className=" cursor-pointer flex relative"
             key={item.id}>
             {selectedCategory?.length === 1 &&
@@ -58,13 +56,14 @@ export default function MenuSide({
                 />
               )}
             <p
-            className={
-              selectedCategory?.length === 1 &&
-              selectedCategory[0].id === item.id
-                ? " text-amber-600 font-semibold"
-                : " font-light"
-            }>{item.name}</p>
-            
+              className={
+                selectedCategory?.length === 1 &&
+                selectedCategory[0].id === item.id
+                  ? " text-amber-600 font-semibold"
+                  : " font-light"
+              }>
+              <Link to={`/menu/${item.slug}`}>{item.name}</Link>
+            </p>
           </div>
         ))}
       </div>

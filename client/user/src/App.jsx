@@ -24,7 +24,7 @@ function App() {
 
           <Route element={<AppLayout />}>
             <Route path="/" element={<DashBoard />} />
-            <Route path="/menu" element={<Menu />} />
+            <Route path="/menu/:slug" element={<Menu />} />
               {/* Another route add from here */}
           </Route>
 

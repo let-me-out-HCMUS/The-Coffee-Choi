@@ -2,46 +2,33 @@ import MenuSide from "../features/Menu/MenuSide";
 import MenuContent from "../features/Menu/MenuContent";
 
 import productlist from '../mocks/ProductListHome/data';
-import { useState } from "react";
+import categorylist from '../mocks/Category/data';
+
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 
 export default function Menu() {
-  const categorylist = [
-    {
-      id: 'Coffee',
-      name: "Cà phê",
-      description: "Coffee blabla",
-    },
-    {
-      id: 'Tea',
-      name: "Trà",
-      description: "Tea blabla",
-    },
-    {
-      id: 'Dessert',
-      name: "Đá xây",
-      description: "Smoothie blabla",
-    },
-    {
-      id: 'Food',
-      name: "Bánh",
-      description: "Cookie blabla",
-    },
-  ];
-
+  const {slug} = useParams();
   const [selectedCategory, setSelectedCategory] = useState(categorylist);
-  
-  const onClickCategory = (category) => {
-    // console.log(category);
-    if (category === "All") {
-      setSelectedCategory(categorylist);
-      return;
+  console.log('slug',slug);
+  useEffect(() => {
+    if (slug) {
+      if (slug === "all") {
+        setSelectedCategory(categorylist);
+        return;
+      }
+      setSelectedCategory(categorylist.filter((item) => item.slug === slug));
     }
-    setSelectedCategory(categorylist.filter((item) => item.id === category));
-  };
+  }, [slug]);
+
+  
+  // const onClickCategory = (category) => {
+  // };
 
   return (
     <div className=" flex lg:my-28 lg:mx-16 ">
-      <MenuSide category={categorylist} onClickCategory={onClickCategory} selectedCategory={selectedCategory} />
+      <MenuSide category={categorylist} selectedCategory={selectedCategory} />
       <MenuContent products={productlist} categories={selectedCategory} />
     </div>
   );

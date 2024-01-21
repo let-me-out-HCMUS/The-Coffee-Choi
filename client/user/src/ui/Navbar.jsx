@@ -1,15 +1,16 @@
 import { useState } from "react";
+import menu from "../mocks/Category/data"
 
 export default function Navbar() {
   // State to handle open/close in mobileview
 
   // const menu = ["Cà phê", "Trà", "Đá xây", "Bánh"];
-  const menu = [
-    { name: "Cà phê", link: "/" },
-    { name: "Trà", link: "/" },
-    { name: "Đá xây", link: "/" },
-    { name: "Bánh", link: "/" },
-  ];
+  // const menu = [
+  //   { name: "Cà phê", link: "/" },
+  //   { name: "Trà", link: "/" },
+  //   { name: "Đá xây", link: "/" },
+  //   { name: "Bánh", link: "/" },
+  // ];
 
   const story = ["Coffeeholic", "Teaholic", "Blog"];
   const cart = [
@@ -75,14 +76,16 @@ export default function Navbar() {
                 </button>
                 {isOpenMenu && (
                   <ul className="m-0 p-0 pl-[10px]">
-                    <li key={999} className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
-                      <a href="menu">Tất cả</a>
+                    <li
+                      key={999}
+                      className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
+                      <a href="/menu/all">Tất cả</a>
                     </li>
                     {menu.map((item, index) => (
                       <li
                         key={index}
                         className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
-                        <a href={item.link}>{item.name}</a>
+                        <a href={`/menu/${item.slug}`}>{item.name}</a>
                       </li>
                     ))}
                   </ul>
@@ -99,7 +102,9 @@ export default function Navbar() {
                 {isOpenStory && (
                   <ul className="m-0 p-0 pl-[10px]">
                     {story.map((item, index) => (
-                      <li key={index} className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
+                      <li
+                        key={index}
+                        className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
                         {item}
                       </li>
                     ))}
@@ -144,9 +149,11 @@ export default function Navbar() {
               {isOpenMenu && (
                 <div className=" absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white opacity-90">
                   <ul className=" flex w-4/5 flex-wrap justify-center">
-                    <li key={999} className=" float-none inline-block px-[2.2%] py-[12px]">
+                    <li
+                      key={999}
+                      className=" float-none inline-block px-[2.2%] py-[12px]">
                       <a
-                        href="menu"
+                        href="/menu/all"
                         className=" border-b-2 border-solid border-black">
                         Tất cả
                       </a>
@@ -156,7 +163,7 @@ export default function Navbar() {
                         key={index}
                         className=" float-none inline-block px-[2.2%] py-[12px]">
                         <a
-                          href={item.link}
+                          href={`/menu/${item.slug}`}
                           className=" border-b-2 border-solid border-black">
                           {item.name}
                         </a>
@@ -180,7 +187,9 @@ export default function Navbar() {
                 <div className=" absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white opacity-90">
                   <ul className=" flex w-4/5 flex-wrap justify-center">
                     {story.map((item, index) => (
-                      <li key={index} className=" float-none inline-block px-[2.2%] py-[12px]">
+                      <li
+                        key={index}
+                        className=" float-none inline-block px-[2.2%] py-[12px]">
                         <a
                           href=""
                           className=" border-b-2 border-solid border-black">
