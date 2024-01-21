@@ -19,6 +19,8 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// Get product by ID
 exports.getProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.id).populate({
     path: "category",
@@ -34,6 +36,8 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// Delete product
 exports.deleteProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findByIdAndDelete(req.params.id);
   if (!product) {
@@ -44,13 +48,15 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+// Create product
 exports.createProduct = catchAsync(async (req, res, next) => {
-  const category = await Category.find({ name: req.body.category });
+  const category = await Category.findOne({ name: req.body.category });
   console.log(category);
   if (!category) {
     return next(new AppError("No category found with that ID", 404));
   }
-  req.body.category = category[0]._id;
+  req.body.category = category._id;
   const product = await Product.create(req.body);
   res.status(201).json({
     status: "success",
