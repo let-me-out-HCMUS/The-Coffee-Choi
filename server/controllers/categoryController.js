@@ -1,5 +1,7 @@
 const Category = require("../models/Category");
 const catchAsync = require("../utils/catchAsync");
+
+// Get all categories
 exports.getAllCategories = catchAsync(async (req, res, next) => {
   const categories = await Category.find();
   res.status(200).json({
@@ -10,6 +12,8 @@ exports.getAllCategories = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// Create category
 exports.createCategory = catchAsync(async (req, res, next) => {
   const category = await Category.create(req.body);
   res.status(201).json({
@@ -19,6 +23,8 @@ exports.createCategory = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// Delete category
 exports.deleteCategory = catchAsync(async (req, res, next) => {
   const category = await Category.findByIdAndDelete(req.params.id);
   if (!category) {
@@ -29,6 +35,8 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+// Get category by ID
 exports.getCategory = catchAsync(async (req, res, next) => {
   const category = await Category.findById(req.params.id);
   if (!category) {
@@ -38,6 +46,28 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       category,
+    },
+  });
+});
+
+// Update category
+exports.updateCategory = catchAsync(async (req, res, next) => {
+  const category = await Category.findById(req.params.id);
+  if (!category) {
+    return next(new AppError("No category found with that ID", 404));
+  }
+  const updatedCategory = await Category.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  res.status(200).json({
+    status: "success",
+    data: {
+      category: updatedCategory,
     },
   });
 });
