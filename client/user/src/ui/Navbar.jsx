@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import menu from "../mocks/Category/data"
 
 export default function Navbar() {
@@ -38,7 +40,7 @@ export default function Navbar() {
           <i className="fa-solid fa-bars" />
         </button>
         <h1 className="py-[19px] text-2xl font-bold md:text-2xl lg:text-xl w-full lg:w-auto text-center">
-          <a href="/">THE COFFE CHOI</a>
+          <Link to="/">THE COFFE CHOI</Link>
         </h1>
         {/* Mobileview */}
         {isOpenNav && (
@@ -79,13 +81,13 @@ export default function Navbar() {
                     <li
                       key={999}
                       className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
-                      <a href="/menu/all">Tất cả</a>
+                      <Link to={`/menu/all`}>Tất cả</Link>
                     </li>
                     {menu.map((item, index) => (
                       <li
                         key={index}
                         className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
-                        <a href={`/menu/${item.slug}`}>{item.name}</a>
+                        <Link to={`/menu/${item.slug}`}>{item.name}</Link>
                       </li>
                     ))}
                   </ul>
@@ -152,21 +154,21 @@ export default function Navbar() {
                     <li
                       key={999}
                       className=" float-none inline-block px-[2.2%] py-[12px]">
-                      <a
-                        href="/menu/all"
+                      <Link
+                        to="/menu/all"
                         className=" border-b-2 border-solid border-black">
                         Tất cả
-                      </a>
+                      </Link>
                     </li>
                     {menu.map((item, index) => (
                       <li
                         key={index}
                         className=" float-none inline-block px-[2.2%] py-[12px]">
-                        <a
-                          href={`/menu/${item.slug}`}
+                        <Link
+                          to={`/menu/${item.slug}`}
                           className=" border-b-2 border-solid border-black">
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>

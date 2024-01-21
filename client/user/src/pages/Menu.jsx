@@ -10,8 +10,9 @@ import { useParams } from "react-router-dom";
 
 export default function Menu() {
   const {slug} = useParams();
+
   const [selectedCategory, setSelectedCategory] = useState(categorylist);
-  console.log('slug',slug);
+
   useEffect(() => {
     if (slug) {
       if (slug === "all") {
@@ -21,10 +22,6 @@ export default function Menu() {
       setSelectedCategory(categorylist.filter((item) => item.slug === slug));
     }
   }, [slug]);
-
-  
-  // const onClickCategory = (category) => {
-  // };
 
   return (
     <div className=" flex lg:my-28 lg:mx-16 ">

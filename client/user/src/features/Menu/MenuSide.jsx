@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function MenuSide({ category, selectedCategory }) {
+
+  const navigate = useNavigate();
+
   const onClickCategory = (category) => {
-    window.location.href = `/menu/${category}`;
+    navigate(`/menu/${category}`);
   };
 
   return (
