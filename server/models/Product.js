@@ -5,6 +5,7 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter product name"],
     trim: true,
+    unique: true,
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
@@ -24,16 +25,7 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  images: [
-    {
-      public_id: {
-        type: String,
-      },
-      url: {
-        type: String,
-      },
-    },
-  ],
+  images: String,
   discount: {
     type: String,
     min: [0, "Discount must bigger than 0"],
