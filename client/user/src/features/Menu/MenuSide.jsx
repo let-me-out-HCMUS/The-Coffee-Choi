@@ -9,7 +9,7 @@ export default function MenuSide({ category, selectedCategory }) {
   };
 
   return (
-    <div className=" lg:w-1/4">
+    <div className=" lg:w-1/6 z-20">
       <div className=" w-full px-4 fixed top-[70px] bg-white flex justify-center shadow-xl lg:hidden">
         <select
           name=""
