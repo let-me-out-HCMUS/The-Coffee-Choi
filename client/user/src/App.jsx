@@ -2,8 +2,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Toaster } from "react-hot-toast";
 
+import CartContextProvider from "./contexts/cartContext";
+
 import DashBoard from "./pages/DashBoard";
 import Product from "./pages/Product";
+import Payment from "./pages/Payment";
 
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
@@ -13,26 +16,29 @@ function App() {
   return (
   <>
     <BrowserRouter>
-      <Routes>
-        <Route
-          element={
-            <ProtectedRoute>
-              <AppLayout />
-            </ProtectedRoute>
-          }
-        >
-          {/* Some route page that just use for admin */}
+      <CartContextProvider>
+        <Routes>
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            {/* Some route page that just use for admin */}
+          </Route>
+
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<DashBoard />} />
+          <Route path="/products/:productId" element={<Product />} />
+          <Route path="/payment" element={<Payment />} />
+            {/* Another route add from here */}
         </Route>
 
-      <Route element={<AppLayout />}>
-        <Route path="/" element={<DashBoard />} />
-        <Route path="/products/:productId" element={<Product />} />
-          {/* Another route add from here */}
-      </Route>
-
-        {/* All invalid route will render PageNotFound page */}
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+          {/* All invalid route will render PageNotFound page */}
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </CartContextProvider>
     </BrowserRouter>
 
     {/* Use for notification */}
