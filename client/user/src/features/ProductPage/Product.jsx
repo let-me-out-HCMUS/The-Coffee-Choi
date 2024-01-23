@@ -4,8 +4,11 @@ import ProductCard from '../ProductCard/ProductCard'
 import BottleIcon from '../../assets/icons/bottle.svg'
 import BottleWhiteIcon from '../../assets/icons/bottle-white.svg'
 import toast from 'react-hot-toast'
+import { CartContext } from '../../contexts/cartContext'
 
 const Product = ({product}) => {
+    const { addToCart } = React.useContext(CartContext)
+
     const [selectedTopping, setSelectedTopping] = React.useState([])
     const [selectedSize, setSelectedSize] = React.useState(product.sizes[0])
 
@@ -22,7 +25,11 @@ const Product = ({product}) => {
     }
 
     const handleAddToCart = () => {
-        // TODO: Add to cart
+        addToCart({
+            ...product,
+            size: selectedSize,
+            toppings: selectedTopping
+        })
 
         toast.success('Thêm vào giỏ hàng thành công')
     }
@@ -37,7 +44,7 @@ const Product = ({product}) => {
             <div>
                 <p className="font-semibold text-2xl">{product.name}</p>
                 <span className="text-orange-500 tracking-wider text-2xl font-bold">{convertToVND(
-                    product.price + selectedSize.price + selectedTopping.reduce((total, topping) => total + topping.price, 0)
+                    product.price + selectedSize.extraPrice + selectedTopping.reduce((total, topping) => total + topping.extraPrice, 0)
                 )}</span>
             </div>
             <div className="mt-4">
@@ -47,7 +54,7 @@ const Product = ({product}) => {
                     product.sizes.map((size, index) => (
                         <button onClick={() => handlePickSize(size)} className={`${selectedSize.name === size.name ? 'text-white bg-orange-400': ''} border w-fit mr-4 mb-4 flex items-center py-2 px-5 rounded-md font-light`}>
                             <img src={selectedSize.name === size.name ? BottleWhiteIcon : BottleIcon} width={12} height={16} alt="BottleIcon" />
-                            <span className='ml-2'>{size.name} + {convertToVND(size.price)}</span>
+                            <span className='ml-2'>{size.name} + {convertToVND(size.extraPrice)}</span>
                         </button>
                     ))
                     }
@@ -59,7 +66,7 @@ const Product = ({product}) => {
                 {
                     product.toppings.map((topping, index) => (
                         <button onClick={() => handlePickTopping(topping)} className={`${selectedTopping.includes(topping) ? 'text-white bg-orange-400': ''} border w-fit mr-4 mb-4 flex items-center py-2 px-5 rounded-md font-light`}>
-                            <span>{topping.name} + {convertToVND(topping.price)}</span>
+                            <span>{topping.name} + {convertToVND(topping.extraPrice)}</span>
                         </button>
                     ))
                 }

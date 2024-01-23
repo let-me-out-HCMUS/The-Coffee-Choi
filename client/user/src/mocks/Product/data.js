@@ -13,37 +13,37 @@ export default {
     sizes: [
         {
             name : "Nhỏ",
-            price: 0
+            extraPrice: 0
         },
         {
             name : "Vừa",
-            price: 6000
+            extraPrice: 6000
         },
         {
             name : "Lớn",
-            price: 10000
+            extraPrice: 10000
         }
     ],
     toppings: [
         {
             name: "Kem phô mai Macchiato",
-            price: 10000
+            extraPrice: 10000
         },
         {
             name: "Shot Espresso",
-            price: 10000
+            extraPrice: 10000
         },
         {
             name: "Thạch cà phê",
-            price: 10000
+            extraPrice: 10000
         },
         {
             name: "Trân châu trắng",
-            price: 10000
+            extraPrice: 10000
         },
         {
             name: "Sốt Caramel",
-            price: 10000
+            extraPrice: 10000
         }
     ],
     relatedProducts: [
