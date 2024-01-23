@@ -7,7 +7,7 @@ function AppLayout() {
   return (
     <div>
       <Navbar />
-      <div className="mt-20 md:mt-20 lg:mt-16">
+      <div className="mt-20 md:mt-20 lg:mt-16 max-w-7xl mx-auto">
         <Outlet />
       </div>
       <Footer />
