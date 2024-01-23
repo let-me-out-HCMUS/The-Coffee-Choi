@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { CartContext } from "../contexts/cartContext";
+import convertToVND from "../utils/convertToVND";
 
 export default function Navbar() {
   // State to handle open/close in mobileview
@@ -6,15 +9,10 @@ export default function Navbar() {
   const menu = ["Cà phê", "Trà", "Đá xay", "Bánh"];
 
   const story = ["Coffeeholic", "Teaholic", "Blog"];
-  const cart = [
-    {
-      name: "Bạc sỉu",
-      price: 29000,
-      quantity: 2,
-      image:
-        "https://product.hstatic.net/1000075078/product/1639377926_bacsiunong_51fd4560c6b74a249176abc43f8f0ad6.jpg",
-    },
-  ];
+
+  const { getCart, getCartQuantity, removeFromCart } = useContext(CartContext);
+
+  const cart = getCart();
 
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isOpenStory, setIsOpenStory] = useState(false);
@@ -30,9 +28,9 @@ export default function Navbar() {
           onClick={() => setIsOpenNav(true)}>
           <i className="fa-solid fa-bars" />
         </button>
-        <h1 className="py-[19px] text-2xl font-bold md:text-2xl lg:text-xl w-full lg:w-auto text-center">
+        <Link to="/" className="py-[19px] text-2xl font-bold md:text-2xl lg:text-xl w-full lg:w-auto text-center">
           THE COFFE CHOI
-        </h1>
+        </Link>
         {/* Mobileview */}
         {isOpenNav && (
           <div className="fixed left-0 top-0 z-50 h-full w-[40vw] overflow-x-hidden overflow-y-scroll bg-white bg-opacity-95 p-0 transition-all lg:hidden">
@@ -69,9 +67,9 @@ export default function Navbar() {
                 </button>
                 {isOpenMenu && (
                   <ul className="m-0 p-0 pl-[10px]">
-                    <li className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
+                    <Link to="/products" className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
                       Tất cả
-                    </li>
+                    </Link>
                     {menu.map((item) => (
                       <li className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
                         {item}
@@ -200,7 +198,9 @@ export default function Navbar() {
             onMouseOut={() => setIsOpenCart(false)}>
             <i className="fa-solid fa-mug-hot cursor-pointer text-2xl text-amber-800" />
             <span className=" absolute right-[-14px] top-[-6px] rounded-[10px] border-2 border-solid border-amber-800 bg-white px-[6px] py-[1px] text-sm">
-              3
+              {
+                getCartQuantity()
+              }
             </span>
             {isOpenCart && (
               <div className=" absolute right-0 z-50 w-[60vw] rounded-sm bg-white shadow-[0_1px_10px_rgba(0,0,0,0.2)] lg:w-[400px]">
@@ -217,10 +217,20 @@ export default function Navbar() {
                       />
                       <div className=" mr-[12px] w-full">
                         <div className=" flex items-center justify-between">
-                          <h5>{item.name}</h5>
+                          <div className="flex flex-col">
+                            <span className="text-sm">{item.name}</span>
+                            <span className=" text-xs hidden md:block text-gray-500">
+                              {item.size.name}
+                            </span>
+                            <span className="text-xs hidden md:line-clamp-1">{
+                              item.toppings.map((topping) => topping.name).join(", ")
+                            }</span>
+                          </div>
                           <div>
                             <span className=" text-sm font-normal">
-                              {item.price}đ
+                              {
+                                convertToVND(item.price + item.size.extraPrice + item.toppings.reduce((total, topping) => total + topping.extraPrice, 0))
+                              }
                             </span>
                             <span className=" mx-[4px] text-xs text-gray-500">
                               x
@@ -230,19 +240,19 @@ export default function Navbar() {
                             </span>
                           </div>
                         </div>
-                        <div className=" flex cursor-pointer justify-end text-sm font-medium text-gray-500 hover:text-red-500">
+                        <div onClick={() => {removeFromCart(item)}} className=" flex cursor-pointer justify-end text-sm font-medium text-gray-500 hover:text-red-500">
                           Xoá
                         </div>
                       </div>
                     </li>
                   ))}
                 </ul>
-                <a href="">
+                <Link to="/payment">
                   <div className=" flex h-[50px] items-center justify-center bg-amber-800 text-base font-medium text-white">
                     <span className=" mr-[8px]">Xem giỏ hàng</span>
                     <i className="fa-solid fa-shopping-cart" />
                   </div>
-                </a>
+                </Link>
               </div>
             )}
           </div>
