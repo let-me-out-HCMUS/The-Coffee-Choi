@@ -3,13 +3,74 @@ import { useState } from "react";
 import CustomDialog from "../common/Dialog";
 
 import ProductCard from "../ProductCard/ProductCard";
+import FilterForm from "./FilterForm";
 
 export default function MenuContent({ categories, products }) {
   const [searchValue, setSearchValue] = useState("");
   const [openFilter, setOpenFilter] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
+
+  const defaultFilter = {
+    price: {
+      from: "",
+      to: "",
+    },
+    rating: {
+      from: "",
+      to: "",
+    },
+    isDiscount: false,
+  };
+
+  const [filterValue, setFilterValue] = useState({});
+
+  const handleFilter = (product) => {
+    var res = true;
+
+    if (filterValue.price.from && filterValue.price.to ) {
+      if (
+        !(
+          product.price >= filterValue.price.from &&
+          product.price <= filterValue.price.to
+        )
+      ) {
+        res = false;
+      }
+    }
+
+    if (filterValue.rating.from  && filterValue.rating.to ) {
+      if (
+        !(product.rating >= filterValue.rating.from &&
+        product.rating <= filterValue.rating.to)
+      ) {
+        res = false;
+      }
+    }
+
+    if (filterValue.isDiscount) {
+      if (!(product.discount > 0)) {
+        res = false;
+      }
+    }
+
+    return res;
+  };
+
+  const submitFilter = (data) => {
+    // console.log(data);
+    setFilterValue(data);
+    setIsFilter(true);
+    setOpenFilter(false);
+  };
+
+  const resetFilter = () => {
+    setFilterValue({});
+    setIsFilter(false);
+    setOpenFilter(false);
+  };
 
   return (
-    <div className=" mx-4 mt-16 lg:w-full lg:mt-0 lg:border-l-2 lg:border-solid lg:border-amber-800 lg:pl-16">
+    <div className=" mx-4 mt-16 w-full lg:mt-0 lg:border-l-2 lg:border-solid lg:border-amber-800 lg:pl-16">
       <form className="relative" onSubmit={(e) => e.preventDefault()}>
         <input
           type="search"
@@ -42,7 +103,11 @@ export default function MenuContent({ categories, products }) {
           title={"Bộ lọc"}
           onClose={() => setOpenFilter(false)}
           open={openFilter}>
-          <div>123</div>
+          <FilterForm
+            filterValue={filterValue}
+            submitFilter={submitFilter}
+            resetFilter={resetFilter}
+          />
         </CustomDialog>
       </div>
 
@@ -51,22 +116,19 @@ export default function MenuContent({ categories, products }) {
           <div className=" mb-4 font-semibold text-2xl">{category.name}</div>
 
           <div className=" mb-12 grid grid-cols-2 gap-x-8 md:grid-cols-4 md:gap-x-4 lg:grid-cols-4 lg:gap-x-4">
-            {searchValue === ""
-              ? products
-                  .filter((product) => product.category === category.id)
-                  .map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))
-              : products
-                  .filter((product) => product.category === category.id)
-                  .filter((product) =>
-                    product.name
+            {products
+              .filter((product) => product.category === category.id)
+              .filter((product) => (isFilter ? handleFilter(product) : true)) // if isFilter is true -> check filter
+              .filter((product) =>
+                searchValue !== "" // if searchValue is not empty -> check value
+                  ? product.name
                       .toLowerCase()
                       .includes(searchValue.toLowerCase())
-                  )
-                  .map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
+                  : true
+              )
+              .map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
           </div>
         </div>
       ))}
