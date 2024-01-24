@@ -4,30 +4,31 @@ import CustomDialog from "../common/Dialog";
 
 import ProductCard from "../ProductCard/ProductCard";
 import FilterForm from "./FilterForm";
+import ProductsPagination from "./ProductsPagination";
 
 export default function MenuContent({ categories, products }) {
   const [searchValue, setSearchValue] = useState("");
   const [openFilter, setOpenFilter] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
-
-  const defaultFilter = {
-    price: {
-      from: "",
-      to: "",
-    },
-    rating: {
-      from: "",
-      to: "",
-    },
-    isDiscount: false,
-  };
-
   const [filterValue, setFilterValue] = useState({});
 
+  // const defaultFilter = {
+  //   price: {
+  //     from: "",
+  //     to: "",
+  //   },
+  //   rating: {
+  //     from: "",
+  //     to: "",
+  //   },
+  //   isDiscount: false,
+  // };
+
+  // process filter
   const handleFilter = (product) => {
     var res = true;
 
-    if (filterValue.price.from && filterValue.price.to ) {
+    if (filterValue.price.from && filterValue.price.to) {
       if (
         !(
           product.price >= filterValue.price.from &&
@@ -38,10 +39,12 @@ export default function MenuContent({ categories, products }) {
       }
     }
 
-    if (filterValue.rating.from  && filterValue.rating.to ) {
+    if (filterValue.rating.from && filterValue.rating.to) {
       if (
-        !(product.rating >= filterValue.rating.from &&
-        product.rating <= filterValue.rating.to)
+        !(
+          product.rating >= filterValue.rating.from &&
+          product.rating <= filterValue.rating.to
+        )
       ) {
         res = false;
       }
@@ -71,6 +74,7 @@ export default function MenuContent({ categories, products }) {
 
   return (
     <div className=" mx-4 mt-16 w-full lg:mt-0 lg:border-l-2 lg:border-solid lg:border-amber-800 lg:pl-16">
+      {/* Search name */}
       <form className="relative" onSubmit={(e) => e.preventDefault()}>
         <input
           type="search"
@@ -91,6 +95,7 @@ export default function MenuContent({ categories, products }) {
         </button>
       </form>
 
+      {/* Filter */}
       <div className=" mt-4 mb-8 ">
         <button
           className=" py-1 px-2 rounded border-2 border-solid text-sm border-gray-200"
@@ -111,12 +116,25 @@ export default function MenuContent({ categories, products }) {
         </CustomDialog>
       </div>
 
+      {/* Products */}
       {categories.map((category) => (
         <div key={category.id}>
           <div className=" mb-4 font-semibold text-2xl">{category.name}</div>
+          <ProductsPagination
+            products={products
+              .filter((product) => product.category === category.id)
+              .filter((product) => (isFilter ? handleFilter(product) : true)) // if isFilter is true -> check filter
+              .filter((product) =>
+                searchValue !== "" // if searchValue is not empty -> check value
+                  ? product.name
+                      .toLowerCase()
+                      .includes(searchValue.toLowerCase())
+                  : true
+              )}
+          />
 
-          <div className=" mb-12 grid grid-cols-2 gap-x-8 md:grid-cols-4 md:gap-x-4 lg:grid-cols-4 lg:gap-x-4">
-            {products
+          {/* <div className=" mb-12 grid grid-cols-2 gap-x-8 md:grid-cols-4 md:gap-x-4 lg:grid-cols-4 lg:gap-x-4"> */}
+          {/* {products
               .filter((product) => product.category === category.id)
               .filter((product) => (isFilter ? handleFilter(product) : true)) // if isFilter is true -> check filter
               .filter((product) =>
@@ -128,8 +146,8 @@ export default function MenuContent({ categories, products }) {
               )
               .map((product) => (
                 <ProductCard key={product.id} product={product} />
-              ))}
-          </div>
+              ))} */}
+          {/* </div> */}
         </div>
       ))}
     </div>

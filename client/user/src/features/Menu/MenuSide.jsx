@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 
 export default function MenuSide({ category, selectedCategory }) {
-
   const navigate = useNavigate();
 
   const onClickCategory = (category) => {
@@ -10,6 +9,7 @@ export default function MenuSide({ category, selectedCategory }) {
 
   return (
     <div className=" lg:w-1/6 z-20">
+      {/* Mobile view */}
       <div className=" w-full px-4 fixed top-[70px] bg-white flex justify-center shadow-xl lg:hidden">
         <select
           name=""
@@ -24,6 +24,8 @@ export default function MenuSide({ category, selectedCategory }) {
           ))}
         </select>
       </div>
+
+      {/* PC view */}
       <div className=" hidden lg:block leading-loose">
         <div
           // onClick={() => onClickCategory("All")}
