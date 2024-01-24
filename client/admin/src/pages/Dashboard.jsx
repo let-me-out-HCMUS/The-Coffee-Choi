@@ -4,7 +4,7 @@ import Stats from "../features/dashboard/home/Status";
 import DashboardItem from "../features/dashboard/DashboardItem";
 import Row from "../features/dashboard/Row";
 import LineChart from "../features/dashboard/home/LineChart";
-import Top5Product from "../features/dashboard/home/Top5Product";
+import TopProduct from "../features/dashboard/home/TopProduct";
 
 const mock = {
   orders: [
@@ -44,12 +44,12 @@ export default function Dashboard() {
       </Row>
 
       <Row>
-        <DashboardItem md={5.5} sm={5.5}>
+        <DashboardItem md={6.5} sm={6.5}>
           <PieChart />
         </DashboardItem>
 
-        <DashboardItem md={6} sm={6}>
-          <Top5Product />
+        <DashboardItem md={5.25} sm={5.25}>
+          <TopProduct />
         </DashboardItem>
       </Row>
 

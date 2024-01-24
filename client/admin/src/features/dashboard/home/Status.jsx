@@ -2,13 +2,13 @@ import Stat from "./Stat";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PaidIcon from "@mui/icons-material/Paid";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import FunctionsIcon from "@mui/icons-material/Functions";
-import { lightBlue, orange } from "@mui/material/colors";
+// import FunctionsIcon from "@mui/icons-material/Functions";
+import { lightBlue } from "@mui/material/colors";
 import useMediaSize from "../../../hooks/useMediaSize";
 import DashboardItem from "../DashboardItem";
 import { formatCurrency } from "../../../utils/helpers";
 
-function Stats({ orders, customers, sales, AvgOrderSales }) {
+function Stats({ orders, customers, sales }) {
   // 1.
   const numOrders = orders.length;
 
@@ -21,16 +21,7 @@ function Stats({ orders, customers, sales, AvgOrderSales }) {
 
   return (
     <>
-      <DashboardItem sm={2}>
-        <Stat
-          title="Orders"
-          color={lightBlue[900]}
-          icon={<ShoppingCartIcon fontSize={iconSize} />}
-          value={numOrders}
-        />
-      </DashboardItem>
-
-      <DashboardItem sm={5}>
+      <DashboardItem sm={6.5}>
         <Stat
           title="Sales"
           color="green"
@@ -39,7 +30,16 @@ function Stats({ orders, customers, sales, AvgOrderSales }) {
         />
       </DashboardItem>
 
-      <DashboardItem sm={2}>
+      <DashboardItem sm={2.5}>
+        <Stat
+          title="Orders"
+          color={lightBlue[900]}
+          icon={<ShoppingCartIcon fontSize={iconSize} />}
+          value={numOrders}
+        />
+      </DashboardItem>
+
+      <DashboardItem sm={2.5}>
         <Stat
           title="Patron"
           color="indigo"
@@ -48,14 +48,14 @@ function Stats({ orders, customers, sales, AvgOrderSales }) {
         />
       </DashboardItem>
 
-      <DashboardItem sm={2}>
+      {/* <DashboardItem sm={2}>
         <Stat
           title="Avg "
           color={orange[900]}
           icon={<FunctionsIcon fontSize={iconSize} />}
           value={AvgOrderSales}
         />
-      </DashboardItem>
+      </DashboardItem> */}
     </>
   );
 }

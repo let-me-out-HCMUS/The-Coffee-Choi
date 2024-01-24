@@ -1,22 +1,33 @@
 import { Box, Typography } from "@mui/material";
+import {
+  red,
+  green,
+  blue,
+  yellow,
+  pink,
+  purple,
+  cyan,
+  lime,
+} from "@mui/material/colors";
 import useMediaSize from "../../../hooks/useMediaSize";
 
-const top5Color = ["#FFC542", "#FF575F", "#3A77FF", "#1BC5BD", "#8950FC"];
+const topColor = [
+  yellow[700],
+  green[700],
+  blue[700],
+  red[700],
+  pink[700],
+  purple[700],
+  cyan[700],
+  lime[700],
+];
 
 export default function ProductItem({ product, top }) {
   const currentMedia = useMediaSize();
-  const iconSize = currentMedia.md ? 64 : 28;
-  const fontSize = currentMedia.md ? 38 : 22;
-  const productSizeVariant = currentMedia.md ? "h4" : "h6";
+  const iconSize = currentMedia.md ? 32 : 28;
+  const fontSize = currentMedia.md ? 18 : 22;
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        width: "100%",
-        gap: "1rem",
-      }}
-    >
+    <>
       <Box
         sx={{
           display: "flex",
@@ -24,7 +35,7 @@ export default function ProductItem({ product, top }) {
           justifyContent: "center",
           height: iconSize,
           width: iconSize,
-          bgcolor: top5Color[top - 1],
+          bgcolor: topColor[top - 1],
           borderRadius: "50%",
           color: "white",
         }}
@@ -32,7 +43,9 @@ export default function ProductItem({ product, top }) {
         <Typography sx={{ fontSize: fontSize }}>{top}</Typography>
       </Box>
 
-      <Typography variant={productSizeVariant}>{product.name}</Typography>
-    </Box>
+      <Typography sx={{ fontSize: fontSize }}>{product.name}</Typography>
+
+      <Typography sx={{ fontSize: fontSize }}>{product.quantity}</Typography>
+    </>
   );
 }
