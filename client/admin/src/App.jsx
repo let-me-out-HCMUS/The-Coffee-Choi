@@ -10,6 +10,7 @@ import { AuthContextProvider } from "./context/AuthenticationContext";
 import PageNotFound from "./pages/PageNotFound";
 import { ThemeContextProvider } from "./context/ThemeContext";
 import Category from "./pages/Category";
+import Order from "./pages/Order";
 
 function App() {
   const queryClient = new QueryClient({
@@ -37,6 +38,7 @@ function App() {
                 <Route index element={<Navigate replace to="dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="category" element={<Category />} />
+                <Route path="order" element={<Order />} />
               </Route>
 
               <Route path="login" element={<Login />} />

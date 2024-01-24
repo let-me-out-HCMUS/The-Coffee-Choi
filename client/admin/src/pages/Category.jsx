@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 import DashboardLayout from "../features/dashboard/DashboardLayout";
 import Row from "../features/dashboard/Row";
-import FilterCategory from "../features/dashboard/category/FilterCategory";
+import SortCategory from "../features/dashboard/category/SortCategory";
 import DashboardItem from "../features/dashboard/DashboardItem";
 import TableCategory from "../features/dashboard/category/TableCategory";
 
@@ -26,7 +26,10 @@ export default function Category() {
           }}
         >
           <Typography variant="h5">Danh sách danh mục</Typography>
-          <FilterCategory sort={sort} setSort={setSort} />
+          <Button variant="contained" color="primary">
+            Thêm danh mục
+          </Button>
+          <SortCategory sort={sort} setSort={setSort} />
         </DashboardItem>
       </Row>
 
