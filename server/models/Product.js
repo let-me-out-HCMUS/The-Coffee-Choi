@@ -31,6 +31,14 @@ const productSchema = new mongoose.Schema({
     min: [0, "Discount must bigger than 0"],
     max: [100, "Discount must smaller than 100"],
   },
+  sold: {
+    type: Number,
+    default: 0,
+  },
+  status: {
+    type: Boolean,
+    default: true,
+  },
 });
 const Product = mongoose.model("Product", productSchema);
 module.exports = Product;
