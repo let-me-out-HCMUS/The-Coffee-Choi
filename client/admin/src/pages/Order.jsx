@@ -27,7 +27,7 @@ export default function Order() {
           }}
         >
           <Typography variant="h5">Danh sách đơn hàng</Typography>
-          {/* <FilterOrder setFilter={setFilter} /> */}
+          <FilterOrder setFilter={setFilter} />
           <SortOrder sort={sort} setSort={setSort} filter={filter} />
         </DashboardItem>
       </Row>
