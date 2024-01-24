@@ -3,6 +3,7 @@ const Category = require("../models/Category");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/apiFeatures");
+
 exports.getAllProducts = catchAsync(async (req, res, next) => {
   // TODO: add filter, sort, limit, pagination
   const feature = new APIFeatures(Product.find(), req.query)
@@ -23,6 +24,23 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
 // Get product by ID
 exports.getProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.id).populate({
+    path: "category",
+    select: "name -_id",
+  });
+  if (!product) {
+    return next(new AppError("No product found with that ID", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    data: {
+      product,
+    },
+  });
+});
+
+// Get product by slug
+exports.getProductBySlug = catchAsync(async (req, res, next) => {
+  const product = await Product.findOne({ slug: req.params.slug }).populate({
     path: "category",
     select: "name -_id",
   });

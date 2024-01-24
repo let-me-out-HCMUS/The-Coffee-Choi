@@ -43,3 +43,12 @@ exports.deleteCoupon = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+// Update coupon
+exports.updateCoupon = catchAsync(async (req, res, next) => {
+  await Coupon.findByIdAndUpdate(req.params.id, req.body);
+  res.status(200).json({
+    status: "success",
+    data: null,
+  });
+});
