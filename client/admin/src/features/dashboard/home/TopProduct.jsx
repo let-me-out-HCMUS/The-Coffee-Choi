@@ -94,6 +94,7 @@ export default function TopProduct() {
             sx={{
               display: "grid",
               gridTemplateColumns: "2rem auto 2rem",
+              alignItems: "center",
               width: "100%",
               gap: "1rem",
             }}

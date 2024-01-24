@@ -25,7 +25,7 @@ const topColor = [
 export default function ProductItem({ product, top }) {
   const currentMedia = useMediaSize();
   const iconSize = currentMedia.md ? 32 : 28;
-  const fontSize = currentMedia.md ? 18 : 22;
+  const fontSize = currentMedia.md ? 18 : 10;
   return (
     <>
       <Box
