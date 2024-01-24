@@ -1,21 +1,31 @@
-import { Button, FormControl } from "@mui/material";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-export default function FilterOrder({ setFilter }) {
-  // const handleChange = (event) => {
-  //   setFilter(event.target.value);
-  // };
+export default function FilterOrder({ filter, setFilter }) {
+  const handleChange = (event, newFilter) => {
+    if (newFilter == null) {
+      setFilter("all");
+    }
+
+    setFilter(newFilter);
+  };
+
   return (
-    <FormControl
-      sx={{
-        width: 280,
-      }}
+    <ToggleButtonGroup
+      exclusive
+      value={filter}
+      onChange={handleChange}
+      aria-label="set filter"
+      color="primary"
     >
-      <Button variant="contained" color="primary">
+      <ToggleButton value="paid" aria-label="paid">
         Đã thanh toán
-      </Button>
-      <Button variant="contained" color="primary">
-        Chưa
-      </Button>
-    </FormControl>
+      </ToggleButton>
+      <ToggleButton value="unpaid" aria-label="unpaid">
+        Chưa thanh toán
+      </ToggleButton>
+      <ToggleButton value="canceled" aria-label="canceled">
+        Đã hủy
+      </ToggleButton>
+    </ToggleButtonGroup>
   );
 }

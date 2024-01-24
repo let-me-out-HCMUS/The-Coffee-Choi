@@ -20,8 +20,7 @@ export default function SortOrder({ sort, setSort }) {
       >
         <MenuItem value={"id"}>Sắp xếp theo mã (A-Z)</MenuItem>
         <MenuItem value={"name"}>Sắp xếp theo tên (A-Z)</MenuItem>
-        <MenuItem value={"priceDown"}>Sắp xếp giá tiền (giảm dần)</MenuItem>
-        <MenuItem value={"status"}>Trạng thái</MenuItem>
+        <MenuItem value={"total"}>Sắp xếp giá tiền (tăng dần)</MenuItem>
       </Select>
     </FormControl>
   );

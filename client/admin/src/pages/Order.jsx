@@ -26,15 +26,15 @@ export default function Order() {
             justifyContent: "space-between",
           }}
         >
-          <Typography variant="h5">Danh sách đơn hàng</Typography>
-          <FilterOrder setFilter={setFilter} />
+          <Typography variant="h5">Đơn hàng</Typography>
+          <FilterOrder filter={filter} setFilter={setFilter} />
           <SortOrder sort={sort} setSort={setSort} filter={filter} />
         </DashboardItem>
       </Row>
 
       <Row>
         <DashboardItem md={12} sm={12}>
-          <TableOrder sort={sort} />
+          <TableOrder sort={sort} filter={filter} />
         </DashboardItem>
       </Row>
     </DashboardLayout>
