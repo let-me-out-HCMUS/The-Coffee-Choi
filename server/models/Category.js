@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const URLSlugs = require("mongoose-url-slugs");
 
 const categorySchema = new mongoose.Schema({
   name: {
@@ -10,6 +11,8 @@ const categorySchema = new mongoose.Schema({
     required: true,
   },
 });
+
+categorySchema.plugin(URLSlugs("name", { field: "slug" }));
 
 const Category = mongoose.model("Category", categorySchema);
 
