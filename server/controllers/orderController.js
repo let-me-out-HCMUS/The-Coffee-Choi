@@ -9,14 +9,27 @@ const Coupon = require("../models/Coupon");
 
 // Get all orders
 exports.getAllOrders = catchAsync(async (req, res, next) => {
-  const orders = await Order.find().populate({
-    path: "orderItems",
-    populate: {
-      path: "product",
-      model: "Product",
-      select: "name",
-    },
-  });
+  let orders;
+  if (req.user.role == "admin") {
+    orders = await Order.find().populate({
+      path: "orderItems",
+      populate: {
+        path: "product",
+        model: "Product",
+        select: "name",
+      },
+    });
+  } else {
+    orders = await Order.find({ user: req.user.id }).populate({
+      path: "orderItems",
+      populate: {
+        path: "product",
+        model: "Product",
+        select: "name",
+      },
+    });
+  }
+
   res.status(200).json({
     status: "success",
     results: orders.length,
@@ -50,34 +63,27 @@ exports.getAllOrdersByUserId = catchAsync(async (req, res, next) => {
 // Create order
 exports.createOrder = catchAsync(async (req, res, next) => {
   // Example request body:
-  // {
-  //   "products": [
-  //     {
-  //       "id": "5f8d0e8e2f4b7e2e4c5f2c9e",
-  //       "quantity": 1,
-  //       "toppings": [
-  //        "5f8d0e8e2f4b7e2e4c5f2c9e",
-  //        "5f8d0e8e2f4b7e2e4c5f2c9e"
-  //        ],
-  //       "size": "5f8d0e8e2f4b7e2e4c5f2c9e"
-  //     },
-  //      {
-  //       "id": "5f8d0e8e2f4b7e2e4c5f2c9e",
-  //       "quantity": 1,
-  //       "toppings": [
-  //        "5f8d0e8e2f4b7e2e4c5f2c9e",
-  //        "5f8d0e8e2f4b7e2e4c5f2c9e"
-  //        ],
-  //       "size": "5f8d0e8e2f4b7e2e4c5f2c9e"
-  //     },
-  //   ],
-  //   "couponUsed": "DAYLACODE"
-  // }
+  /*   {
+    "products":[
+        {
+            "id":"65b08d630b7758bc68941d60",
+            "quantity":1,
+            "toppings":["65b1b367e1f7c6d2175413fc","65b1b374e1f7c6d217541400"],
+            "size": "65b1b357e1f7c6d2175413f8"
+        },
+         {
+            "id":"65b08d630b7758bc68941d60",
+            "quantity":1,
+            "toppings":["65b1b367e1f7c6d2175413fc"],
+            "size": "65b1b357e1f7c6d2175413f8"
+        }
+    ]
+} */
 
   // Check for coupon
   let coupon = null;
   if (req.body.couponUsed) {
-    coupon = await Coupon.findById(req.body.couponUsed);
+    coupon = await Coupon.findOne({ code: req.body.couponUsed });
     if (!coupon) return next(new AppError("Invalid coupon", 400));
   }
 
@@ -90,6 +96,8 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     const product = await Product.findById(productItem.id);
     if (!product) return next(new AppError("Invalid product", 400));
     productItemPrice += product.price * productItem.quantity;
+    productItemPrice -=
+      (product.discount / 100) * product.price * productItem.quantity;
 
     // Topping
     const toppingString = [];
@@ -125,11 +133,11 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   // Create order
   let totalMoney = orderItems.reduce((a, b) => a + b.price, 0);
   const order = await Order.create({
-    user: "65729b8c8962f81182fb5bc3",
+    user: req.user.id,
     orderItems: orderItems.map((item) => item.id),
     couponUsed: coupon ? coupon._id : null,
     totalMoney: coupon
-      ? totalMoney - coupon.discountValue * totalMoney
+      ? totalMoney - (coupon.discountValue / 100) * totalMoney
       : totalMoney,
   });
 

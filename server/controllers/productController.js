@@ -70,7 +70,6 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
 // Create product
 exports.createProduct = catchAsync(async (req, res, next) => {
   const category = await Category.findOne({ name: req.body.category });
-  console.log(category);
   if (!category) {
     return next(new AppError("No category found with that ID", 404));
   }
