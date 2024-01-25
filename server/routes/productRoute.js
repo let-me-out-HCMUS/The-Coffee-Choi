@@ -9,6 +9,7 @@ productRouter
   .post(
     authController.protect,
     authController.restrictTo("admin"),
+    productController.uploadImage,
     productController.createProduct
   );
 

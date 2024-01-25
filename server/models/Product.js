@@ -26,7 +26,7 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  images: String,
+  image: String,
   discount: {
     type: String,
     min: [0, "Discount must bigger than 0"],
