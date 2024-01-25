@@ -23,13 +23,13 @@ export default function ProductsPagination({
     );
 
     if (isFilter) {
-      console.log("filter");
+      // console.log("filter");
       setProductValue((pre) => pre.filter(handleFilter));
       setCurrentPage(1);
     }
 
     if (searchValue) {
-      console.log("search", searchValue);
+      // console.log("search", searchValue);
       setProductValue((pre) =>
         pre.filter((product) =>
           product.name.toLowerCase().includes(searchValue.toLowerCase())
