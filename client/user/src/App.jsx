@@ -12,7 +12,6 @@ import PageNotFound from "./pages/PageNotFound";
 
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
-import PageNotFound from "./pages/PageNotFound";
 
 
 function App() {

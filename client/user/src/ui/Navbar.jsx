@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/cartContext";
 import convertToVND from "../utils/convertToVND";
 
+import menu from "../mocks/Category/data";
+
 export default function Navbar() {
   // State to handle open/close in mobileview
 
-  const menu = ["Cà phê", "Trà", "Đá xay", "Bánh"];
+  // const menu = ["Cà phê", "Trà", "Đá xay", "Bánh"];
 
   const story = ["Coffeeholic", "Teaholic", "Blog"];
 
@@ -28,7 +30,9 @@ export default function Navbar() {
           onClick={() => setIsOpenNav(true)}>
           <i className="fa-solid fa-bars" />
         </button>
-        <Link to="/" className="py-[19px] text-2xl font-bold md:text-2xl lg:text-xl w-full lg:w-auto text-center">
+        <Link
+          to="/"
+          className="py-[19px] text-2xl font-bold md:text-2xl lg:text-xl w-full lg:w-auto text-center">
           THE COFFE CHOI
         </Link>
         {/* Mobileview */}
@@ -44,18 +48,18 @@ export default function Navbar() {
             {/* list header */}
             <ul className=" pl-[16px]">
               <li className=" text-left">
-                <a
-                  href=""
+                <Link
+                  to={`/menu/coffee`}
                   className="leading-22px block w-full border-b-[1px] border-solid px-[17px] py-[16px] text-base font-bold">
                   Cà phê
-                </a>
+                </Link>
               </li>
               <li className=" text-left">
-                <a
-                  href=""
+                <Link
+                  to={`/menu/tea`}
                   className="leading-22px block w-full border-b-[1px] border-solid px-[17px] py-[16px] text-base font-bold">
                   Trà
-                </a>
+                </Link>
               </li>
               {/* Menu */}
               <li className=" text-left">
@@ -67,12 +71,16 @@ export default function Navbar() {
                 </button>
                 {isOpenMenu && (
                   <ul className="m-0 p-0 pl-[10px]">
-                    <Link to="/products" className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
+                    <Link
+                      to="/menu/all"
+                      className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
                       Tất cả
                     </Link>
-                    {menu.map((item) => (
-                      <li className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
-                        {item}
+                    {menu.map((item, index) => (
+                      <li
+                        key={index}
+                        className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
+                        <Link to={`/menu/${item.slug}`}>{item.name}</Link>
                       </li>
                     ))}
                   </ul>
@@ -113,14 +121,18 @@ export default function Navbar() {
         <div className="ml-4 hidden lg:block">
           <ul className=" inline-flex">
             <li className=" px-[16px] py-[19px] text-base font-medium ">
-              <a href="" className=" hover:cursor-pointer hover:text-amber-500">
+              <Link
+                to={`/menu/coffee`}
+                className=" hover:cursor-pointer hover:text-amber-500">
                 Cà phê
-              </a>
+              </Link>
             </li>
             <li className=" px-[16px] py-[19px] text-base font-medium ">
-              <a href="" className=" hover:cursor-pointer hover:text-amber-500">
+              <Link
+                to={`/menu/tea`}
+                className=" hover:cursor-pointer hover:text-amber-500">
                 Trà
-              </a>
+              </Link>
             </li>
             {/* PC menu */}
             <li
@@ -132,30 +144,33 @@ export default function Navbar() {
                 href="#">
                 Menu <i className="fa-solid fa-caret-down"></i>
               </a>
-              
-              { (
-                <div className={`menu-transition menu-transition menu-transition ${isOpenMenu ? 'show' : ''} absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white`}>
+
+              {
+                <div
+                  className={`menu-transition menu-transition menu-transition ${
+                    isOpenMenu ? "show" : ""
+                  } absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white`}>
                   <div className=" absolute h-[19px] w-full top-[-19px]"></div>
                   <ul className=" flex w-4/5 flex-wrap justify-center">
                     <li className=" float-none inline-block px-[2.2%] py-[12px]">
-                      <a
-                        href=""
+                      <Link
+                        to="/menu/all"
                         className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
                         Tất cả
-                      </a>
+                      </Link>
                     </li>
                     {menu.map((item) => (
                       <li className=" float-none inline-block px-[2.2%] py-[12px]">
-                        <a
-                          href=""
+                        <Link
+                          to={`/menu/${item.slug}`}
                           className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
-                          {item}
-                        </a>
+                          {item.name}
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
-              )}
+              }
             </li>
             {/* PC story */}
             <li
@@ -167,8 +182,11 @@ export default function Navbar() {
                 className=" hover:cursor-pointer hover:text-amber-500">
                 Chuyện chòi <i className="fa-solid fa-caret-down"></i>
               </a>
-              {(
-                <div className={`menu-transition menu-transition menu-transition ${isOpenStory ? 'show' : ''} absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white`}>
+              {
+                <div
+                  className={`menu-transition menu-transition menu-transition ${
+                    isOpenStory ? "show" : ""
+                  } absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white`}>
                   <ul className=" flex w-4/5 flex-wrap justify-center">
                     {story.map((item, index) => (
                       <li
@@ -183,7 +201,7 @@ export default function Navbar() {
                     ))}
                   </ul>
                 </div>
-              )}
+              }
             </li>
             <li className=" px-[16px] py-[19px] text-base font-medium ">
               <a href="" className=" hover:cursor-pointer hover:text-amber-500">
@@ -202,9 +220,7 @@ export default function Navbar() {
             onMouseOut={() => setIsOpenCart(false)}>
             <i className="fa-solid fa-mug-hot cursor-pointer text-2xl text-amber-800" />
             <span className=" absolute right-[-14px] top-[-6px] rounded-[10px] border-2 border-solid border-amber-800 bg-white px-[6px] py-[1px] text-sm">
-              {
-                getCartQuantity()
-              }
+              {getCartQuantity()}
             </span>
             {isOpenCart && (
               <div className=" absolute right-0 z-50 w-[60vw] rounded-sm bg-white shadow-[0_1px_10px_rgba(0,0,0,0.2)] lg:w-[400px]">
@@ -226,15 +242,23 @@ export default function Navbar() {
                             <span className=" text-xs hidden md:block text-gray-500">
                               {item.size.name}
                             </span>
-                            <span className="text-xs hidden md:line-clamp-1">{
-                              item.toppings.map((topping) => topping.name).join(", ")
-                            }</span>
+                            <span className="text-xs hidden md:line-clamp-1">
+                              {item.toppings
+                                .map((topping) => topping.name)
+                                .join(", ")}
+                            </span>
                           </div>
                           <div>
                             <span className=" text-sm font-normal">
-                              {
-                                convertToVND(item.price + item.size.extraPrice + item.toppings.reduce((total, topping) => total + topping.extraPrice, 0))
-                              }
+                              {convertToVND(
+                                item.price +
+                                  item.size.extraPrice +
+                                  item.toppings.reduce(
+                                    (total, topping) =>
+                                      total + topping.extraPrice,
+                                    0
+                                  )
+                              )}
                             </span>
                             <span className=" mx-[4px] text-xs text-gray-500">
                               x
@@ -244,7 +268,11 @@ export default function Navbar() {
                             </span>
                           </div>
                         </div>
-                        <div onClick={() => {removeFromCart(item)}} className=" flex cursor-pointer justify-end text-sm font-medium text-gray-500 hover:text-red-500">
+                        <div
+                          onClick={() => {
+                            removeFromCart(item);
+                          }}
+                          className=" flex cursor-pointer justify-end text-sm font-medium text-gray-500 hover:text-red-500">
                           Xoá
                         </div>
                       </div>
