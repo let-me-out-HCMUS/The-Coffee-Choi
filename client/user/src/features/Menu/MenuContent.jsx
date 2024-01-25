@@ -60,7 +60,7 @@ export default function MenuContent({ categories, products }) {
   };
 
   const submitFilter = (data) => {
-    // console.log(data);
+    console.log(data);
     setFilterValue(data);
     setIsFilter(true);
     setOpenFilter(false);
@@ -121,20 +121,24 @@ export default function MenuContent({ categories, products }) {
         <div key={category.id}>
           <div className=" mb-4 font-semibold text-2xl">{category.name}</div>
           <ProductsPagination
-            products={products
-              .filter((product) => product.category === category.id)
-              .filter((product) => (isFilter ? handleFilter(product) : true)) // if isFilter is true -> check filter
-              .filter((product) =>
-                searchValue !== "" // if searchValue is not empty -> check value
-                  ? product.name
-                      .toLowerCase()
-                      .includes(searchValue.toLowerCase())
-                  : true
-              )}
+            products={products}
+            // .filter((product) => product.category === category.id)
+            // .filter((product) => (isFilter ? handleFilter(product) : true)) // if isFilter is true -> check filter
+            // .filter((product) =>
+            //   searchValue !== "" // if searchValue is not empty -> check value
+            //     ? product.name
+            //         .toLowerCase()
+            //         .includes(searchValue.toLowerCase())
+            //     : true
+            // )}
+            category={category.id}
+            searchValue={searchValue}
+            isFilter={isFilter}
+            handleFilter={handleFilter}
           />
 
-          {/* <div className=" mb-12 grid grid-cols-2 gap-x-8 md:grid-cols-4 md:gap-x-4 lg:grid-cols-4 lg:gap-x-4"> */}
-          {/* {products
+          {/* <div className=" mb-12 grid grid-cols-2 gap-x-8 md:grid-cols-4 md:gap-x-4 lg:grid-cols-4 lg:gap-x-4">
+            {products
               .filter((product) => product.category === category.id)
               .filter((product) => (isFilter ? handleFilter(product) : true)) // if isFilter is true -> check filter
               .filter((product) =>
@@ -144,10 +148,10 @@ export default function MenuContent({ categories, products }) {
                       .includes(searchValue.toLowerCase())
                   : true
               )
-              .map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))} */}
-          {/* </div> */}
+              .map((product, index) => (
+                <ProductCard key={index} product={product} />
+              ))}
+          </div> */}
         </div>
       ))}
     </div>
