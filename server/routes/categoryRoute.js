@@ -7,4 +7,6 @@ categoryRouter
   .get(categoryController.getAllCategories)
   .post(categoryController.createCategory);
 
+categoryRouter.route("/:slug").get(categoryController.getCategory);
+
 module.exports = categoryRouter;

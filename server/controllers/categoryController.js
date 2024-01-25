@@ -1,5 +1,6 @@
 const Category = require("../models/Category");
 const catchAsync = require("../utils/catchAsync");
+const Product = require("../models/Product");
 
 // Get all categories
 exports.getAllCategories = catchAsync(async (req, res, next) => {
@@ -36,16 +37,18 @@ exports.deleteCategory = catchAsync(async (req, res, next) => {
   });
 });
 
-// Get category by ID
+// Get product by slug
 exports.getCategory = catchAsync(async (req, res, next) => {
-  const category = await Category.findById(req.params.id);
+  const category = await Category.findOne({ slug: req.params.slug });
   if (!category) {
-    return next(new AppError("No category found with that ID", 404));
+    return next(new AppError("No category found with that slug", 404));
   }
+  const products = await Product.find({ category: category._id });
   res.status(200).json({
     status: "success",
     data: {
       category,
+      products,
     },
   });
 });

@@ -17,7 +17,7 @@ exports.getAllProductAttributes = catchAsync(async (req, res, next) => {
 
 // Get by category
 exports.getProductAttributeByCategory = catchAsync(async (req, res, next) => {
-  const category = await Category.findOne({ name: req.params.category });
+  const category = await Category.findOne({ slug: req.params.slug });
   if (!category) {
     return next(new AppError("No category found with that ID", 404));
   }
@@ -47,10 +47,35 @@ exports.getProductAttribute = catchAsync(async (req, res, next) => {
   });
 });
 
+// Create product attribute
+exports.createProductAttribute = catchAsync(async (req, res, next) => {
+  const category = await Category.findOne({ name: req.body.category });
+  if (!category) {
+    return next(new AppError("No category found with that name", 404));
+  }
+  const productAttribute = await ProductAttribute.create({
+    name: req.body.name,
+    category: category._id,
+    price: req.body.price,
+  });
+  res.status(201).json({
+    status: "success",
+    data: {
+      productAttribute,
+    },
+  });
+});
+
 // Delete product attribute
 exports.deleteProductAttribute = catchAsync(async (req, res, next) => {
-  const productAttribute = await ProductAttribute.findByIdAndDelete(
-    req.params.id
+  // Update status to false
+  const productAttribute = await ProductAttribute.findByIdAndUpdate(
+    req.params.id,
+    { status: false },
+    {
+      new: true,
+      runValidators: true,
+    }
   );
 
   res.status(204).json({
