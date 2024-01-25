@@ -98,6 +98,8 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     productItemPrice += product.price * productItem.quantity;
     productItemPrice -=
       (product.discount / 100) * product.price * productItem.quantity;
+    product.sold += productItem.quantity;
+    await product.save();
 
     // Topping
     const toppingString = [];
@@ -140,7 +142,8 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       ? totalMoney - (coupon.discountValue / 100) * totalMoney
       : totalMoney,
   });
-
+  coupon.timeUsed++;
+  await coupon.save();
   res.status(201).json({
     status: "success",
     data: {
