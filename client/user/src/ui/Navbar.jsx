@@ -88,8 +88,10 @@ export default function Navbar() {
                 </button>
                 {isOpenStory && (
                   <ul className="m-0 p-0 pl-[10px]">
-                    {story.map((item) => (
-                      <li className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
+                    {story.map((item, index) => (
+                      <li
+                        key={index}
+                        className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
                         {item}
                       </li>
                     ))}
@@ -168,8 +170,10 @@ export default function Navbar() {
               {(
                 <div className={`menu-transition menu-transition menu-transition ${isOpenStory ? 'show' : ''} absolute left-0 right-0 z-50 mt-[20px] flex w-[100%] flex-wrap justify-center bg-white`}>
                   <ul className=" flex w-4/5 flex-wrap justify-center">
-                    {story.map((item) => (
-                      <li className=" float-none inline-block px-[2.2%] py-[12px]">
+                    {story.map((item, index) => (
+                      <li
+                        key={index}
+                        className=" float-none inline-block px-[2.2%] py-[12px]">
                         <a
                           href=""
                           className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
@@ -190,7 +194,7 @@ export default function Navbar() {
         </div>
 
         <div className=" flex">
-            {/* Cart */}
+          {/* Cart */}
           <div
             className=" relative"
             onClick={() => setIsOpenCart(!isOpenCart)}

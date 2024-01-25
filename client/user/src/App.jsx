@@ -7,10 +7,13 @@ import CartContextProvider from "./contexts/cartContext";
 import DashBoard from "./pages/DashBoard";
 import Product from "./pages/Product";
 import Payment from "./pages/Payment";
+import Menu from "./pages/Menu";
+import PageNotFound from "./pages/PageNotFound";
 
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
 import PageNotFound from "./pages/PageNotFound";
+
 
 function App() {
   return (
@@ -30,6 +33,7 @@ function App() {
 
         <Route element={<AppLayout />}>
           <Route path="/" element={<DashBoard />} />
+          <Route path="/menu/:slug" element={<Menu />} />
           <Route path="/products/:productId" element={<Product />} />
           <Route path="/payment" element={<Payment />} />
             {/* Another route add from here */}
