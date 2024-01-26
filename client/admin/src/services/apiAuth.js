@@ -1,22 +1,4 @@
-// import { account as credentials } from "../mocks/login";
 import axios from "axios";
-
-// function mockValidate(email, password) {
-//   console.log("Validating...");
-//   console.log(`Provided email: ${email}, password: ${password}`);
-//   console.log(`Credentials: ${credentials.email}, ${credentials.password}`);
-
-//   if (email === credentials.email && password === credentials.password) {
-//     return {
-//       data: { email, password },
-//       error: null,
-//     };
-//   } else
-//     return {
-//       data: null,
-//       error: "user not found",
-//     };
-// }
 
 async function validate(email, password) {
   return await axios
