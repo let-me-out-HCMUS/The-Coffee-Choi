@@ -13,7 +13,8 @@ export function useLogin() {
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (user) => {
-      queryClient.setQueryData(["user"], user.user);
+      queryClient.setQueryData(["user"], user.token);
+      localStorage.setItem("token", user.token);
       toast.success("Đăng nhập thành công");
       setIsAuth(true);
       navigate("/dashboard", { replace: true });

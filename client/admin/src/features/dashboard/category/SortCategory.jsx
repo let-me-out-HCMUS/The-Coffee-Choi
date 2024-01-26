@@ -19,7 +19,6 @@ export default function SortCategory({ sort, setSort }) {
         onChange={handleChange}
       >
         <MenuItem value={"name"}>Sắp xếp theo tên (A-Z)</MenuItem>
-        <MenuItem value={"category"}>Sắp xếp theo danh mục (A-Z)</MenuItem>
         <MenuItem value={"quantity"}>Sắp xếp theo số lượng (giảm dần)</MenuItem>
         <MenuItem value={"priceUp"}>Sắp xếp theo giá (thấp đến cao)</MenuItem>
         <MenuItem value={"priceDown"}>Sắp xếp theo giá (cao đến thấp)</MenuItem>

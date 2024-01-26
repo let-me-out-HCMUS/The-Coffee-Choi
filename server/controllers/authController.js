@@ -1,7 +1,11 @@
 const User = require("../models/User");
 const catchAsync = require("../utils/catchAsync");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 const AppError = require("../utils/appError");
+
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config.env" });
 
 const signToken = (user) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -15,10 +19,15 @@ exports.signUp = catchAsync(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
     role: req.body.role,
+    address: req.body.address,
   });
   const token = signToken(newUser);
+
+  const paymentAccount = await axios.post(
+    "https://localhost:8001/api/v1/paymentAccount",
+    { user: newUser._id, balance: 0, type: "user" }
+  );
 
   res.status(201).json({
     status: "success",
@@ -87,6 +96,15 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
     results: users.length,
     data: {
       users,
+    },
+  });
+});
+
+exports.getUser = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      user: req.user,
     },
   });
 });

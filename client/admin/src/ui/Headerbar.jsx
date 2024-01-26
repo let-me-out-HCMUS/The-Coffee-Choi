@@ -1,14 +1,19 @@
-import { useContext, useEffect, useState } from "react";
-import { Typography, Button, Paper } from "@mui/material";
+import { useContext, useEffect } from "react";
+import { Typography, Button, Paper, CircularProgress } from "@mui/material";
 import { ThemeContext } from "../context/ThemeContext";
 import { Switcher } from "../features/darkmode/Switcher";
 import { defaultTheme, darkTheme } from "./Theme";
 import LogoutIcon from "@mui/icons-material/Logout";
 import useMediaSize from "../hooks/useMediaSize";
+import { useLogout } from "../features/authentication/useLogout";
 
 export default function Headerbar() {
-  const { setTheme } = useContext(ThemeContext);
-  const [isDarkmode, setIsDarkmode] = useState(true);
+  const { setTheme, isDarkmode, setIsDarkmode } = useContext(ThemeContext);
+  const { logout, isLoading } = useLogout();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   useEffect(
     function () {
@@ -43,9 +48,14 @@ export default function Headerbar() {
           flexDirection: "row ",
           gap: 1,
         }}
+        onClick={handleLogout}
       >
         <LogoutIcon fontSize={iconSize} />
-        <Typography fontSize={fontSize}> Đăng xuất</Typography>
+        {isLoading ? (
+          <CircularProgress color="info" size="24px" />
+        ) : (
+          <Typography fontSize={fontSize}>Đăng xuất</Typography>
+        )}
       </Button>
     </Paper>
   );

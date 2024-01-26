@@ -10,10 +10,19 @@ import {
 } from "@mui/material";
 import React from "react";
 import { formatCurrency } from "../../../utils/helpers";
+import Image from "../../../ui/Image";
 
 const columns = [
+  {
+    id: "image",
+    label: "Sản phẩm",
+    align: "center",
+    minWidth: 250,
+    format: (value) => (
+      <Image src={value} width={75} height={75} alt="Sản phẩm" />
+    ),
+  },
   { id: "name", label: "Tên", minWidth: 300 },
-  { id: "category", label: "Danh mục", minWidth: 250 },
   {
     id: "quantity",
     label: "Số lượng đã bán",
@@ -29,34 +38,35 @@ const columns = [
   },
 ];
 
-function createData(name, category, quantity, price) {
-  return { name, category, quantity, price };
+function createData(name, image, quantity, price) {
+  return { name, image, quantity, price };
 }
 
+const imageLink =
+  "https://product.hstatic.net/1000075078/product/1697442235_cloudfee-hanh-nhan-nuong_30e91f633a784000b4233d65081b7410.jpg";
+
 const rows = [
-  createData("Cà phê đèn mờ", "Cà phê", 322, 180000),
-  createData("Cà phê 18", "Cà phê", 5421, 600000),
-  createData("Cà phê trung niên", "Cà phê", 421, 120000),
-  createData("Cà phê trẻ em", "Cà phê", 312, 900000),
-  createData("Cà phê thú vật", "Cà phê", 241, 120000),
-  createData("Cà phê creampie", "Cà phê", 121, 1500000),
-  createData("Cà phê hoa hậu", "Cà phê", 213, 9000000),
-  createData("Trà sữa mẹ", "Trà", 321, 2000000),
-  createData("Trà sữa thiếu niên", "Trà", 123, 210000),
-  createData("Trà sữa trân châu đường đen", "Trà", 321, 15000),
-  createData("Trà đặc cầu", "Trà", 234, 500000),
-  createData("Bánh creampie", "Bánh", 234, 1200000),
-  createData("Bánh lỗ", "Bánh", 432, 210000),
-  createData("Bánh tây", "Bánh", 23, 400000),
-  createData("Bánh da đen", "Bánh", 234, 12),
+  createData("Cà phê đèn mờ", imageLink, 322, 180000),
+  createData("Cà phê 18", imageLink, 5421, 600000),
+  createData("Cà phê trung niên", imageLink, 421, 120000),
+  createData("Cà phê trẻ em", imageLink, 312, 900000),
+  createData("Cà phê thú vật", imageLink, 241, 120000),
+  createData("Cà phê creampie", imageLink, 121, 1500000),
+  createData("Cà phê hoa hậu", imageLink, 213, 9000000),
+  createData("Trà sữa mẹ", imageLink, 321, 2000000),
+  createData("Trà sữa thiếu niên", imageLink, 123, 210000),
+  createData("Trà sữa trân châu đường đen", imageLink, 321, 15000),
+  createData("Trà đặc cầu", imageLink, 234, 500000),
+  createData("Bánh creampie", imageLink, 234, 1200000),
+  createData("Bánh lỗ", imageLink, 432, 210000),
+  createData("Bánh tây", imageLink, 23, 400000),
+  createData("Bánh da đen", imageLink, 234, 12),
 ];
 
 const sortFunction = (a, b, sort) => {
   switch (sort) {
     case "name":
       return a.name.localeCompare(b.name);
-    case "category":
-      return a.category.localeCompare(b.category);
     case "priceDown":
       return b.price - a.price;
     case "priceUp":
@@ -102,7 +112,7 @@ export default function TableCategory({ sort }) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -113,9 +123,7 @@ export default function TableCategory({ sort }) {
                             fontSize: 16,
                           }}
                         >
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
+                          {column.format ? column.format(value) : value}
                         </TableCell>
                       );
                     })}
@@ -126,7 +134,7 @@ export default function TableCategory({ sort }) {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 15]}
+        rowsPerPageOptions={[3, 5, 10]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
