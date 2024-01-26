@@ -3,6 +3,8 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const userRouter = express.Router();
 const authController = require("../controllers/authController");
+const userController = require("../controllers/userController");
+
 require("dotenv").config({ path: "./config.env" });
 // For testing purposes
 userRouter.get(
@@ -37,7 +39,7 @@ userRouter.get(
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
-    res.redirect(`http://localhost:3000/login-success/${token}`);
+    res.redirect(`http://localhost:5173/login-success/${token}`);
   }
 );
 
@@ -61,9 +63,21 @@ userRouter.get(
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
-    res.redirect(`http://localhost:3000/login-success/${token}`);
+    res.redirect(`http://localhost:5173/login-success/${token}`);
   }
 );
 
 userRouter.get("/", authController.protect, authController.getUser);
+
+userRouter.patch(
+  "/update-info",
+  authController.protect,
+  userController.updateUserInfo
+);
+
+userRouter.patch(
+  "/change-password",
+  authController.protect,
+  userController.changePassword
+);
 module.exports = userRouter;
