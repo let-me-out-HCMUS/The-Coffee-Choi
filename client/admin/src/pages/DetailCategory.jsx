@@ -5,9 +5,12 @@ import { Button, Typography } from "@mui/material";
 import SortCategory from "../features/dashboard/category/SortCategory";
 import TableCategory from "../features/dashboard/category/TableCategory";
 import { useState } from "react";
+import AddProductDialog from "../features/dashboard/category/AddProductDialog";
 
 export default function DetailCategory() {
   const [sort, setSort] = useState("name");
+  const [open, setOpen] = useState(false);
+
   return (
     <DashboardLayout>
       <Row
@@ -25,9 +28,14 @@ export default function DetailCategory() {
           }}
         >
           <Typography variant="h5">Danh sách danh mục</Typography>
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpen(true)}
+          >
             Thêm sản phẩm
           </Button>
+          <AddProductDialog open={open} handleClose={() => setOpen(false)} />
           <SortCategory sort={sort} setSort={setSort} />
         </DashboardItem>
       </Row>
