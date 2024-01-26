@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
 import DashboardItem from "../DashboardItem";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function ItemCategory({ category }) {
   return (
@@ -16,7 +15,6 @@ export default function ItemCategory({ category }) {
         gap: 1,
       }}
     >
-      <FontAwesomeIcon icon={category.icon} />
       <Link to={category.slug}>
         <Typography variant="h6">{category.name}</Typography>
       </Link>
