@@ -1,33 +1,33 @@
-import axios from "axios";
+import { axiosClient } from "./axiosClient";
 
 async function validate(email, password) {
-  return await axios
-    .post("http://localhost:8000/api/v1/users/login", {
+  return await axiosClient
+    .post("/users/login", {
       email,
       password,
     })
     .then(function (response) {
-      console.log(response);
+      console.log("Validate OK", response);
       return {
-        data: response.data,
+        user: response.token,
         error: null,
       };
     })
     .catch(function (error) {
-      console.log(error);
+      console.log("Validate ERROR", error);
       return {
-        data: null,
+        user: null,
         error,
       };
     });
 }
 
 export async function login({ email, password }) {
-  const { data, error } = await validate(email, password);
+  const { user, error } = await validate(email, password);
 
   if (error) throw new Error(error.message);
 
-  return data;
+  return user;
 }
 
 export async function logout() {
