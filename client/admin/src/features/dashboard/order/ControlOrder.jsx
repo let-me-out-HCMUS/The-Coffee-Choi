@@ -1,6 +1,7 @@
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import PaymentIcon from "@mui/icons-material/Payment";
 import React from "react";
 
 export default function ControlOrder() {
@@ -37,8 +38,14 @@ export default function ControlOrder() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Xem chi tiết</MenuItem>
-        <MenuItem onClick={handleClose}>Chỉnh sửa trạng thái</MenuItem>
+        <MenuItem onClick={handleClose}>
+          <VisibilityIcon />
+          <Typography sx={{ ml: 1 }}>Xem chi tiết</Typography>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <PaymentIcon />
+          <Typography sx={{ ml: 1 }}>Thanh toán</Typography>
+        </MenuItem>
       </Menu>
     </>
   );

@@ -1,9 +1,9 @@
-import DashboardLayout from "../DashboardLayout";
-import Row from "../Row";
-import DashboardItem from "../DashboardItem";
+import DashboardLayout from "../features/dashboard/DashboardLayout";
+import Row from "../features/dashboard/Row";
+import DashboardItem from "../features/dashboard/DashboardItem";
 import { Button, Typography } from "@mui/material";
-import SortCategory from "./SortCategory";
-import TableCategory from "./TableCategory";
+import SortCategory from "../features/dashboard/category/SortCategory";
+import TableCategory from "../features/dashboard/category/TableCategory";
 import { useState } from "react";
 
 export default function DetailCategory() {
@@ -26,7 +26,7 @@ export default function DetailCategory() {
         >
           <Typography variant="h5">Danh sách danh mục</Typography>
           <Button variant="contained" color="primary">
-            Thêm danh mục
+            Thêm sản phẩm
           </Button>
           <SortCategory sort={sort} setSort={setSort} />
         </DashboardItem>
