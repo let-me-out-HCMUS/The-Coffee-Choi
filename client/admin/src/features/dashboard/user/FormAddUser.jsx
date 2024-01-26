@@ -1,7 +1,15 @@
 import { useForm } from "react-hook-form";
-import { TextField } from "@mui/material";
+import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { useState } from "react";
 export default function FormAdd({ addUser }) {
   const { register, handleSubmit } = useForm();
+
+  const [role, setRole] = useState("");
+
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setRole(event.target.value);
+  };
 
   return (
     <>
@@ -51,13 +59,26 @@ export default function FormAdd({ addUser }) {
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2 text-sm font-bold">Quyền</label>
-          <select
+          {/* <label className="block mb-2 text-sm font-bold">Quyền</label> */}
+          {/* <select
             className="w-full px-3 py-2 leading-tight border rounded  appearance-none focus:outline-none focus:shadow-outline"
-            {...register("role")}>
+            {...register("role")}
+          >
             <option value="admin">Admin</option>
             <option value="user">User</option>
-          </select>
+          </select> */}
+          <InputLabel id="role-label">Vai trò</InputLabel>
+          <Select
+            fullWidth
+            labelId="role-label"
+            id="role"
+            value={role}
+            label="Vai trò"
+            onChange={handleChange}
+          >
+            <MenuItem value="admin">Admin</MenuItem>
+            <MenuItem value="user">User</MenuItem>
+          </Select>
         </div>
         <div className="mb-4">
           <TextField
@@ -75,7 +96,8 @@ export default function FormAdd({ addUser }) {
         <div className="mb-4">
           <button
             className="w-full px-4 py-2 font-bold text-white bg-amber-700 rounded hover:bg-amber-500 focus:outline-none focus:shadow-outline"
-            type="submit">
+            type="submit"
+          >
             Thêm
           </button>
         </div>
