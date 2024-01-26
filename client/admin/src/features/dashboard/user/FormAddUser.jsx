@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-
+import { TextField } from "@mui/material";
 export default function FormAdd({ addUser }) {
   const { register, handleSubmit } = useForm();
 
@@ -7,39 +7,47 @@ export default function FormAdd({ addUser }) {
     <>
       <form onSubmit={handleSubmit(addUser)}>
         <div className="mb-4">
-          <label className="block mb-2 text-sm font-bold">Tên</label>
-          <input
-            className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            label="Tên người dùng"
+            fullWidth
+            variant="standard"
             {...register("name", { required: true })}
-            type="text"
-            placeholder="Tên"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2 text-sm font-bold">Email</label>
-          <input
-            className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            label="Email"
+            fullWidth
+            variant="standard"
             {...register("email", { required: true })}
-            type="text"
-            placeholder="Email"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2 text-sm font-bold">Mật khẩu</label>
-          <input
-            className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            label="Mật khẩu"
+            fullWidth
+            variant="standard"
             {...register("password", { required: true })}
-            type="password"
-            placeholder="Mật khẩu"
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-2 text-sm font-bold">Địa chỉ</label>
-          <input
-            className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            label="Địa chỉ"
+            fullWidth
+            variant="standard"
             {...register("address")}
-            type="text"
-            placeholder="Địa chỉ"
           />
         </div>
         <div className="mb-4">
@@ -52,14 +60,16 @@ export default function FormAdd({ addUser }) {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block mb-2 text-sm font-bold">Tiền nạp</label>
-          <input
-            className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            label="Tiền nạp"
+            fullWidth
+            variant="standard"
             {...register("money", {
-                valueAsNumber: true,
+              valueAsNumber: true,
             })}
-            type="text"
-            placeholder="Tiền nạp"
           />
         </div>
         <div className="mb-4">

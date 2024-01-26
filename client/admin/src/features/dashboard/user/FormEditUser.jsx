@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-
+import { TextField } from "@mui/material";
 export default function FormEdit({ editUser, user }) {
   const { register, handleSubmit } = useForm({ defaultValues: user });
 
@@ -7,12 +7,14 @@ export default function FormEdit({ editUser, user }) {
     <>
       <form onSubmit={handleSubmit(editUser)}>
         <div className="mb-4">
-          <label className="block mb-2 text-sm font-bold">Tên</label>
-          <input
-            className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            label="Tên người dùng"
+            fullWidth
+            variant="standard"
             {...register("name", { required: true })}
-            type="text"
-            placeholder="Tên"
           />
         </div>
         {/* <div className="mb-4">
@@ -52,7 +54,7 @@ export default function FormEdit({ editUser, user }) {
           </select>
         </div> */}
         <div className="mb-4">
-          <label className="block mb-2 text-sm font-bold">Tiền nạp</label>
+          {/* <label className="block mb-2 text-sm font-bold">Tiền nạp</label>
           <input
             className="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
             {...register("money", {
@@ -60,8 +62,20 @@ export default function FormEdit({ editUser, user }) {
             })}
             type="text"
             placeholder="Tiền nạp"
-          />
+          /> */}
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            label="Tiền nạp"
+            fullWidth
+            variant="standard"
+            {...register("money", {
+              valueAsNumber: true,
+            })}
+            />
         </div>
+
         <div className="mb-4">
           <button
             className="w-full px-4 py-2 font-bold text-white bg-amber-700 rounded hover:bg-amber-500 focus:outline-none focus:shadow-outline"
