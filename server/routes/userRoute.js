@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const userRouter = express.Router();
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
+const axios = require("axios");
 
 require("dotenv").config({ path: "./config.env" });
 // For testing purposes
@@ -35,10 +36,14 @@ userRouter.get(
       next();
     })(req, res, next);
   },
-  (req, res) => {
+  async (req, res) => {
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
+    const paymentAccount = await axios.post(
+      "https://localhost:8001/api/v1/paymentAccounts",
+      { user: req.user._id, balance: 0, type: "user" }
+    );
     res.redirect(`http://localhost:5173/login-success/${token}`);
   }
 );
@@ -59,10 +64,14 @@ userRouter.get(
       next();
     })(req, res, next);
   },
-  (req, res) => {
+  async (req, res) => {
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
+    const paymentAccount = await axios.post(
+      "https://localhost:8001/api/v1/paymentAccounts",
+      { user: req.user._id, balance: 0, type: "user" }
+    );
     res.redirect(`http://localhost:5173/login-success/${token}`);
   }
 );
