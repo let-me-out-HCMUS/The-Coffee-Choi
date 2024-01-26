@@ -5,6 +5,7 @@ const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/apiFeatures");
 const bucket = require("../utils/upload");
 const multer = require("multer");
+const ProductAttribute = require("../models/ProductAttribute");
 
 exports.getAllProducts = catchAsync(async (req, res, next) => {
   // TODO: add filter, sort, limit, pagination
@@ -44,8 +45,26 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 exports.getProductBySlug = catchAsync(async (req, res, next) => {
   const product = await Product.findOne({ slug: req.params.slug }).populate({
     path: "category",
-    select: "name -_id",
+    select: "name id",
   });
+
+  // get size
+  const size = await ProductAttribute.find({
+    category: product.category,
+    type: "size",
+  });
+
+  // get topping
+  const topping = await ProductAttribute.find({
+    category: product.category._id,
+    type: "topping",
+  });
+
+  // get related products
+  const relatedProducts = await Product.find({
+    category: product.category._id,
+  }).limit(5);
+
   if (!product) {
     return next(new AppError("No product found with that ID", 404));
   }
@@ -53,6 +72,9 @@ exports.getProductBySlug = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       product,
+      size,
+      topping,
+      relatedProducts,
     },
   });
 });
