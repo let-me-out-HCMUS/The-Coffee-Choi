@@ -59,9 +59,9 @@ export default function DeleteCategoryDialog({
                 overflow: "scroll",
               }}
             >
-              {categories.map((category) => (
+              {categories.map((category, index) => (
                 <FormControlLabel
-                  key={category.id}
+                  key={index}
                   control={<Checkbox />}
                   id={category.name}
                   name={category.name}
