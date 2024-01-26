@@ -34,7 +34,7 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
     });
   }
 
-  const payment = await PaymentAccount.findById(paymentAccount);
+  const payment = await PaymentAccount.findOne({ user: paymentAccount });
   if (!payment) {
     return res.status(404).json({
       status: "fail",
@@ -42,6 +42,19 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
     });
   }
 
+  // Update balance
+  payment.balance -= order.totalMoney;
+  payment.save();
+
+  const adminAccount = await PaymentAccount.findOne({ type: "admin" });
+  adminAccount.balance += order.totalMoney;
+  adminAccount.save();
+
+  // Update order status
+  order.status = "Completed";
+  order.save();
+
+  // Create transaction
   const transaction = await Transaction.create({
     paymentAccount: payment.id,
     orderId: order.id,
