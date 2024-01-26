@@ -65,5 +65,5 @@ userRouter.get(
   }
 );
 
-userRouter.get("/get-user", authController.protect, authController.getUser);
+userRouter.get("/", authController.protect, authController.getUser);
 module.exports = userRouter;
