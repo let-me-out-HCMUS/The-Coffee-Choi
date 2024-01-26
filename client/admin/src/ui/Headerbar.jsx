@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Typography, Button, Paper } from "@mui/material";
 import { ThemeContext } from "../context/ThemeContext";
 import { Switcher } from "../features/darkmode/Switcher";
@@ -7,8 +7,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import useMediaSize from "../hooks/useMediaSize";
 
 export default function Headerbar() {
-  const { setTheme } = useContext(ThemeContext);
-  const [isDarkmode, setIsDarkmode] = useState(true);
+  const { setTheme, isDarkmode, setIsDarkmode } = useContext(ThemeContext);
 
   useEffect(
     function () {
