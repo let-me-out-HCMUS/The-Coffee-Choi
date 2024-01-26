@@ -66,7 +66,7 @@ export default function ProductsPagination({
           Không có sản phẩm nào
         </div>
       )}
-      <div className=" grid grid-cols-2 gap-x-8 md:grid-cols-4 md:gap-x-4 lg:grid-cols-4 lg:gap-x-4">
+      <div className=" grid grid-cols-2 gap-y-4 gap-x-8 md:grid-cols-4 md:gap-x-4">
         {currentProducts.map((product, index) => (
           <ProductCard key={index} product={product} />
         ))}

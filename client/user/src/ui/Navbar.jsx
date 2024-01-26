@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/cartContext";
+import { AuthContext } from "../contexts/authContext";
 import convertToVND from "../utils/convertToVND";
 
 import menu from "../mocks/Category/data";
@@ -12,6 +13,7 @@ export default function Navbar() {
 
   const story = ["Coffeeholic", "Teaholic", "Blog"];
 
+  const { currentUser, logoutUser } = useContext(AuthContext);
   const { getCart, getCartQuantity, removeFromCart } = useContext(CartContext);
 
   const cart = getCart();
@@ -21,6 +23,15 @@ export default function Navbar() {
   const [isOpenNav, setIsOpenNav] = useState(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isOpenUser, setIsOpenUser] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logoutUser();
+    navigate("/auth", {
+      replace: true,
+    });
+  }
 
   return (
     <header className=" fixed top-0 mx-auto flex w-full justify-center border-b-2 border-solid bg-white bg-opacity-80 z-50">
@@ -292,15 +303,15 @@ export default function Navbar() {
           <div
             className=" ml-8 cursor-pointer text-center align-middle"
             onClick={() => setIsOpenUser(!isOpenUser)}>
-            ID
+            {currentUser && currentUser.name}
             {isOpenUser && (
               <div className=" absolute right-2 z-50 w-[20vw] rounded-sm bg-white shadow-[0_1px_10px_rgba(0,0,0,0.2)] lg:w-[180px]">
                 <div className=" my-[8px] ml-[12px] text-left text-sm font-medium">
                   Số dư: 100.000đ
                 </div>
-                <div className=" my-[8px] ml-[12px] text-left text-sm font-medium text-gray-400 hover:bg-slate-200">
+                <button onClick={handleLogout} className="p-2 rounded-lg my-[8px] ml-[12px] text-left text-sm font-medium text-orange-400 hover:bg-slate-200">
                   Đăng xuất
-                </div>
+                </button>
               </div>
             )}
           </div>

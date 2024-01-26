@@ -13,7 +13,7 @@ export default [
     },
     {
         id: 'Dessert',
-        name: "Đá xây",
+        name: "Đá xay",
         description: "Smoothie blabla",
         slug: "dessert",
     },
