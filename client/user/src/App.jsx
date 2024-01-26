@@ -6,6 +6,7 @@ import CartContextProvider from "./contexts/cartContext";
 import { AuthContextProvider } from "./contexts/authContext";
 
 import Auth from "./pages/Auth";
+import ThirdPartyToken from "./pages/ThirdPartyToken";
 import DashBoard from "./pages/DashBoard";
 import Product from "./pages/Product";
 import Payment from "./pages/Payment";
@@ -36,6 +37,7 @@ function App() {
               <Route path="/payment" element={<Payment />} />
             </Route>
 
+          <Route path="/third-party" element={< ThirdPartyToken/>} />
           <Route path="/auth" element={<Auth />} />
           <Route element={<AppLayout />}>
             

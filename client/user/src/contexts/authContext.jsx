@@ -57,6 +57,24 @@ export const AuthContextProvider = ({children}) => {
         }
     }
 
+    // Third party login
+    const thirdPartyLogin = async (token) => {
+        try {
+            if (token){
+                localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, token)
+                await loadUser()
+
+                return {status: 'success'}
+            }
+            return {status: 'failed', message: 'Token is invalid'}
+        } catch (error) {
+            if (error.response.data)
+                return error.response.data
+            else
+                return {status: 'failed', message: error.message}
+        }
+    }
+
     // register user
     const registerUser = async (registerForm) => {
         try {
@@ -89,7 +107,8 @@ export const AuthContextProvider = ({children}) => {
         currentUser,
         loginUser,
         registerUser,
-        logoutUser
+        logoutUser,
+        thirdPartyLogin
     }
 
     return (
