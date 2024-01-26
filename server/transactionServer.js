@@ -6,6 +6,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const transactionRoute = require("./routes/transactionRoute");
+const paymentAccountRoute = require("./routes/paymentAccountRoute");
 require("dotenv").config({
   path: "./config.env",
 });
@@ -31,7 +32,8 @@ mongoose
     console.log("DB transaction connect succesfsful!");
   });
 
-app.use("/api/v1/transaction", transactionRoute);
+app.use("/api/v1/transactions", transactionRoute);
+app.use("/api/v1/paymentAccounts", paymentAccountRoute);
 
 const options = {
   key: fs.readFileSync(path.join(__dirname, "./configs/server.key")),
@@ -40,7 +42,7 @@ const options = {
 
 // Create HTTPS server
 const server = https.createServer(options, app);
-const port = 8001;
+const port = process.env.TRANSACTION_PORT || 8001;
 server.listen(port, () => {
   console.log(`Transaction server listening on https://localhost:${port}`);
 });

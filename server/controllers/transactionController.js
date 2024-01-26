@@ -3,10 +3,28 @@ const PaymentAccount = require("../models/PaymentAccount");
 const catchAsync = require("../utils/catchAsync");
 const Order = require("../models/Order");
 
-exports.getTransaction = catchAsync(async (req, res, next) => {});
+exports.getAllTransactions = catchAsync(async (req, res, next) => {
+  const transactions = await Transaction.find();
+  res.status(200).json({
+    status: "success",
+    data: {
+      transactions,
+    },
+  });
+});
+
+exports.getTransaction = catchAsync(async (req, res, next) => {
+  const transaction = await Transaction.findById(req.params.id);
+  res.status(200).json({
+    status: "success",
+    data: {
+      transaction,
+    },
+  });
+});
 
 exports.createTransaction = catchAsync(async (req, res, next) => {
-  const { paymentAccount, orderId, totalMoney } = req.body;
+  const { paymentAccount, orderId } = req.body;
 
   const order = await Order.findById(orderId);
   if (!order) {
@@ -27,7 +45,7 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
   const transaction = await Transaction.create({
     paymentAccount: payment.id,
     orderId: order.id,
-    totalMoney,
+    totalMoney: order.totalMoney,
   });
 
   res.status(201).json({

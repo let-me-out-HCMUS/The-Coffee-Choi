@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
 dotenv.config({ path: "./config.env" });
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const DB = process.env.DATABASE.replace(
   "<password>",

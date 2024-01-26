@@ -13,7 +13,7 @@ const paymentAccountSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ["admin", "user"],
-    default: "paypal",
+    default: "user",
   },
 });
 
