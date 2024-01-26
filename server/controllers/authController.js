@@ -3,7 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 
-const signToken = (user) => {
+exports.signToken = (user) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });

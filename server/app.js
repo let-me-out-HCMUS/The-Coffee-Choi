@@ -9,6 +9,7 @@ const orderRouter = require("./routes/orderRoute");
 const productAttributeRouter = require("./routes/productAttibuteRoute");
 const errorController = require("./controllers/errorController");
 const AppError = require("./utils/appError");
+const passport = require("./passport");
 
 const app = express();
 app.use(cors());

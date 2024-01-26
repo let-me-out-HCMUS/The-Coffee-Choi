@@ -1,4 +1,5 @@
 const AppError = require("../utils/appError");
+require("dotenv").config({ path: "../config.env" });
 
 const sendErrorProd = (err, res) => {
   if (err.isOperational) {
