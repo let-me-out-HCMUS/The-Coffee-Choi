@@ -44,7 +44,7 @@ userRouter.get(
       "https://localhost:8001/api/v1/paymentAccounts",
       { user: req.user._id, balance: 0, type: "user" }
     );
-    res.redirect(`http://localhost:5173/login-success/${token}`);
+    res.redirect(`http://localhost:5173/third-party?token=${token}`);
   }
 );
 
@@ -72,7 +72,7 @@ userRouter.get(
       "https://localhost:8001/api/v1/paymentAccounts",
       { user: req.user._id, balance: 0, type: "user" }
     );
-    res.redirect(`http://localhost:5173/login-success/${token}`);
+    res.redirect(`http://localhost:5173/third-party?token=${token}`);
   }
 );
 
