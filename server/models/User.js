@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     select: false,
   },
+  address: {
+    type: String,
+  },
 
   passwordChangeAt: Date,
 });
