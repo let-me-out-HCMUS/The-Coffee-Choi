@@ -1,8 +1,8 @@
-import axios from "axios";
+import { axiosClient } from "./axiosClient";
 
 async function validate(email, password) {
-  return await axios
-    .post("http://localhost:8000/api/v1/users/login", {
+  return await axiosClient
+    .post("/users/login", {
       email,
       password,
     })
