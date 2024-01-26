@@ -18,3 +18,23 @@ export async function getAll() {
       };
     });
 }
+
+export async function getProductsFromSlug(slug) {
+  console.log("Get products from slug", slug);
+  return await axiosClient
+    .get(`/categories/${slug}`)
+    .then(function (response) {
+      console.log("Get products from slug OK", response);
+      return {
+        products: response.data.products,
+        error: null,
+      };
+    })
+    .catch(function (error) {
+      console.log("Get products from slug ERROR", error);
+      return {
+        products: null,
+        error,
+      };
+    });
+}
