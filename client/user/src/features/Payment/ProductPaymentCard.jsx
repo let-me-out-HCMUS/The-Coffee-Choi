@@ -9,8 +9,8 @@ const ProductPaymentCard = ({ product }) => {
   const totalPrice =
     product.quantity *
     (product.price +
-      product.size.extraPrice +
-      product.toppings.reduce((acc, topping) => acc + topping.extraPrice, 0));
+      product.size.price +
+      product.toppings.reduce((acc, topping) => acc + topping.price, 0));
 
   const handleIncreaseQuantity = () => {
     updateQuantity(product, product.quantity + 1);
@@ -28,7 +28,7 @@ const ProductPaymentCard = ({ product }) => {
         <div className="mr-4 w-32 md:w-48 lg:w-32 flex-none">
           <img
             className="w-32 md:w-48 lg:w-32"
-            src="https://product.hstatic.net/1000075078/product/1697442235_cloudfee-hanh-nhan-nuong_61622b4fd78d4d1d9bb8776451b318d4_large.jpg"
+            src={product.image}
             alt=""
           />
         </div>
