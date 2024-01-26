@@ -85,6 +85,8 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   if (req.body.couponUsed) {
     coupon = await Coupon.findOne({ code: req.body.couponUsed });
     if (!coupon) return next(new AppError("Invalid coupon", 400));
+    coupon.timeUsed++;
+    await coupon.save();
   }
 
   // Create order items
@@ -142,8 +144,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
       ? totalMoney - (coupon.discountValue / 100) * totalMoney
       : totalMoney,
   });
-  coupon.timeUsed++;
-  await coupon.save();
+
   res.status(201).json({
     status: "success",
     data: {
