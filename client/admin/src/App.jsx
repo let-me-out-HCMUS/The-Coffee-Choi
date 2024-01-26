@@ -11,6 +11,7 @@ import PageNotFound from "./pages/PageNotFound";
 import { ThemeContextProvider } from "./context/ThemeContext";
 import Category from "./pages/Category";
 import Order from "./pages/Order";
+import User from "./pages/User";
 
 function App() {
   const queryClient = new QueryClient({
@@ -39,6 +40,7 @@ function App() {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="category" element={<Category />} />
                 <Route path="order" element={<Order />} />
+                <Route path="user" element={<User />} />
               </Route>
 
               <Route path="login" element={<Login />} />
