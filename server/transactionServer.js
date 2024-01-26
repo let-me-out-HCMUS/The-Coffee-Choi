@@ -5,6 +5,7 @@ const https = require("https");
 const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const transactionRoute = require("./routes/transactionRoute");
 require("dotenv").config({
   path: "./config.env",
 });
@@ -29,6 +30,8 @@ mongoose
   .then((con) => {
     console.log("DB transaction connect succesfsful!");
   });
+
+app.use("/api/v1/transaction", transactionRoute);
 
 const options = {
   key: fs.readFileSync(path.join(__dirname, "./configs/server.key")),
