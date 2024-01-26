@@ -6,7 +6,6 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter product name"],
     trim: true,
-    unique: true,
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
