@@ -109,31 +109,6 @@ export default function LoginForm() {
               )}
             </Button>
 
-            <ButtonGroup fullWidth>
-              <Button
-                href="/register"
-                variant="text"
-                sx={{ mt: 3, mb: 2, mr: 1 }}
-              >
-                {isLoading ? (
-                  <CircularProgress color="info" size="24px" />
-                ) : (
-                  <GoogleIcon />
-                )}
-              </Button>
-              <Button
-                href="/forgot-password"
-                variant="text"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                {isLoading ? (
-                  <CircularProgress color="info" size="24px" />
-                ) : (
-                  <FacebookIcon />
-                )}
-              </Button>
-            </ButtonGroup>
-
             <Copyright sx={{ mt: 5 }} />
           </Box>
         </Box>
