@@ -3,7 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 import CartContextProvider from "./contexts/cartContext";
+import { AuthContextProvider } from "./contexts/authContext";
 
+import Auth from "./pages/Auth";
 import DashBoard from "./pages/DashBoard";
 import Product from "./pages/Product";
 import Payment from "./pages/Payment";
@@ -18,30 +20,33 @@ function App() {
   return (
   <>
     <BrowserRouter>
-      <CartContextProvider>
-        <Routes>
-          <Route
-            element={
-              <ProtectedRoute>
-                <AppLayout />
-              </ProtectedRoute>
-            }
-          >
-            {/* Some route page that just use for admin */}
+      <AuthContextProvider>
+        <CartContextProvider>
+          <Routes>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="/" element={<DashBoard />} />
+              <Route path="/menu/:slug" element={<Menu />} />
+              <Route path="/products/:productId" element={<Product />} />
+              <Route path="/payment" element={<Payment />} />
+            </Route>
+
+          <Route path="/auth" element={<Auth />} />
+          <Route element={<AppLayout />}>
+            
+              {/* Another route add from here */}
           </Route>
 
-        <Route element={<AppLayout />}>
-          <Route path="/" element={<DashBoard />} />
-          <Route path="/menu/:slug" element={<Menu />} />
-          <Route path="/products/:productId" element={<Product />} />
-          <Route path="/payment" element={<Payment />} />
-            {/* Another route add from here */}
-        </Route>
-
-          {/* All invalid route will render PageNotFound page */}
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </CartContextProvider>
+            {/* All invalid route will render PageNotFound page */}
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </CartContextProvider>
+      </AuthContextProvider>
     </BrowserRouter>
 
     {/* Use for notification */}
