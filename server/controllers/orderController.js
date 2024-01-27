@@ -11,23 +11,27 @@ const axios = require("axios");
 exports.getAllOrders = catchAsync(async (req, res, next) => {
   let orders;
   if (req.user.role == "admin") {
-    orders = await Order.find().populate({
-      path: "orderItems",
-      populate: {
-        path: "product",
-        model: "Product",
-        select: "name",
-      },
-    });
+    orders = await Order.find()
+      .populate({
+        path: "orderItems",
+        populate: {
+          path: "product",
+          model: "Product",
+          select: "name",
+        },
+      })
+      .sort({ createdTime: -1 });
   } else {
-    orders = await Order.find({ user: req.user.id }).populate({
-      path: "orderItems",
-      populate: {
-        path: "product",
-        model: "Product",
-        select: "name",
-      },
-    });
+    orders = await Order.find({ user: req.user.id })
+      .populate({
+        path: "orderItems",
+        populate: {
+          path: "product",
+          model: "Product",
+          select: "name",
+        },
+      })
+      .sort({ createdTime: -1 });
   }
 
   res.status(200).json({
