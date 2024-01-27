@@ -60,10 +60,10 @@ export default function MenuContent({ categories }) {
           placeholder="Tên sản phẩm"
           value={searchValue}
           onChange={(e) => {
-            setIsSearch(false);
+            // setIsSearch(false);
             setSearchValue(e.target.value);
           }}
-          required
+          // required
         />
 
         <button
