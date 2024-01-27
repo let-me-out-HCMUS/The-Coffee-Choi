@@ -59,7 +59,10 @@ exports.getCategory = catchAsync(async (req, res, next) => {
   let totalPage = 1;
   let totalProduct = await Product.countDocuments({ category: category._id });
   if (req.query.price.lte || req.query.price.gte) {
-    totalProduct = products.length;
+    totalProduct = await Product.countDocuments({
+      category: category._id,
+      price: { $gte: req.query.price.gte, $lte: req.query.price.lte },
+    });
   }
 
   if (req.query.page && req.query.limit) {
