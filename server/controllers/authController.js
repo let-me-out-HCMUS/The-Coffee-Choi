@@ -30,7 +30,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
     {
       user: newUser._id,
       balance: 0,
-      type: req.body.role ? req.body.role : "user",
+      type: "user",
     }
   );
 
