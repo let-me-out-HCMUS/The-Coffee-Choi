@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export default function FilterForm({ filterValue, submitFilter, resetFilter, sortValue}) {
+export default function FilterForm({ filterValue, submitFilter, resetFilter }) {
   const {
     register,
     handleSubmit,
@@ -13,9 +13,7 @@ export default function FilterForm({ filterValue, submitFilter, resetFilter, sor
 
   useEffect(() => {
     setValue("price.from", filterValue?.price ? filterValue?.price.from : 1000);
-    setValue("price.to", filterValue?.price ? filterValue?.price.to : 200000);
-    setValue("rating.from", filterValue?.rating ? filterValue?.rating.from : 1);
-    setValue("rating.to", filterValue?.rating ? filterValue?.rating.to : 5);
+    setValue("price.to", filterValue?.price ? filterValue?.price.to : 9999999);
     setValue(
       "isDiscount",
       filterValue.isDiscount ? filterValue.isDiscount : false
@@ -39,8 +37,8 @@ export default function FilterForm({ filterValue, submitFilter, resetFilter, sor
               {...register("price.from", {
                 valueAsNumber: true,
                 min: 0,
-                max: 200000,
-                validate: (value) => value <= watch("price.to"),
+                max: 9999999,
+                validate: (value) => value <= watch("price.from"),
               })}
             />
             <input
@@ -50,8 +48,8 @@ export default function FilterForm({ filterValue, submitFilter, resetFilter, sor
               {...register("price.to", {
                 valueAsNumber: true,
                 min: 0,
-                max: 200000,
-                validate: (value) => value >= watch("price.from"),
+                max: 9999999,
+                validate: (value) => value >= watch("price.to"),
               })}
             />
           </div>
