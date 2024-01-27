@@ -16,13 +16,9 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function InputFileUpload({ onUpload }) {
   const handleUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      onUpload(file, reader.result);
-    };
+    onUpload(event.target.files[0]);
   };
+
   return (
     <Button
       component="label"

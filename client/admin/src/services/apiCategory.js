@@ -1,4 +1,4 @@
-import { axiosClient } from "./axiosClient";
+import { axiosClient, axiosClientFormData } from "./axiosClient";
 
 export async function getAll() {
   return await axiosClient
@@ -54,6 +54,26 @@ export async function addCategory(category) {
     })
     .catch(function (error) {
       console.log("Add category ERROR", error);
+      return {
+        category: null,
+        error,
+      };
+    });
+}
+
+export async function addProduct(product) {
+  console.log("Add product to category", product);
+  return await axiosClientFormData
+    .post(`/products`, product.data)
+    .then(function (response) {
+      console.log("Add product to category OK", response);
+      return {
+        category: response.data.category,
+        error: null,
+      };
+    })
+    .catch(function (error) {
+      console.log("Add product to category ERROR", error);
       return {
         category: null,
         error,

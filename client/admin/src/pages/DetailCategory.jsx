@@ -85,6 +85,7 @@ export default function DetailCategory() {
                 <AddProductDialog
                   open={open}
                   handleClose={() => setOpen(false)}
+                  category={category}
                 />
                 <SortCategory sort={sort} setSort={setSort} />
               </DashboardItem>
