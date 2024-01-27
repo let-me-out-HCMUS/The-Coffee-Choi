@@ -9,6 +9,10 @@ import ProtectedRoute from "./ui/ProtectedRoute";
 import { AuthContextProvider } from "./context/AuthenticationContext";
 import PageNotFound from "./pages/PageNotFound";
 import { ThemeContextProvider } from "./context/ThemeContext";
+import Category from "./pages/Category";
+import DetailCategory from "./pages/DetailCategory";
+import Order from "./pages/Order";
+import User from "./pages/User";
 
 function App() {
   const queryClient = new QueryClient({
@@ -35,6 +39,10 @@ function App() {
               >
                 <Route index element={<Navigate replace to="dashboard" />} />
                 <Route path="dashboard" element={<Dashboard />} />
+                <Route path="category" element={<Category />} />
+                <Route path="category/:slug" element={<DetailCategory />} />
+                <Route path="order" element={<Order />} />
+                <Route path="user" element={<User />} />
               </Route>
 
               <Route path="login" element={<Login />} />

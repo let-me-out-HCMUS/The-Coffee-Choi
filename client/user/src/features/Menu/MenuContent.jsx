@@ -11,6 +11,7 @@ export default function MenuContent({ categories, products }) {
   const [openFilter, setOpenFilter] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [filterValue, setFilterValue] = useState({});
+  const [sortValue, setSortValue] = useState("");
 
   // const defaultFilter = {
   //   price: {
@@ -39,17 +40,6 @@ export default function MenuContent({ categories, products }) {
       }
     }
 
-    if (filterValue.rating.from && filterValue.rating.to) {
-      if (
-        !(
-          product.rating >= filterValue.rating.from &&
-          product.rating <= filterValue.rating.to
-        )
-      ) {
-        res = false;
-      }
-    }
-
     if (filterValue.isDiscount) {
       if (!(product.discount > 0)) {
         res = false;
@@ -70,6 +60,12 @@ export default function MenuContent({ categories, products }) {
     setFilterValue({});
     setIsFilter(false);
     setOpenFilter(false);
+  };
+
+  // Sort
+  const handleSort = (value) => {
+    console.log(value);
+    setSortValue(value);
   };
 
   return (
@@ -96,25 +92,37 @@ export default function MenuContent({ categories, products }) {
       </form>
 
       {/* Filter */}
-      <div className=" mt-4 mb-8 ">
+      <div className=" mt-4 mb-8">
         <button
           className=" py-1 px-2 rounded border-2 border-solid text-sm border-gray-200"
           onClick={() => setOpenFilter(true)}>
           <i className="fa-solid fa-filter mr-2"></i>
           Bộ lọc
         </button>
-
-        <CustomDialog
-          title={"Bộ lọc"}
-          onClose={() => setOpenFilter(false)}
-          open={openFilter}>
-          <FilterForm
-            filterValue={filterValue}
-            submitFilter={submitFilter}
-            resetFilter={resetFilter}
-          />
-        </CustomDialog>
+        <div>
+          <select
+            className="px-1 py-1 border rounded mt-2"
+            onChange={(e) => handleSort(e.target.value)}>
+            <option value="">Sắp xếp theo mặc định</option>
+            <option value="price">Giá thấp đến cao</option>
+            <option value="-price">Giá cao đến thấp</option>
+            <option value="sold">
+              Các sản phẩm được mua nhiều nhất
+            </option>
+            <option value="id">Các sản phẩm mới nhất</option>
+          </select>
+        </div>
       </div>
+      <CustomDialog
+        title={"Bộ lọc"}
+        onClose={() => setOpenFilter(false)}
+        open={openFilter}>
+        <FilterForm
+          filterValue={filterValue}
+          submitFilter={submitFilter}
+          resetFilter={resetFilter}
+        />
+      </CustomDialog>
 
       {/* Products */}
       {categories.map((category) => (
@@ -135,6 +143,7 @@ export default function MenuContent({ categories, products }) {
             searchValue={searchValue}
             isFilter={isFilter}
             handleFilter={handleFilter}
+            sortValue={sortValue}
           />
 
           {/* <div className=" mb-12 grid grid-cols-2 gap-x-8 md:grid-cols-4 md:gap-x-4 lg:grid-cols-4 lg:gap-x-4">
