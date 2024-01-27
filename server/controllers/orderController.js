@@ -22,7 +22,7 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
       })
       .sort({ createdTime: -1 });
   } else {
-    orders = await Order.find({ user: req.user.id })
+    orders = await Order.find({ userID: req.user._id })
       .populate({
         path: "orderItems",
         populate: {
@@ -141,7 +141,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   // Create order
   let totalMoney = orderItems.reduce((a, b) => a + b.price, 0);
   const order = await Order.create({
-    user: req.user.id,
+    userID: req.user.id,
     orderItems: orderItems.map((item) => item.id),
     couponUsed: coupon ? coupon._id : null,
     totalMoney: coupon
