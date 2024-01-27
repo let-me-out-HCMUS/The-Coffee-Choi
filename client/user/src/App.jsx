@@ -33,16 +33,12 @@ function App() {
             >
               <Route path="/" element={<DashBoard />} />
               <Route path="/menu/:slug" element={<Menu />} />
-              <Route path="/products/:productId" element={<Product />} />
+              <Route path="/products/:slug" element={<Product />} />
               <Route path="/payment" element={<Payment />} />
             </Route>
 
           <Route path="/third-party" element={< ThirdPartyToken/>} />
           <Route path="/auth" element={<Auth />} />
-          <Route element={<AppLayout />}>
-            
-              {/* Another route add from here */}
-          </Route>
 
             {/* All invalid route will render PageNotFound page */}
             <Route path="*" element={<PageNotFound />} />

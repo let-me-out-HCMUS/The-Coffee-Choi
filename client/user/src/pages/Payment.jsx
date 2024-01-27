@@ -19,7 +19,7 @@ const Payment = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-4">
         <div>
           {cart.map((product) => (
-            <ProductPaymentCard key={product.id} product={product} />
+            <ProductPaymentCard key={product._id} product={product} />
           ))}
         </div>
         <div className=" mt-4 p-4 rounded-lg shadow-md h-fit bg-white">

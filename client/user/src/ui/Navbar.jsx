@@ -214,11 +214,6 @@ export default function Navbar() {
                 </div>
               }
             </li>
-            <li className=" px-[16px] py-[19px] text-base font-medium ">
-              <a href="" className=" hover:cursor-pointer hover:text-amber-500">
-                Cảm hứng
-              </a>
-            </li>
           </ul>
         </div>
 
@@ -240,7 +235,7 @@ export default function Navbar() {
                 </h4>
                 <ul className=" max-h-[56vh] list-none overflow-y-auto pl-0">
                   {cart.map((item) => (
-                    <li className=" flex items-center hover:bg-slate-200">
+                    <li key={item._id} className=" flex items-center hover:bg-slate-200">
                       <img
                         className=" boder-[1px] m-[12px] h-[42px] w-[42px] border-solid border-gray-200"
                         src={item.image}
@@ -263,10 +258,10 @@ export default function Navbar() {
                             <span className=" text-sm font-normal">
                               {convertToVND(
                                 item.price +
-                                  item.size.extraPrice +
+                                  item.size.price +
                                   item.toppings.reduce(
                                     (total, topping) =>
-                                      total + topping.extraPrice,
+                                      total + topping.price,
                                     0
                                   )
                               )}
@@ -303,7 +298,7 @@ export default function Navbar() {
           <div
             className=" ml-8 cursor-pointer text-center align-middle"
             onClick={() => setIsOpenUser(!isOpenUser)}>
-            {currentUser && currentUser.name}
+            Hi, {currentUser && currentUser.name}
             {isOpenUser && (
               <div className=" absolute right-2 z-50 w-[20vw] rounded-sm bg-white shadow-[0_1px_10px_rgba(0,0,0,0.2)] lg:w-[180px]">
                 <div className=" my-[8px] ml-[12px] text-left text-sm font-medium">
