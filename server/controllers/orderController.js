@@ -180,7 +180,7 @@ exports.getOrder = catchAsync(async (req, res, next) => {
     populate: {
       path: "product",
       model: "Product",
-      select: "name",
+      select: "name image",
     },
   });
   res.status(200).json({

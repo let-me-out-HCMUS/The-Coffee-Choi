@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getOrders } from "../services/apiOrder";
 
 export default function Order() {
-  const [sort, setSort] = useState("name");
+  const [sort, setSort] = useState("createdTime");
   const [filter, setFilter] = useState("all"); // all, paid, unpaid
 
   const { isLoading, error, data } = useQuery({

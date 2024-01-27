@@ -19,3 +19,22 @@ export async function getOrders() {
       };
     });
 }
+
+export async function getOrderById(id) {
+  return await axiosClient
+    .get(`/orders/${id}`)
+    .then(function (response) {
+      console.log("Get Order OK", response);
+      return {
+        order: response.data,
+        error: null,
+      };
+    })
+    .catch(function (error) {
+      console.log("Get Order ERROR", error);
+      return {
+        order: null,
+        error,
+      };
+    });
+}

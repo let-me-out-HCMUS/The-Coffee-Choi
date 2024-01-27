@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -15,6 +16,8 @@ import { formatCurrency } from "../utils/helpers";
 import Image from "../ui/Image";
 
 import { Paid, Unpaid, Canceled } from "../features/dashboard/order/Paid";
+import { getOrderById } from "../services/apiOrder";
+import { useQuery } from "@tanstack/react-query";
 
 const columns = [
   {
@@ -30,13 +33,13 @@ const columns = [
   {
     id: "quantity",
     label: "Số lượng",
-    minWidth: 100,
+    minWidth: 130,
     align: "center",
   },
   {
     id: "price",
     label: "Giá",
-    minWidth: 170,
+    minWidth: 120,
     align: "right",
     format: (value) => formatCurrency(value),
   },
@@ -64,138 +67,112 @@ const formatStatus = (status) => {
 
 export default function DetailOrder() {
   const { id } = useParams();
-  const status = "Completed";
 
-  const products = [
-    {
-      id: 1,
-      name: "Cà phê đen",
-      image: "https://picsum.photos/200",
-      price: 25000,
-      quantity: 1,
-      toppings: "Thạch dừa",
-      size: "Lớn",
-    },
-    {
-      id: 2,
-      name: "Cà phê sữa",
-      image: "https://picsum.photos/200",
-      price: 25000,
-      quantity: 1,
-      toppings: "Thạch dừa",
-      size: "Lớn",
-    },
-    {
-      id: 3,
-      name: "Cà phê đen",
-      image: "https://picsum.photos/200",
-      price: 25000,
-      quantity: 1,
-      toppings: "Thạch dừa",
-      size: "Lớn",
-    },
-    {
-      id: 4,
-      name: "Cà phê đen",
-      image: "https://picsum.photos/200",
-      price: 25000,
-      quantity: 1,
-      toppings: "Thạch dừa",
-      size: "Lớn",
-    },
-    {
-      id: 5,
-      name: "Cà phê đen",
-      image: "https://picsum.photos/200",
-      price: 25000,
-      quantity: 1,
-      toppinngs: "Thạch dừa",
-      size: "Lớn",
-    },
-    {
-      id: 6,
-      name: "Cà phê đen",
-      image: "https://picsum.photos/200",
-      price: 25000,
-      quantity: 1,
-      toppings: "Thạch dừa",
-      size: "Lớn",
-    },
-    {
-      id: 7,
-      name: "Cà phê đen",
-      image: "https://picsum.photos/200",
-      price: 25000,
-      quantity: 1,
-      toppings: "Thạch dừa",
-      size: "Lớn",
-    },
-  ];
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["order", id],
+    queryFn: () => getOrderById(id),
+  });
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
+  const order = data.order.order;
+  const products = order.orderItems.map((item) => ({
+    price: item.price,
+    size: item.size,
+    toppings: item.toppings,
+    quantity: item.quantity,
+    ...item.product,
+  }));
 
   return (
-    <DashboardLayout>
-      <Row
-        sx={{
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h5">Chi tiết đơn hàng {id}</Typography>
-        {formatStatus(status)}
-      </Row>
+    order && (
+      <DashboardLayout>
+        <Row
+          sx={{
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h5">Chi tiết đơn hàng {id}</Typography>
+          {formatStatus(order.status)}
+        </Row>
 
-      <Row>
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: column.minWidth, fontSize: 20 }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {products.map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.name}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            sx={{
-                              fontSize: 16,
-                            }}
-                          >
-                            {column.format && column.id !== "description"
-                              ? column.format(value)
-                              : value}
-                            {column.id === "description" &&
-                              column.format(row.toppings, row.size)}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </Row>
-    </DashboardLayout>
+        <Row>
+          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth, fontSize: 20 }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {products.map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.name}
+                      >
+                        {columns.map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              sx={{
+                                fontSize: 16,
+                              }}
+                            >
+                              {column.format && column.id !== "description"
+                                ? column.format(value)
+                                : value}
+                              {column.id === "description" &&
+                                column.format(row.toppings, row.size)}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Row>
+
+        <Row
+          sx={{
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              marginTop: 2,
+              fontWeight: "bold",
+            }}
+          >
+            Tổng tiền: {formatCurrency(order.totalMoney)}
+          </Typography>
+        </Row>
+      </DashboardLayout>
+    )
   );
 }

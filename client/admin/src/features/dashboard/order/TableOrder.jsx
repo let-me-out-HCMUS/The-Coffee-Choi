@@ -15,14 +15,12 @@ import { Paid, Unpaid, Canceled } from "./Paid";
 
 const sortFunction = (a, b, sort) => {
   switch (sort) {
-    case "guestName":
-      return a.guestName.localeCompare(b.guestName);
-    case "status":
-      return a.status.localeCompare(b.status);
-    case "total":
-      return a.total - b.total;
-    case "date":
-      return a.date.localeCompare(b.date);
+    case "totalMoneyUp":
+      return a.totalMoney - b.totalMoney;
+    case "totalMoneyDown":
+      return b.totalMoney - a.totalMoney;
+    case "createdTime":
+      return a.createdTime.localeCompare(b.createdTime);
   }
 };
 
@@ -131,7 +129,9 @@ export default function TableOrder({ orders, sort, filter }) {
                               fontSize: 16,
                             }}
                           >
-                            {column.id === "navigation" && <ControlOrder />}
+                            {column.id === "navigation" && (
+                              <ControlOrder orderId={row._id} />
+                            )}
                             {column.format ? column.format(value) : value}
                           </TableCell>
                         );
