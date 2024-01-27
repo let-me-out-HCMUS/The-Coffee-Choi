@@ -52,8 +52,6 @@ const labels = [
 ];
 
 export default function LineChart({ orders }) {
-  console.log(orders);
-
   const data = {
     labels,
     datasets: [
@@ -63,12 +61,12 @@ export default function LineChart({ orders }) {
           const totalSale = orders
             .filter((order) => {
               const date = new Date(order.createdTime);
-              return date.getMonth() === index;
+              return (
+                date.getMonth() === index &&
+                date.getFullYear() === new Date().getFullYear()
+              );
             })
-            .map((order) => {
-              console.log(order.totalMoney);
-              return order.totalMoney;
-            })
+            .map((order) => order.totalMoney)
             .reduce((acc, order) => acc + order, 0);
           return totalSale;
         }),
@@ -77,8 +75,6 @@ export default function LineChart({ orders }) {
       },
     ],
   };
-
-  console.log(data);
 
   return <Line options={options} data={data} />;
 }

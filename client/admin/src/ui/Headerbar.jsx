@@ -6,10 +6,17 @@ import { defaultTheme, darkTheme } from "./Theme";
 import LogoutIcon from "@mui/icons-material/Logout";
 import useMediaSize from "../hooks/useMediaSize";
 import { useLogout } from "../features/authentication/useLogout";
+import { getCurrentUser } from "../services/apiUser";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Headerbar() {
   const { setTheme, isDarkmode, setIsDarkmode } = useContext(ThemeContext);
   const { logout, isLoading } = useLogout();
+
+  const currentMedia = useMediaSize();
+
+  const fontSize = currentMedia.md ? 16 : 8;
+  const iconSize = currentMedia.md ? "" : "small";
 
   const handleLogout = () => {
     logout();
@@ -22,41 +29,65 @@ export default function Headerbar() {
     [isDarkmode, setTheme]
   );
 
-  // responsive
-  const currentMedia = useMediaSize();
+  const { isFetchLoading, error, data } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: getCurrentUser,
+  });
 
-  const fontSize = currentMedia.md ? 16 : 8;
-  const iconSize = currentMedia.md ? "" : "small";
+  if (isFetchLoading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
+  const username = data?.data.user.name;
 
   return (
-    <Paper
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        width: "100%",
-        background: "none",
-        boxShadow: "none",
-        padding: 1,
-        paddingRight: 5,
-      }}
-    >
-      <Switcher defaultChecked onClick={() => setIsDarkmode(!isDarkmode)} />
-      <Button
+    <>
+      <Paper
         sx={{
           display: "flex",
-          flexDirection: "row ",
-          gap: 1,
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          width: "100%",
+          background: "none",
+          boxShadow: "none",
+          padding: 1,
+          paddingRight: 5,
         }}
-        onClick={handleLogout}
       >
-        <LogoutIcon fontSize={iconSize} />
-        {isLoading ? (
-          <CircularProgress color="info" size="24px" />
-        ) : (
-          <Typography fontSize={fontSize}>Đăng xuất</Typography>
-        )}
-      </Button>
-    </Paper>
+        <Typography
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 1,
+            marginRight: 2,
+            fontSize: fontSize,
+          }}
+        >
+          Xin chào, {username}
+        </Typography>
+
+        <Switcher defaultChecked onClick={() => setIsDarkmode(!isDarkmode)} />
+        <Button
+          sx={{
+            display: "flex",
+            flexDirection: "row ",
+            gap: 1,
+          }}
+          onClick={handleLogout}
+        >
+          <LogoutIcon fontSize={iconSize} />
+          {isLoading ? (
+            <CircularProgress color="info" size="24px" />
+          ) : (
+            <Typography fontSize={fontSize}>Đăng xuất</Typography>
+          )}
+        </Button>
+      </Paper>
+    </>
   );
 }

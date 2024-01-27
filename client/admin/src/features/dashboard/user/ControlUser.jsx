@@ -3,7 +3,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import React from "react";
 
-export default function ControlUser({ user, deleteUser, editUser }) {
+export default function ControlUser({ user }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -42,7 +42,6 @@ export default function ControlUser({ user, deleteUser, editUser }) {
         ) : (
           <MenuItem
             onClick={() => {
-              editUser(user);
               handleClose();
             }}
           >
@@ -51,7 +50,6 @@ export default function ControlUser({ user, deleteUser, editUser }) {
         )}
         <MenuItem
           onClick={() => {
-            deleteUser(user);
             handleClose();
           }}
         >

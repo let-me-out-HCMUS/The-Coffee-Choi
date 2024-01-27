@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 
 import DashboardItem from "../features/dashboard/DashboardItem";
 import DashboardLayout from "../features/dashboard/DashboardLayout";
@@ -7,10 +7,27 @@ import Row from "../features/dashboard/Row";
 import SortUser from "../features/dashboard/user/SortUser";
 import TableUser from "../features/dashboard/user/TableUser";
 import FilterUser from "../features/dashboard/user/FilterUser";
+import { useQuery } from "@tanstack/react-query";
+import { getAllUser } from "../services/apiUser";
 
 export default function User() {
   const [sort, setSort] = useState("name");
   const [filter, setFilter] = useState("all"); // all, admin, user
+
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["users"],
+    queryFn: getAllUser,
+  });
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
+  const users = data.data.users;
 
   return (
     <DashboardLayout>
@@ -36,7 +53,7 @@ export default function User() {
 
       <Row>
         <DashboardItem md={12} sm={12}>
-          <TableUser sort={sort} filter={filter} />
+          <TableUser users={users} sort={sort} filter={filter} />
         </DashboardItem>
       </Row>
     </DashboardLayout>
