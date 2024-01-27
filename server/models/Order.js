@@ -25,6 +25,10 @@ const orderSchema = new mongoose.Schema({
     enum: ["Pending", "Completed"],
     default: "Pending",
   },
+  createdTime: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Order = mongoose.model("Order", orderSchema);

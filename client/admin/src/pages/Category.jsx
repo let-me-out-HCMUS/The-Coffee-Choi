@@ -53,12 +53,11 @@ export default function Category() {
               setOpen={() => setIsOpenAddDialog(true)}
               handleClose={() => setIsOpenAddDialog(false)}
             />
-
             <Button
               variant="contained"
               onClick={() => setIsOpenDeleteDialog(true)}
             >
-              Xóa danh mục
+              Khóa danh mục
             </Button>
             <DeleteCategoryDialog
               open={isOpenDeleteDialog}

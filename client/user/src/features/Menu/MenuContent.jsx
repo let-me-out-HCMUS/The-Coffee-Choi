@@ -8,6 +8,7 @@ import ProductsPagination from "./ProductsPagination";
 
 export default function MenuContent({ categories, products }) {
   const [searchValue, setSearchValue] = useState("");
+  const [isSearch, setIsSearch] = useState(false); // if searchValue is not empty -> check value
   const [openFilter, setOpenFilter] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
   const [filterValue, setFilterValue] = useState({});
@@ -24,6 +25,15 @@ export default function MenuContent({ categories, products }) {
   //   },
   //   isDiscount: false,
   // };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchValue === "") {
+      setIsSearch(false);
+      return;
+    }
+    setIsSearch(true);
+  };  
 
   // process filter
   const handleFilter = (product) => {
@@ -71,7 +81,7 @@ export default function MenuContent({ categories, products }) {
   return (
     <div className=" mx-4 mt-16 w-full lg:mt-0 lg:border-l-2 lg:border-solid lg:border-amber-800 lg:pl-16">
       {/* Search name */}
-      <form className="relative" onSubmit={(e) => e.preventDefault()}>
+      <form className="relative" onSubmit={handleSearch}>
         <input
           type="search"
           id="default-search"
@@ -79,6 +89,9 @@ export default function MenuContent({ categories, products }) {
           placeholder="Tên sản phẩm"
           value={searchValue}
           onChange={(e) => {
+            if (e.target.value === "") {
+              setIsSearch(false);
+            }
             setSearchValue(e.target.value);
           }}
           required
@@ -125,7 +138,7 @@ export default function MenuContent({ categories, products }) {
       </CustomDialog>
 
       {/* Products */}
-      {categories.map((category) => (
+      {categories?.map((category) => (
         <div key={category.id}>
           <div className=" mb-4 font-semibold text-2xl">{category.name}</div>
           <ProductsPagination
@@ -140,6 +153,7 @@ export default function MenuContent({ categories, products }) {
             //     : true
             // )}
             category={category.id}
+            isSearch={isSearch}
             searchValue={searchValue}
             isFilter={isFilter}
             handleFilter={handleFilter}

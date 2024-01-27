@@ -18,9 +18,11 @@ export default function SortOrder({ sort, setSort }) {
         label="Sắp xếp"
         onChange={handleChange}
       >
-        <MenuItem value={"id"}>Sắp xếp theo mã (A-Z)</MenuItem>
-        <MenuItem value={"name"}>Sắp xếp theo tên (A-Z)</MenuItem>
-        <MenuItem value={"total"}>Sắp xếp giá tiền (tăng dần)</MenuItem>
+        <MenuItem value={"createdTime"}>Sắp xếp theo ngày (Giảm dần)</MenuItem>
+        <MenuItem value={"totalMoneyUp"}>Sắp xếp giá tiền (tăng dần)</MenuItem>
+        <MenuItem value={"totalMoneyDown"}>
+          Sắp xếp giá tiền (giảm dần)
+        </MenuItem>
       </Select>
     </FormControl>
   );

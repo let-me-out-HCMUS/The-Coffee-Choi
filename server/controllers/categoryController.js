@@ -1,6 +1,7 @@
 const Category = require("../models/Category");
 const catchAsync = require("../utils/catchAsync");
 const Product = require("../models/Product");
+const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/apiFeatures");
 
 // Get all categories
@@ -44,6 +45,7 @@ exports.getCategory = catchAsync(async (req, res, next) => {
   if (!category) {
     return next(new AppError("No category found with that slug", 404));
   }
+  console.log(req.query);
   const feature = new APIFeatures(
     Product.find({ category: category._id }),
     req.query
@@ -56,6 +58,13 @@ exports.getCategory = catchAsync(async (req, res, next) => {
   const products = await feature.query;
   let totalPage = 1;
   let totalProduct = await Product.countDocuments({ category: category._id });
+  if (req.query.price?.lte && req.query.price?.gte) {
+    totalProduct = await Product.countDocuments({
+      category: category._id,
+      price: { $gte: req.query.price.gte, $lte: req.query.price.lte },
+    });
+  }
+
   if (req.query.page && req.query.limit) {
     totalPage = Math.ceil(totalProduct / req.query.limit);
   }
@@ -72,22 +81,18 @@ exports.getCategory = catchAsync(async (req, res, next) => {
 
 // Update category
 exports.updateCategory = catchAsync(async (req, res, next) => {
-  const category = await Category.findById(req.params.id);
-  if (!category) {
-    return next(new AppError("No category found with that ID", 404));
-  }
-  const updatedCategory = await Category.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+  const category = await Category.findOne({ slug: req.params.slug });
+  category.status =
+    req.body.status !== undefined ? req.body.status : category.status;
+  category.name = req.body.name ? req.body.name : category.name;
+  category.description = req.body.description
+    ? req.body.description
+    : category.description;
+  category.save();
   res.status(200).json({
     status: "success",
     data: {
-      category: updatedCategory,
+      category,
     },
   });
 });

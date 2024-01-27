@@ -172,3 +172,21 @@ exports.updateStatus = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// Get order by ID
+exports.getOrder = catchAsync(async (req, res, next) => {
+  const order = await Order.findById(req.params.id).populate({
+    path: "orderItems",
+    populate: {
+      path: "product",
+      model: "Product",
+      select: "name image",
+    },
+  });
+  res.status(200).json({
+    status: "success",
+    data: {
+      order,
+    },
+  });
+});

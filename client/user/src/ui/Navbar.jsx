@@ -1,10 +1,11 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../contexts/cartContext";
 import { AuthContext } from "../contexts/authContext";
 import convertToVND from "../utils/convertToVND";
+import { getCategories } from "../services/categories";
 
-import menu from "../mocks/Category/data";
+// import menu from "../mocks/Category/data";
 
 export default function Navbar() {
   // State to handle open/close in mobileview
@@ -23,6 +24,7 @@ export default function Navbar() {
   const [isOpenNav, setIsOpenNav] = useState(false);
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isOpenUser, setIsOpenUser] = useState(false);
+  const [menu, setMenu] = useState([]);
 
   const navigate = useNavigate();
 
@@ -31,7 +33,21 @@ export default function Navbar() {
     navigate("/auth", {
       replace: true,
     });
-  }
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getCategories();
+
+      if (res.status === "fail") {
+        return window.location.replace("/404");
+      }
+
+      setMenu(res.data.categories);
+    };
+
+    getData();
+  }, []);
 
   return (
     <header className=" fixed top-0 mx-auto flex w-full justify-center border-b-2 border-solid bg-white bg-opacity-80 z-50">
@@ -87,7 +103,7 @@ export default function Navbar() {
                       className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
                       Tất cả
                     </Link>
-                    {menu.map((item, index) => (
+                    {menu?.map((item, index) => (
                       <li
                         key={index}
                         className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
@@ -170,7 +186,7 @@ export default function Navbar() {
                         Tất cả
                       </Link>
                     </li>
-                    {menu.map((item) => (
+                    {menu?.map((item) => (
                       <li className=" float-none inline-block px-[2.2%] py-[12px]">
                         <Link
                           to={`/menu/${item.slug}`}
@@ -235,7 +251,9 @@ export default function Navbar() {
                 </h4>
                 <ul className=" max-h-[56vh] list-none overflow-y-auto pl-0">
                   {cart.map((item) => (
-                    <li key={item._id} className=" flex items-center hover:bg-slate-200">
+                    <li
+                      key={item._id}
+                      className=" flex items-center hover:bg-slate-200">
                       <img
                         className=" boder-[1px] m-[12px] h-[42px] w-[42px] border-solid border-gray-200"
                         src={item.image}
@@ -260,8 +278,7 @@ export default function Navbar() {
                                 item.price +
                                   item.size.price +
                                   item.toppings.reduce(
-                                    (total, topping) =>
-                                      total + topping.price,
+                                    (total, topping) => total + topping.price,
                                     0
                                   )
                               )}

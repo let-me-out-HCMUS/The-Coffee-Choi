@@ -8,14 +8,26 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import InputFileUpload from "../../../ui/InputFileUpload";
 import { useState } from "react";
 
-export default function AddProductDialog({ open, handleClose }) {
-  const [product, setProduct] = useState({
-    status: true,
-    sold: 0,
+import InputFileUpload from "../../../ui/InputFileUpload";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { addProduct } from "../../../services/apiCategory";
+
+export default function AddProductDialog({ open, handleClose, category }) {
+  const [product, setProduct] = useState({});
+
+  const { mutate } = useMutation({
+    mutationFn: (data) => {
+      addProduct({ data });
+    },
+    onSuccess: () => {
+      toast.success("Thêm sản phẩm thành công, vui lòng tải lại trang");
+    },
+    onError: () => {
+      toast.error("Thêm sản phẩm thất bại");
+    },
   });
 
   const handleSubmit = (event) => {
@@ -23,25 +35,25 @@ export default function AddProductDialog({ open, handleClose }) {
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
 
-    setProduct({
-      ...product,
-      name: formJson.productName,
-      quantity: formJson.quantity,
-      price: formJson.price,
-      discount: formJson.discount,
-      description: formJson.description,
+    const target = Object.assign(formJson, product, {
+      sold: 0,
+      status: true,
+      category: category.name,
     });
-    console.log(product);
 
-    // upload image
+    const sendItem = new FormData();
+    for (const key in target) {
+      sendItem.append(key, target[key]);
+    }
 
-    // clear product
+    mutate(sendItem);
+
     setProduct({});
     handleClose();
   };
 
-  const handleUpload = (file, data) => {
-    setProduct({ ...product, image: file.name, dataImage: data });
+  const handleUpload = (file) => {
+    setProduct({ file });
   };
 
   return (
@@ -65,8 +77,8 @@ export default function AddProductDialog({ open, handleClose }) {
             autoFocus
             required
             margin="dense"
-            id="productName"
-            name="productName"
+            id="name"
+            name="name"
             label="Tên sản phẩm mới"
             type="text"
             fullWidth
@@ -116,7 +128,7 @@ export default function AddProductDialog({ open, handleClose }) {
             }}
           >
             <Typography>Ảnh:</Typography>
-            {product.image ?? <Typography>{product.image}</Typography>}
+            {product.file && <Typography>{product.file.name}</Typography>}
             <InputFileUpload onUpload={handleUpload} />
           </Box>
           <TextField

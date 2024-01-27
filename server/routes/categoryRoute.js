@@ -12,6 +12,13 @@ categoryRouter
     categoryController.createCategory
   );
 
-categoryRouter.route("/:slug").get(categoryController.getCategory);
+categoryRouter
+  .route("/:slug")
+  .get(categoryController.getCategory)
+  .patch(
+    authController.protect,
+    authController.restrictTo("admin"),
+    categoryController.updateCategory
+  );
 
 module.exports = categoryRouter;

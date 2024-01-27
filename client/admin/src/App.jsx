@@ -13,6 +13,7 @@ import Category from "./pages/Category";
 import DetailCategory from "./pages/DetailCategory";
 import Order from "./pages/Order";
 import User from "./pages/User";
+import DetailOrder from "./pages/DetailOrder";
 
 function App() {
   const queryClient = new QueryClient({
@@ -42,6 +43,7 @@ function App() {
                 <Route path="category" element={<Category />} />
                 <Route path="category/:slug" element={<DetailCategory />} />
                 <Route path="order" element={<Order />} />
+                <Route path="order/:id" element={<DetailOrder />} />
                 <Route path="user" element={<User />} />
               </Route>
 

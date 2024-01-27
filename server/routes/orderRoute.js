@@ -16,10 +16,6 @@ router
     orderController.createOrder
   );
 
-/* router
-  .route("/:id")
-  .get(orderController.getOrder)
-  .patch(orderController.updateOrder)
-  .delete(orderController.deleteOrder); */
+router.route("/:id").get(orderController.getOrder);
 
 module.exports = router;

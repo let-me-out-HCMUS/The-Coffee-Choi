@@ -19,8 +19,8 @@ exports.getAllPaymentAccounts = catchAsync(async (req, res, next) => {
 });
 
 // Get payment account by ID
-exports.getPaymentAccountById = catchAsync(async (req, res, next) => {
-  const paymentAccount = await PaymentAccount.findById(req.params.id);
+exports.getPaymentAccountByUserId = catchAsync(async (req, res, next) => {
+  const paymentAccount = await PaymentAccount.findOne({ user: req.params.id });
   res.status(200).json({
     status: "success",
     data: {
