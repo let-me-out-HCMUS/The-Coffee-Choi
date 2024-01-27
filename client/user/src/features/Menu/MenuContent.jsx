@@ -125,7 +125,7 @@ export default function MenuContent({ categories, products }) {
       </CustomDialog>
 
       {/* Products */}
-      {categories.map((category) => (
+      {categories?.map((category) => (
         <div key={category.id}>
           <div className=" mb-4 font-semibold text-2xl">{category.name}</div>
           <ProductsPagination
