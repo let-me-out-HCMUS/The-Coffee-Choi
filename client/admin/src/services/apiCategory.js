@@ -40,8 +40,9 @@ export async function getProductsFromSlug(slug) {
 }
 
 export async function addCategory(category) {
+  console.log("Add category", category.data);
   return await axiosClient
-    .post("/categories", category)
+    .post("/categories", category.data)
     .then(function (response) {
       console.log("Add category OK", response);
       return {
