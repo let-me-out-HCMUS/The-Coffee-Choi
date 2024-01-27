@@ -3,7 +3,7 @@ import { axiosClient, axiosClientFormData } from "./axiosClient";
 export async function addProduct(product) {
   console.log("product", product);
   return await axiosClientFormData
-    .post(`/products`, product)
+    .post(`/products`, product.data)
     .then(function (response) {
       console.log("OK", response);
       return {
