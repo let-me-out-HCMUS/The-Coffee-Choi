@@ -56,15 +56,23 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     .limit()
     .paginate();
 
-
   const products = await feature.query;
   let totalPage = 1;
   let totalProduct = await Product.countDocuments({ category: category._id });
+
   if (req.query.price?.lte && req.query.price?.gte) {
-    totalProduct = await Product.countDocuments({
-      category: category._id,
-      price: { $gte: req.query.price.gte, $lte: req.query.price.lte },
-    });
+    if (feature.queryString.name) {
+      totalProduct = await Product.countDocuments({
+        category: category._id,
+        price: { $gte: req.query.price.gte, $lte: req.query.price.lte },
+        name: { $regex: feature.queryString.name, $options: "i" },
+      });
+    } else {
+      totalProduct = await Product.countDocuments({
+        category: category._id,
+        price: { $gte: req.query.price.gte, $lte: req.query.price.lte },
+      });
+    }
   }
 
   if (req.query.page && req.query.limit) {
