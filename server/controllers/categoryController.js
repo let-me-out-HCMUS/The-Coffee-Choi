@@ -79,7 +79,8 @@ exports.getCategory = catchAsync(async (req, res, next) => {
 // Update category
 exports.updateCategory = catchAsync(async (req, res, next) => {
   const category = await Category.findOne({ slug: req.params.slug });
-  category.status = req.body.status ? req.body.status : category.status;
+  category.status =
+    req.body.status !== undefined ? req.body.status : category.status;
   category.name = req.body.name ? req.body.name : category.name;
   category.description = req.body.description
     ? req.body.description

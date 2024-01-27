@@ -1,17 +1,40 @@
 import MenuSide from "../features/Menu/MenuSide";
 import MenuContent from "../features/Menu/MenuContent";
 
-import productlist from '../mocks/ProductListHome/data';
-import categorylist from '../mocks/Category/data';
+import productlist from "../mocks/ProductListHome/data";
+// import categorylist from '../mocks/Category/data';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 
+import { getCategories } from "../services/categories";
 
 export default function Menu() {
-  const {slug} = useParams();
+  const { slug } = useParams();
 
+  const [categorylist, setCategorylist] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(categorylist);
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = await getCategories();
+
+      if (res.status === "fail") {
+        return window.location.replace("/404");
+      }
+
+      setCategorylist(res.data.categories);
+      if (slug === "all") {
+        setSelectedCategory(res.data.categories);
+        return;
+      }
+      setSelectedCategory(
+        res.data.categories.filter((item) => item.slug === slug)
+      );
+    };
+
+    getData();
+  }, []);
 
   useEffect(() => {
     if (slug) {

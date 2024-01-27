@@ -11,6 +11,9 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import ConfirmationDialog from "../../../ui/ConfirmationDialog";
+import { updateCategory } from "../../../services/apiCategory";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export default function DeleteCategoryDialog({
   categories,
@@ -19,6 +22,18 @@ export default function DeleteCategoryDialog({
 }) {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [checked, setChecked] = useState({});
+
+  const { mutate } = useMutation({
+    mutationFn: (data) => {
+      updateCategory({ data });
+    },
+    onSuccess: () => {
+      toast.success("Đã  khóa thành công, vui lòng tải lại trang");
+    },
+    onError: () => {
+      toast.error("Khóa thất bại");
+    },
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -32,6 +47,9 @@ export default function DeleteCategoryDialog({
   const handleConfirm = (event) => {
     event.preventDefault();
     console.log("confirmed that you want to delete ", checked);
+
+    const target = categories.find((category) => category.name === checked);
+    mutate({ ...target, status: false });
     setOpenConfirmDialog(false);
   };
 
@@ -45,32 +63,34 @@ export default function DeleteCategoryDialog({
           onSubmit: handleSubmit,
         }}
       >
-        <DialogTitle>Xóa danh mục</DialogTitle>
+        <DialogTitle>Khóa danh mục</DialogTitle>
         <DialogContent>
           <FormControl>
             <RadioGroup
               aria-labelledby="list-of-categories"
               name="category-to-delete"
             >
-              {categories.map((category, index) => (
-                <FormControlLabel
-                  key={index}
-                  value={category.name}
-                  control={<Radio />}
-                  label={category.name}
-                />
-              ))}
+              {categories
+                .filter((category) => category.status)
+                .map((category, index) => (
+                  <FormControlLabel
+                    key={index}
+                    value={category.name}
+                    control={<Radio />}
+                    label={category.name}
+                  />
+                ))}
             </RadioGroup>
           </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Hủy</Button>
-          <Button type="submit">Xóa</Button>
+          <Button type="submit">Khóa</Button>
         </DialogActions>
       </Dialog>
 
       <ConfirmationDialog
-        title={`Bạn có chắc chắn muốn xóa danh mục "${checked}"?`}
+        title={`Bạn có chắc chắn muốn khóa danh mục "${checked}"?`}
         open={openConfirmDialog}
         handleClose={() => setOpenConfirmDialog(false)}
         onSubmit={handleConfirm}
