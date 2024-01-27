@@ -1,6 +1,7 @@
 const Category = require("../models/Category");
 const catchAsync = require("../utils/catchAsync");
 const Product = require("../models/Product");
+const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/apiFeatures");
 
 // Get all categories
@@ -72,22 +73,17 @@ exports.getCategory = catchAsync(async (req, res, next) => {
 
 // Update category
 exports.updateCategory = catchAsync(async (req, res, next) => {
-  const category = await Category.findById(req.params.id);
-  if (!category) {
-    return next(new AppError("No category found with that ID", 404));
-  }
-  const updatedCategory = await Category.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+  const category = await Category.findOne({ slug: req.params.slug });
+  category.status = req.body.status ? req.body.status : category.status;
+  category.name = req.body.name ? req.body.name : category.name;
+  category.description = req.body.description
+    ? req.body.description
+    : category.description;
+  category.save();
   res.status(200).json({
     status: "success",
     data: {
-      category: updatedCategory,
+      category,
     },
   });
 });
