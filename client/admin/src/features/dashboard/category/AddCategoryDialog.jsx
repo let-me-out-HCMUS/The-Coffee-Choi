@@ -20,7 +20,6 @@ export default function AddCategoryDialog({ open, handleClose }) {
       name: formJson.category,
       description: formJson.description,
     };
-    console.log(category);
     mutate(category);
     handleClose();
   };

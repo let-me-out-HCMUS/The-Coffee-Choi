@@ -219,11 +219,11 @@ export default function Navbar() {
                       <li
                         key={index}
                         className=" float-none inline-block px-[2.2%] py-[12px]">
-                        <a
-                          href=""
+                        <Link
+                          to="/coffeeholic"
                           className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
                           {item}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -317,13 +317,14 @@ export default function Navbar() {
             onClick={() => setIsOpenUser(!isOpenUser)}>
             Hi, {currentUser && currentUser.name}
             {isOpenUser && (
-              <div className=" absolute right-2 z-50 w-[20vw] rounded-sm bg-white shadow-[0_1px_10px_rgba(0,0,0,0.2)] lg:w-[180px]">
-                <div className=" my-[8px] ml-[12px] text-left text-sm font-medium">
-                  Số dư: 100.000đ
+              <div className="mt-2 pr-2 absolute flex flex-col items-center right-2 z-50 w-[24vw] rounded-sm bg-white shadow-[0_1px_10px_rgba(0,0,0,0.2)] lg:w-[200px]">
+                <div className="cursor-default my-[8px] ml-[12px] text-left text-sm font-medium">
+                  Số dư khả dụng: 100.000đ
                 </div>
-                <button
-                  onClick={handleLogout}
-                  className="p-2 rounded-lg my-[8px] ml-[12px] text-left text-sm font-medium text-orange-400 hover:bg-slate-200">
+                <Link to="profile" className="py-2 w-full text-center rounded-lg my-[8px] ml-[12px] text-sm font-medium text-orange-400 hover:bg-slate-200">
+                  Thông tin tài khoản
+                </Link>
+                <button onClick={handleLogout} className="py-2 w-full rounded-lg my-[8px] ml-[12px] text-center text-sm font-medium text-orange-400 hover:bg-slate-200">
                   Đăng xuất
                 </button>
               </div>

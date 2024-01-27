@@ -3,14 +3,17 @@ const PaymentAccount = require("../models/PaymentAccount");
 const catchAsync = require("../utils/catchAsync");
 const Order = require("../models/Order");
 const mongoose = require("mongoose");
-
+const paymentAccount = require("../models/PaymentAccount");
 // Get all transactions, if user is admin, get all transactions, else get transactions of user
 exports.getAllTransactions = catchAsync(async (req, res, next) => {
   let transactions;
   if (req.user.roles == "admin") {
     transactions = await Transaction.find();
   } else {
-    transactions = await Transaction.find({ user: req.user._id });
+    const paymentAccount = await PaymentAccount.findOne({ user: req.user._id });
+    transactions = await Transaction.find({
+      paymentAccount: paymentAccount._id,
+    });
   }
   res.status(200).json({
     status: "success",
