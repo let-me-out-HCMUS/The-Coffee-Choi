@@ -6,7 +6,7 @@ const APIFeatures = require("../utils/apiFeatures");
 const Product = require("../models/Product");
 const ProductAttribute = require("../models/ProductAttribute");
 const Coupon = require("../models/Coupon");
-
+const axios = require("axios");
 // Get all orders
 exports.getAllOrders = catchAsync(async (req, res, next) => {
   let orders;
@@ -141,8 +141,15 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     orderItems: orderItems.map((item) => item.id),
     couponUsed: coupon ? coupon._id : null,
     totalMoney: coupon
-      ? totalMoney - (coupon.discountValue / 100) * totalMoney
-      : totalMoney,
+      ? totalMoney - (coupon.discountValue / 100) * totalMoney + 30000
+      : totalMoney + 30000,
+  });
+
+  // Send order to transaction server
+  const transactionServerUrl = "https://localhost:8001/api/v1/transactions";
+  const transaction = await axios.post(transactionServerUrl, {
+    paymentAccount: req.user.id,
+    orderId: order.id,
   });
 
   res.status(201).json({

@@ -11,6 +11,10 @@ const categorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 categorySchema.plugin(URLSlugs("name", { field: "slug" }));
