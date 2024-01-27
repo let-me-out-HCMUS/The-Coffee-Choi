@@ -76,14 +76,14 @@ export default function Navbar() {
             <ul className=" pl-[16px]">
               <li className=" text-left">
                 <Link
-                  to={`/menu/coffee`}
+                  to={`/menu/ca-phe`}
                   className="leading-22px block w-full border-b-[1px] border-solid px-[17px] py-[16px] text-base font-bold">
                   Cà phê
                 </Link>
               </li>
               <li className=" text-left">
                 <Link
-                  to={`/menu/tea`}
+                  to={`/menu/tra`}
                   className="leading-22px block w-full border-b-[1px] border-solid px-[17px] py-[16px] text-base font-bold">
                   Trà
                 </Link>
@@ -98,11 +98,11 @@ export default function Navbar() {
                 </button>
                 {isOpenMenu && (
                   <ul className="m-0 p-0 pl-[10px]">
-                    <Link
-                      to="/menu/all"
+                    <li
+                      key={0}
                       className="w-full border-b-[1px] border-solid py-[16px] text-sm font-medium">
-                      Tất cả
-                    </Link>
+                      <Link to="/menu/all">Tất cả</Link>
+                    </li>
                     {menu?.map((item, index) => (
                       <li
                         key={index}
@@ -149,14 +149,14 @@ export default function Navbar() {
           <ul className=" inline-flex">
             <li className=" px-[16px] py-[19px] text-base font-medium ">
               <Link
-                to={`/menu/coffee`}
+                to={`/menu/ca-phe`}
                 className=" hover:cursor-pointer hover:text-amber-500">
                 Cà phê
               </Link>
             </li>
             <li className=" px-[16px] py-[19px] text-base font-medium ">
               <Link
-                to={`/menu/tea`}
+                to={`/menu/tra`}
                 className=" hover:cursor-pointer hover:text-amber-500">
                 Trà
               </Link>
@@ -187,7 +187,9 @@ export default function Navbar() {
                       </Link>
                     </li>
                     {menu?.map((item) => (
-                      <li key={item._id} className=" float-none inline-block px-[2.2%] py-[12px]">
+                      <li
+                        key={item._id}
+                        className=" float-none inline-block px-[2.2%] py-[12px]">
                         <Link
                           to={`/menu/${item.slug}`}
                           className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
@@ -321,10 +323,14 @@ export default function Navbar() {
                 <div className="cursor-default my-[8px] ml-[12px] text-left text-sm font-medium">
                   Số dư khả dụng: {convertToVND(currentUser.balance)}
                 </div>
-                <Link to="profile" className="py-2 w-full text-center rounded-lg my-[8px] ml-[12px] text-sm font-medium text-orange-400 hover:bg-slate-200">
+                <Link
+                  to="profile"
+                  className="py-2 w-full text-center rounded-lg my-[8px] ml-[12px] text-sm font-medium text-orange-400 hover:bg-slate-200">
                   Thông tin tài khoản
                 </Link>
-                <button onClick={handleLogout} className="py-2 w-full rounded-lg my-[8px] ml-[12px] text-center text-sm font-medium text-orange-400 hover:bg-slate-200">
+                <button
+                  onClick={handleLogout}
+                  className="py-2 w-full rounded-lg my-[8px] ml-[12px] text-center text-sm font-medium text-orange-400 hover:bg-slate-200">
                   Đăng xuất
                 </button>
               </div>
