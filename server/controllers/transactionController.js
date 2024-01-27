@@ -4,8 +4,14 @@ const catchAsync = require("../utils/catchAsync");
 const Order = require("../models/Order");
 const mongoose = require("mongoose");
 
+// Get all transactions, if user is admin, get all transactions, else get transactions of user
 exports.getAllTransactions = catchAsync(async (req, res, next) => {
-  const transactions = await Transaction.find();
+  let transactions;
+  if (req.user.roles == "admin") {
+    transactions = await Transaction.find();
+  } else {
+    transactions = await Transaction.find({ user: req.user._id });
+  }
   res.status(200).json({
     status: "success",
     data: {
@@ -14,6 +20,7 @@ exports.getAllTransactions = catchAsync(async (req, res, next) => {
   });
 });
 
+// Get transaction by ID
 exports.getTransaction = catchAsync(async (req, res, next) => {
   const transaction = await Transaction.findById(req.params.id);
   res.status(200).json({
@@ -24,6 +31,7 @@ exports.getTransaction = catchAsync(async (req, res, next) => {
   });
 });
 
+// Create transaction
 exports.createTransaction = catchAsync(async (req, res, next) => {
   const session = await mongoose.startSession();
   session.startTransaction();

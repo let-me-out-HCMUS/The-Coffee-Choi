@@ -3,6 +3,7 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 require("dotenv").config({ path: "./config.env" });
 const passport = require("passport");
 const User = require("./models/User");
+const axios = require("axios");
 
 passport.use(
   new GoogleStrategy(
@@ -22,6 +23,10 @@ passport.use(
           email: profile.emails[0].value,
           password: profile.id,
         });
+        const paymentAccount = await axios.post(
+          "https://localhost:8001/api/v1/paymentAccounts",
+          { user: newUser._id, balance: 0, type: "user" }
+        );
         return cb(null, newUser);
       }
       return cb(null, user);
@@ -48,6 +53,10 @@ passport.use(
           email: profile.emails[0].value,
           password: profile.id,
         });
+        const paymentAccount = await axios.post(
+          "https://localhost:8001/api/v1/paymentAccounts",
+          { user: newUser._id, balance: 0, type: "user" }
+        );
         return cb(null, newUser);
       }
       return cb(null, user);

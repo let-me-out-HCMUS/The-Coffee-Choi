@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const catchAsync = require("../utils/catchAsync");
 
+// Update user info
 exports.updateUserInfo = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   const { name, address } = req.body;
@@ -15,6 +16,7 @@ exports.updateUserInfo = catchAsync(async (req, res, next) => {
   });
 });
 
+// Change password
 exports.changePassword = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id).select("+password");
   const { oldPassword, newPassword } = req.body;
@@ -31,5 +33,15 @@ exports.changePassword = catchAsync(async (req, res, next) => {
     data: {
       user,
     },
+  });
+});
+
+// Delete account
+exports.deleteAccount = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  await user.remove();
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });

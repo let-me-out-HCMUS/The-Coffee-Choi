@@ -25,6 +25,11 @@ productRouter
     authController.protect,
     authController.restrictTo("admin"),
     productController.deleteProduct
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo("admin"),
+    productController.updateProduct
   );
 
 module.exports = productRouter;

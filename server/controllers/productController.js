@@ -5,7 +5,9 @@ const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/apiFeatures");
 const bucket = require("../utils/upload");
 const multer = require("multer");
+const ProductAttribute = require("../models/ProductAttribute");
 
+// Get all products
 exports.getAllProducts = catchAsync(async (req, res, next) => {
   // TODO: add filter, sort, limit, pagination
   const feature = new APIFeatures(Product.find(), req.query)
@@ -42,10 +44,31 @@ exports.getProduct = catchAsync(async (req, res, next) => {
 
 // Get product by slug
 exports.getProductBySlug = catchAsync(async (req, res, next) => {
-  const product = await Product.findOne({ slug: req.params.slug }).populate({
+  const product = await Product.findOne({
+    slug: req.params.slug,
+    status: true,
+  }).populate({
     path: "category",
-    select: "name -_id",
+    select: "name id",
   });
+
+  // get size
+  const size = await ProductAttribute.find({
+    category: product.category,
+    type: "size",
+  });
+
+  // get topping
+  const topping = await ProductAttribute.find({
+    category: product.category._id,
+    type: "topping",
+  });
+
+  // get related products
+  const relatedProducts = await Product.find({
+    category: product.category._id,
+  }).limit(5);
+
   if (!product) {
     return next(new AppError("No product found with that ID", 404));
   }
@@ -53,13 +76,16 @@ exports.getProductBySlug = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       product,
+      size,
+      topping,
+      relatedProducts,
     },
   });
 });
 
 // Delete product
 exports.deleteProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findOne({ slug: req.params.slug });
   // Update status to false
   product.status = false;
   product.save();
@@ -125,4 +151,24 @@ exports.createProduct = catchAsync(async (req, res, next) => {
       },
     });
   }
+});
+
+// Update product
+exports.updateProduct = catchAsync(async (req, res, next) => {
+  const product = await Product.findOne({
+    slug: req.params.slug,
+  });
+  if (!product) {
+    return next(new AppError("No product found with that ID", 404));
+  }
+
+  product.name = req.body.name ? req.body.name : product.name;
+  product.price = req.body.price;
+  product.save();
+  res.status(200).json({
+    status: "success",
+    data: {
+      product,
+    },
+  });
 });

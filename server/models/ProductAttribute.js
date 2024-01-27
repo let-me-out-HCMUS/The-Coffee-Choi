@@ -17,6 +17,11 @@ const productAtributeSchema = new mongoose.Schema({
     maxLength: [8, "Price cannot exceed 8 characters"],
     default: 0,
   },
+  type: {
+    type: String,
+    enum: ["topping", "size"],
+    default: "topping",
+  },
   status: {
     type: Boolean,
     default: true,

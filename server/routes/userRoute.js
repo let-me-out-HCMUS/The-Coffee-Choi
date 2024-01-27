@@ -8,7 +8,7 @@ const userController = require("../controllers/userController");
 require("dotenv").config({ path: "./config.env" });
 // For testing purposes
 userRouter.get(
-  "/testing",
+  "/getAllUsers",
   authController.protect,
   authController.restrictTo("admin"),
   authController.getAllUsers
@@ -35,11 +35,12 @@ userRouter.get(
       next();
     })(req, res, next);
   },
-  (req, res) => {
+  async (req, res) => {
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
-    res.redirect(`http://localhost:5173/login-success/${token}`);
+
+    res.redirect(`http://localhost:5173/third-party?token=${token}`);
   }
 );
 
@@ -59,11 +60,11 @@ userRouter.get(
       next();
     })(req, res, next);
   },
-  (req, res) => {
+  async (req, res) => {
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
-    res.redirect(`http://localhost:5173/login-success/${token}`);
+    res.redirect(`http://localhost:5173/third-party?token=${token}`);
   }
 );
 
@@ -79,5 +80,11 @@ userRouter.patch(
   "/change-password",
   authController.protect,
   userController.changePassword
+);
+
+userRouter.delete(
+  "/delete-account",
+  authController.protect,
+  userController.deleteAccount
 );
 module.exports = userRouter;
