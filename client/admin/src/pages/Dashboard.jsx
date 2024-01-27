@@ -9,8 +9,22 @@ import Row from "../features/dashboard/Row";
 import LineChart from "../features/dashboard/home/LineChart";
 import TopProduct from "../features/dashboard/home/TopProduct";
 import { getOrders } from "../services/apiOrder";
+import { useState } from "react";
+import FilterDashboard from "../features/dashboard/home/FilterDashboard";
+
+import { datediff } from "../utils/helpers";
 
 export default function Dashboard() {
+  const [filter, setFilter] = useState(null);
+
+  const handleChange = (event, newFilter) => {
+    if (newFilter == null) {
+      setFilter(null);
+    }
+
+    setFilter(newFilter);
+  };
+
   const { isLoading, error, data } = useQuery({
     queryKey: ["orders"],
     queryFn: getOrders,
@@ -24,19 +38,49 @@ export default function Dashboard() {
     return <div>{error.message}</div>;
   }
 
-  const orders = data.orders.orders;
-  const sales = orders.reduce((acc, order) => acc + order.totalMoney, 0);
+  console.log(data);
+
+  const filteredOrders = data?.orders.orders.filter((order) => {
+    const today = new Date();
+
+    console.log(datediff(new Date(order.createdTime), today));
+    console.log(today);
+    console.log(order.createdTime);
+
+    return filter !== null
+      ? datediff(new Date(order.createdTime), today) <= filter
+      : true;
+  });
+
+  const orders = data?.orders.orders;
+  console.log(orders);
 
   return (
     orders && (
       <DashboardLayout>
+        <Row
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+          }}
+        >
+          <FilterDashboard filter={filter} handleChange={handleChange} />
+        </Row>
+
         <Row>
-          <Stats orders={data.count} customers={20} sales={sales} />
+          <Stats
+            orders={data.count}
+            sales={filteredOrders.reduce(
+              (acc, order) => acc + order.totalMoney,
+              0
+            )}
+          />
         </Row>
 
         <Row>
           <DashboardItem md={5.25} sm={5.25}>
-            <PieChart orders={orders} />
+            <PieChart orders={filteredOrders} />
           </DashboardItem>
 
           <DashboardItem md={6.5} sm={6.5}>
