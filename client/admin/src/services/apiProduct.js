@@ -36,3 +36,22 @@ export async function getProducts() {
       };
     });
 }
+
+export async function deleteProduct(slug) {
+  return await axiosClient
+    .delete(`/products/${slug}`)
+    .then(function (response) {
+      console.log("OK", response);
+      return {
+        status: 200,
+        error: null,
+      };
+    })
+    .catch(function (error) {
+      console.log("ERR", error);
+      return {
+        status: 404,
+        error,
+      };
+    });
+}

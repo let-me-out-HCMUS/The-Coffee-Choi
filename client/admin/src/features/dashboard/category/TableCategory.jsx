@@ -1,4 +1,5 @@
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -11,13 +12,16 @@ import {
 import React from "react";
 import { formatCurrency } from "../../../utils/helpers";
 import Image from "../../../ui/Image";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { deleteProduct } from "../../../services/apiProduct";
 
 const columns = [
   {
     id: "image",
     label: "Sản phẩm",
     align: "center",
-    minWidth: 250,
+    minWidth: 200,
     format: (value) => (
       <Image src={value} width={75} height={75} alt="Sản phẩm" />
     ),
@@ -25,8 +29,8 @@ const columns = [
   { id: "name", label: "Tên", minWidth: 300 },
   {
     id: "sold",
-    label: "Số lượng đã bán",
-    minWidth: 100,
+    label: "Đã bán",
+    minWidth: 120,
     align: "center",
   },
   {
@@ -35,6 +39,12 @@ const columns = [
     minWidth: 170,
     align: "right",
     format: (value) => formatCurrency(value),
+  },
+  {
+    id: "action",
+    label: "Thao tác",
+    minWidth: 150,
+    align: "center",
   },
 ];
 
@@ -64,6 +74,16 @@ export default function TableCategory({ products, sort }) {
     setPage(0);
   };
 
+  const { mutate } = useMutation({
+    mutationFn: (data) => deleteProduct(data),
+    onSuccess: () => {
+      toast.success("Đã xóa thành công, vui lòng tải lại trang");
+    },
+    onError: () => {
+      toast.error("Xóa thất bại");
+    },
+  });
+
   return (
     products && (
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -84,6 +104,7 @@ export default function TableCategory({ products, sort }) {
             </TableHead>
             <TableBody>
               {products
+                .filter((product) => product.status)
                 .sort((a, b) => sortFunction(a, b, sort))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
@@ -105,6 +126,15 @@ export default function TableCategory({ products, sort }) {
                             }}
                           >
                             {column.format ? column.format(value) : value}
+                            {column.id === "action" && (
+                              <Button
+                                variant="contained"
+                                color="error"
+                                onClick={() => mutate(row.slug)}
+                              >
+                                Xóa
+                              </Button>
+                            )}
                           </TableCell>
                         );
                       })}
