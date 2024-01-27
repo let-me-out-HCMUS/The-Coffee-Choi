@@ -17,7 +17,7 @@ export default function MenuSide({ category, selectedCategory }) {
           onChange={(e) => onClickCategory(e.target.value)}
           className=" w-full my-2 border-2 border-solid border-amber-800 rounded-lg px-4 py-1">
           <option value="all">Tất cả</option>
-          {category.map((item, index) => (
+          {category?.map((item, index) => (
             <option key={index} value={item.slug}>
               {item.name}
             </option>
@@ -51,7 +51,7 @@ export default function MenuSide({ category, selectedCategory }) {
           <div
             // onClick={() => onClickCategory(item.id)}
             className=" cursor-pointer flex relative"
-            key={item.id}>
+            key={item._id}>
             {selectedCategory?.length === 1 &&
               selectedCategory[0]._id === item._id && (
                 <img

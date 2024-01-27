@@ -2,29 +2,25 @@ import { useState } from "react";
 
 import CustomDialog from "../common/Dialog";
 
-import ProductCard from "../ProductCard/ProductCard";
+// import ProductCard from "../ProductCard/ProductCard";
 import FilterForm from "./FilterForm";
 import ProductsPagination from "./ProductsPagination";
 
-export default function MenuContent({ categories, products }) {
+export default function MenuContent({ categories }) {
+  const defaultFilter = {
+    price: {
+      from: 1000,
+      to: 9999999,
+    },
+    isDiscount: false,
+  };
+
   const [searchValue, setSearchValue] = useState("");
   const [isSearch, setIsSearch] = useState(false); // if searchValue is not empty -> check value
   const [openFilter, setOpenFilter] = useState(false);
-  const [isFilter, setIsFilter] = useState(false);
-  const [filterValue, setFilterValue] = useState({});
-  const [sortValue, setSortValue] = useState("");
 
-  // const defaultFilter = {
-  //   price: {
-  //     from: "",
-  //     to: "",
-  //   },
-  //   rating: {
-  //     from: "",
-  //     to: "",
-  //   },
-  //   isDiscount: false,
-  // };
+  const [filterValue, setFilterValue] = useState(defaultFilter);
+  const [sortValue, setSortValue] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -33,48 +29,23 @@ export default function MenuContent({ categories, products }) {
       return;
     }
     setIsSearch(true);
-  };  
-
-  // process filter
-  const handleFilter = (product) => {
-    var res = true;
-
-    if (filterValue.price.from && filterValue.price.to) {
-      if (
-        !(
-          product.price >= filterValue.price.from &&
-          product.price <= filterValue.price.to
-        )
-      ) {
-        res = false;
-      }
-    }
-
-    if (filterValue.isDiscount) {
-      if (!(product.discount > 0)) {
-        res = false;
-      }
-    }
-
-    return res;
   };
 
+  // Filter
   const submitFilter = (data) => {
-    console.log(data);
+    // console.log(data);
     setFilterValue(data);
-    setIsFilter(true);
     setOpenFilter(false);
   };
 
   const resetFilter = () => {
-    setFilterValue({});
-    setIsFilter(false);
+    setFilterValue(defaultFilter);
     setOpenFilter(false);
   };
 
   // Sort
   const handleSort = (value) => {
-    console.log(value);
+    // console.log(value);
     setSortValue(value);
   };
 
@@ -89,9 +60,7 @@ export default function MenuContent({ categories, products }) {
           placeholder="Tên sản phẩm"
           value={searchValue}
           onChange={(e) => {
-            if (e.target.value === "") {
-              setIsSearch(false);
-            }
+            setIsSearch(false);
             setSearchValue(e.target.value);
           }}
           required
@@ -119,9 +88,7 @@ export default function MenuContent({ categories, products }) {
             <option value="">Sắp xếp theo mặc định</option>
             <option value="price">Giá thấp đến cao</option>
             <option value="-price">Giá cao đến thấp</option>
-            <option value="sold">
-              Các sản phẩm được mua nhiều nhất
-            </option>
+            <option value="sold">Các sản phẩm được mua nhiều nhất</option>
             <option value="id">Các sản phẩm mới nhất</option>
           </select>
         </div>
@@ -139,24 +106,14 @@ export default function MenuContent({ categories, products }) {
 
       {/* Products */}
       {categories?.map((category) => (
-        <div key={category.id}>
+        <div key={category._id}>
           <div className=" mb-4 font-semibold text-2xl">{category.name}</div>
           <ProductsPagination
-            products={products}
-            // .filter((product) => product.category === category.id)
-            // .filter((product) => (isFilter ? handleFilter(product) : true)) // if isFilter is true -> check filter
-            // .filter((product) =>
-            //   searchValue !== "" // if searchValue is not empty -> check value
-            //     ? product.name
-            //         .toLowerCase()
-            //         .includes(searchValue.toLowerCase())
-            //     : true
-            // )}
-            category={category.id}
+            category={category.slug}
             isSearch={isSearch}
             searchValue={searchValue}
-            isFilter={isFilter}
-            handleFilter={handleFilter}
+            filterValue={filterValue}
+            // handleFilter={handleFilter}
             sortValue={sortValue}
           />
 
