@@ -161,7 +161,6 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   if (!product) {
     return next(new AppError("No product found with that ID", 404));
   }
-
   product.name = req.body.name ? req.body.name : product.name;
   product.price = req.body.price;
   product.save();
