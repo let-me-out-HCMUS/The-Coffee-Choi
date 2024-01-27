@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-export default function FilterForm({ filterValue, submitFilter, resetFilter }) {
+export default function FilterForm({ filterValue, submitFilter, resetFilter, sortValue}) {
   const {
     register,
     handleSubmit,
@@ -69,7 +69,7 @@ export default function FilterForm({ filterValue, submitFilter, resetFilter }) {
           </div>
         </div>
 
-        <div className=" mb-4">
+        {/* <div className=" mb-4">
           <label htmlFor="" className=" block mb-2 font-semibold">
             Đánh giá (1-5 <i className="fa-solid fa-star text-yellow-400"></i>)
           </label>
@@ -111,7 +111,7 @@ export default function FilterForm({ filterValue, submitFilter, resetFilter }) {
               </p>
             )}
           </div>
-        </div>
+        </div> */}
 
         <div className=" mb-4 flex">
           <label htmlFor="" className=" block mr-2 font-semibold">
