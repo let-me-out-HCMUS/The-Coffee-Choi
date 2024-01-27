@@ -1,8 +1,27 @@
 import React from "react";
 import productListHome from "../../../mocks/ProductListHome/data";
 import CoupleProducts from "./CoupleProducts";
+import { getDashboardProducts } from "../../../services/products";
 
 const ProductList = () => {
+  const [products, setProducts] = React.useState([]);
+
+  React.useEffect(() => {
+    const getData = async () => {
+      const data = await getDashboardProducts();
+
+      console.log(data);
+      
+      if (data.status === "success") {
+        setProducts(data.data.products);
+      }
+    };
+    
+    getData();
+  }, []);
+
+  console.log(products);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8 gap-y-6 p-5 px-10">
       <div>
@@ -12,9 +31,13 @@ const ProductList = () => {
           alt=""
         />
       </div>
-      <CoupleProducts products={productListHome.slice(0, 2)} />
-      <CoupleProducts products={productListHome.slice(2, 4)} />
-      <CoupleProducts products={productListHome.slice(4, 6)} />
+      {
+        products && <>
+          <CoupleProducts products={products.slice(0, 2)} />
+          <CoupleProducts products={products.slice(2, 4)} />
+          <CoupleProducts products={products.slice(4, 6)} />
+        </>
+      }
     </div>
   );
 };
