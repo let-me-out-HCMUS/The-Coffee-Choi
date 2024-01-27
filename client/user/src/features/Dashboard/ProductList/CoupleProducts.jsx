@@ -5,7 +5,7 @@ const CoupleProducts = ({products}) => {
   return (
     <div className='grid grid-cols-2 gap-x-8'>
         {products.map(product => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product._id} product={product} />
         ))}
     </div>
   )
