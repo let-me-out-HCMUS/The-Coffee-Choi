@@ -12,6 +12,7 @@ import Product from "./pages/Product";
 import Payment from "./pages/Payment";
 import Menu from "./pages/Menu";
 import Profile from "./pages/Profile";
+import Coffeeholic from "./pages/Coffeeholic";
 import PageNotFound from "./pages/PageNotFound";
 
 import ProtectedRoute from "./ui/ProtectedRoute";
@@ -33,6 +34,7 @@ function App() {
               }
             >
               <Route path="/" element={<DashBoard />} />
+              <Route path="/coffeeholic" element={<Coffeeholic />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/menu/:slug" element={<Menu />} />
               <Route path="/products/:slug" element={<Product />} />

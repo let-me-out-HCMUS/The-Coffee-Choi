@@ -219,11 +219,11 @@ export default function Navbar() {
                       <li
                         key={index}
                         className=" float-none inline-block px-[2.2%] py-[12px]">
-                        <a
-                          href=""
+                        <Link
+                          to="/coffeeholic"
                           className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
                           {item}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
