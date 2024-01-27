@@ -328,6 +328,11 @@ export default function Navbar() {
                   className="py-2 w-full text-center rounded-lg my-[8px] ml-[12px] text-sm font-medium text-orange-400 hover:bg-slate-200">
                   Thông tin tài khoản
                 </Link>
+                <Link
+                  to="purchase"
+                  className="py-2 w-full text-center rounded-lg my-[8px] ml-[12px] text-sm font-medium text-orange-400 hover:bg-slate-200">
+                  Lịch sử mua hàng
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="py-2 w-full rounded-lg my-[8px] ml-[12px] text-center text-sm font-medium text-orange-400 hover:bg-slate-200">

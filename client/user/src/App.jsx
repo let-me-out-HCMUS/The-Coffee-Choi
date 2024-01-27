@@ -13,6 +13,7 @@ import Payment from "./pages/Payment";
 import Menu from "./pages/Menu";
 import Profile from "./pages/Profile";
 import Coffeeholic from "./pages/Coffeeholic";
+import Purchase from "./pages/Purchase";
 import PageNotFound from "./pages/PageNotFound";
 
 import ProtectedRoute from "./ui/ProtectedRoute";
@@ -39,6 +40,7 @@ function App() {
               <Route path="/menu/:slug" element={<Menu />} />
               <Route path="/products/:slug" element={<Product />} />
               <Route path="/payment" element={<Payment />} />
+              <Route path="/purchase" element={<Purchase />} />
             </Route>
 
           <Route path="/third-party" element={< ThirdPartyToken/>} />
