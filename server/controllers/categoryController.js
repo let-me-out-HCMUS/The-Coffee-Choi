@@ -50,10 +50,12 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     Product.find({ category: category._id }),
     req.query
   )
+    .search()
     .filter()
     .sort()
     .limit()
     .paginate();
+
 
   const products = await feature.query;
   let totalPage = 1;
