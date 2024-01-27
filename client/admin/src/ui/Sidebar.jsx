@@ -1,56 +1,66 @@
 import { NavLink } from "react-router-dom";
 import styled from "@emotion/styled";
 
-import { MenuItem, MenuList } from "@mui/material";
+import { MenuItem, MenuList, Paper } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import BrunchDiningIcon from "@mui/icons-material/BrunchDining";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 import Logo from "./Logo";
-
-const StyledNavLink = styled(NavLink)`
-  &:link,
-  &:visited {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-
-    color: #f8b996;
-    font-size: 1.2rem;
-    font-weight: 400;
-    padding: 1.2rem 2.4rem;
-    transition: all 0.3s;
-  }
-
-  &:hover,
-  &:active,
-  &.active:link,
-  &.active:visited {
-    color: var(--color-grey-800);
-    background-color: var(--color-grey-50);
-    border-radius: var(--border-radius-sm);
-  }
-
-  & svg {
-    width: 2.4rem;
-    height: 2.4rem;
-    color: var(--color-grey-400);
-    transition: all 0.3s;
-  }
-
-  &:hover svg,
-  &:active svg,
-  &.active:link svg,
-  &.active:visited svg {
-    color: var(--color-brand-600);
-  }
-`;
+import useMediaSize from "../hooks/useMediaSize";
 
 export default function Sidebar() {
+  const currentMedia = useMediaSize();
+
+  const StyledNavLink = styled(NavLink)`
+    &:link,
+    &:visited {
+      display: flex;
+      align-items: center;
+      gap: ${currentMedia.md ? 1.2 : currentMedia.sm ? 0.6 : 0}rem;
+
+      color: #f8b996;
+      font-size: ${currentMedia.md ? 1.2 : currentMedia.sm ? 0 : 1.5}rem;
+      font-weight: 400;
+      padding: ${currentMedia.md ? 1.2 : currentMedia.sm ? 0 : 1.5}rem
+        ${currentMedia.md ? 2.4 : currentMedia.sm ? 0 : 2.4}rem;
+      transition: all 0.3s;
+    }
+
+    &:hover,
+    &:active,
+    &.active:link,
+    &.active:visited {
+      color: var(--color-grey-800);
+      background-color: var(--color-grey-50);
+      border-radius: var(--border-radius-sm);
+      transition: all 0.3s;
+    }
+
+    & svg {
+      width: ${currentMedia.md ? 2.4 : currentMedia.sm ? 1.4 : 2.4}rem;
+      height: 2.4rem;
+      color: var(--color-grey-400);
+      transition: all 0.3s;
+    }
+
+    &:hover svg,
+    &:active svg,
+    &.active:link svg,
+    &.active:visited svg {
+      transition: all 0.3s;
+      color: var(--color-brand-600);
+    }
+  `;
+
   return (
-    <div>
-      <Logo sx={{ marginTop: 1 }} />
+    <Paper
+      sx={{
+        height: "100vh",
+      }}
+    >
+      <Logo sx={{ paddingTop: 2 }} />
 
       <MenuList>
         <MenuItem>
@@ -78,6 +88,6 @@ export default function Sidebar() {
           </StyledNavLink>
         </MenuItem>
       </MenuList>
-    </div>
+    </Paper>
   );
 }

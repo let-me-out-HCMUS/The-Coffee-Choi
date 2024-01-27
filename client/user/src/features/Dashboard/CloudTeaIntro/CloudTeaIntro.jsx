@@ -1,4 +1,5 @@
 import React from "react";
+import {Link } from "react-router-dom";
 
 const CloudTeaIntro = () => {
   return (
@@ -21,9 +22,12 @@ const CloudTeaIntro = () => {
             đã tạo ra Trà Xanh vị mộc dễ uống, dễ yêu, không thể trộn lẫn với
             bất kỳ vùng miền nào khác.
           </p>
-          <button className="mt-6 py-2 w-full bg-[#778B37] text-white rounded-lg">
-            Thử ngay
-          </button>
+          
+          <Link to="/menu/tea">
+            <button className="mt-6 py-2 w-full bg-[#778B37] text-white rounded-lg">
+                Thử ngay
+            </button>
+          </Link>
         </div>
       </div>
     </div>

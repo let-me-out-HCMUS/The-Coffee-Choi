@@ -7,11 +7,11 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { CircularProgress } from "@mui/material";
 
 import { Copyright } from "../../ui/Copyright";
 import { useLogin } from "./useLogin";
 import Logo from "../../ui/Logo";
+import { CircularProgress } from "@mui/material";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
