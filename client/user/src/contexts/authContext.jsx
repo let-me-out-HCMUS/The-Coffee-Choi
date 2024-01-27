@@ -20,7 +20,14 @@ export const AuthContextProvider = ({children}) => {
             if (response.data.status === 'success')
             {
                 setIsAuth(true)
-                setCurrentUser(response.data.data.user)
+
+                setCurrentUser({
+                    name: response.data.data.user.name,
+                    email: response.data.data.user.email,
+                    phone: response.data.data.user.phone,
+                    address: response.data.data.user.address,
+                    balance: response.data.data.balance,
+                })
             }
         } catch (error) {
             localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
@@ -104,6 +111,7 @@ export const AuthContextProvider = ({children}) => {
     const authContextData = {
         isAuth,
         isLoading,
+        loadUser,
         currentUser,
         loginUser,
         registerUser,

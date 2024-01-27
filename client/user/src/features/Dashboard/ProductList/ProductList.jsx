@@ -18,8 +18,6 @@ const ProductList = () => {
     getData();
   }, []);
 
-  console.log(products);
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-8 gap-y-6 p-5 px-10">
       <div>
