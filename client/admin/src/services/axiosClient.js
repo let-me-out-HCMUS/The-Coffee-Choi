@@ -13,7 +13,10 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    config.headers["Bearer"] = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Bearer"] = token;
+    }
     return config;
   },
   function (error) {
@@ -53,6 +56,10 @@ const axiosClientFormData = axios.create({
 axiosClientFormData.interceptors.request.use(
   function (config) {
     // Do something before request is sent
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Bearer"] = token;
+    }
     return config;
   },
   function (error) {
