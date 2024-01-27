@@ -1,14 +1,13 @@
 import {
   Button,
-  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   FormControlLabel,
-  FormGroup,
-  Stack,
-  Typography,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
 import { useState } from "react";
 import ConfirmationDialog from "../../../ui/ConfirmationDialog";
@@ -19,15 +18,13 @@ export default function DeleteCategoryDialog({
   handleClose,
 }) {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
-  const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState({});
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries(formData.entries());
-    const target = Object.getOwnPropertyNames(formJson);
+    const target = formData.get("category-to-delete");
     setChecked(target);
-    console.log(target);
     handleClose();
     setOpenConfirmDialog(true);
   };
@@ -50,26 +47,21 @@ export default function DeleteCategoryDialog({
       >
         <DialogTitle>Xóa danh mục</DialogTitle>
         <DialogContent>
-          <FormGroup>
-            <Stack
-              direction="column"
-              spacing={1}
-              sx={{
-                height: "40vh",
-                overflow: "scroll",
-              }}
+          <FormControl>
+            <RadioGroup
+              aria-labelledby="list-of-categories"
+              name="category-to-delete"
             >
               {categories.map((category, index) => (
                 <FormControlLabel
                   key={index}
-                  control={<Checkbox />}
-                  id={category.name}
-                  name={category.name}
+                  value={category.name}
+                  control={<Radio />}
                   label={category.name}
                 />
               ))}
-            </Stack>
-          </FormGroup>
+            </RadioGroup>
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Hủy</Button>
@@ -78,17 +70,11 @@ export default function DeleteCategoryDialog({
       </Dialog>
 
       <ConfirmationDialog
-        title="Bạn có chắc chắn muốn xóa danh mục này?"
+        title={`Bạn có chắc chắn muốn xóa danh mục "${checked}"?`}
         open={openConfirmDialog}
         handleClose={() => setOpenConfirmDialog(false)}
         onSubmit={handleConfirm}
-      >
-        <Stack>
-          {checked.map((category, index) => (
-            <Typography key={index}>{category}</Typography>
-          ))}
-        </Stack>
-      </ConfirmationDialog>
+      ></ConfirmationDialog>
     </>
   );
 }
