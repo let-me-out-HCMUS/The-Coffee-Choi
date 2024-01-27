@@ -52,13 +52,20 @@ exports.getCategory = catchAsync(async (req, res, next) => {
     .sort()
     .limit()
     .paginate();
-  const products = await feature.query;
 
+  const products = await feature.query;
+  let totalPage = 1;
+  let totalProduct = await Product.countDocuments({ category: category._id });
+  if (req.query.page && req.query.limit) {
+    totalPage = Math.ceil(totalProduct / req.query.limit);
+  }
   res.status(200).json({
     status: "success",
     data: {
       category,
       products,
+      totalPage,
+      totalProduct,
     },
   });
 });
