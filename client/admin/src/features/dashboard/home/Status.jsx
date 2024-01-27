@@ -32,15 +32,6 @@ function Stats({ orders, sales }) {
   return (
     data && (
       <>
-        <DashboardItem sm={6.5}>
-          <Stat
-            title="Sales"
-            color="green"
-            icon={<PaidIcon fontSize={iconSize} />}
-            value={formatCurrency(sales)}
-          />
-        </DashboardItem>
-
         <DashboardItem sm={2.5}>
           <Stat
             title="Orders"
@@ -56,6 +47,15 @@ function Stats({ orders, sales }) {
             color="indigo"
             icon={<PersonAddIcon fontSize={iconSize} />}
             value={patron}
+          />
+        </DashboardItem>
+
+        <DashboardItem sm={6.5}>
+          <Stat
+            title="Sales"
+            color="green"
+            icon={<PaidIcon fontSize={iconSize} />}
+            value={formatCurrency(sales)}
           />
         </DashboardItem>
       </>

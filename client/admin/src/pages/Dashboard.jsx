@@ -35,18 +35,18 @@ export default function Dashboard() {
         </Row>
 
         <Row>
-          <DashboardItem md={6.5} sm={6.5}>
-            <PieChart />
+          <DashboardItem md={5.25} sm={5.25}>
+            <PieChart orders={orders} />
           </DashboardItem>
 
-          <DashboardItem md={5.25} sm={5.25}>
+          <DashboardItem md={6.5} sm={6.5}>
             <TopProduct />
           </DashboardItem>
         </Row>
 
         <Row>
           <DashboardItem md={12} sm={12}>
-            <LineChart />
+            <LineChart orders={orders} />
           </DashboardItem>
         </Row>
       </DashboardLayout>

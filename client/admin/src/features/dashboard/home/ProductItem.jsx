@@ -45,7 +45,7 @@ export default function ProductItem({ product, top }) {
 
       <Typography sx={{ fontSize: fontSize }}>{product.name}</Typography>
 
-      <Typography sx={{ fontSize: fontSize }}>{product.quantity}</Typography>
+      <Typography sx={{ fontSize: fontSize }}>{product.sold}</Typography>
     </>
   );
 }

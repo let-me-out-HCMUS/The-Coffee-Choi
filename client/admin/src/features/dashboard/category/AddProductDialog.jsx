@@ -13,7 +13,7 @@ import { useState } from "react";
 import InputFileUpload from "../../../ui/InputFileUpload";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { addProduct } from "../../../services/apiCategory";
+import { addProduct } from "../../../services/apiProduct";
 
 export default function AddProductDialog({ open, handleClose, category }) {
   const [product, setProduct] = useState({});

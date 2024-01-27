@@ -3,7 +3,6 @@ export async function getAllUser() {
   return await axiosClient
     .get("/users/getAllUsers")
     .then(function (response) {
-      console.log("getAllUser OK", response);
       return {
         data: response.data,
         count: response.results,
@@ -11,7 +10,6 @@ export async function getAllUser() {
       };
     })
     .catch(function (error) {
-      console.log("getAllUser ERROR", error);
       return {
         data: null,
         error,
