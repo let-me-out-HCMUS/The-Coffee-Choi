@@ -6,7 +6,12 @@ const APIFeatures = require("../utils/apiFeatures");
 
 // Get all categories
 exports.getAllCategories = catchAsync(async (req, res, next) => {
-  const categories = await Category.find();
+  const feature = new APIFeatures(Category.find(), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+  const categories = await feature.query;
   res.status(200).json({
     status: "success",
     results: categories.length,

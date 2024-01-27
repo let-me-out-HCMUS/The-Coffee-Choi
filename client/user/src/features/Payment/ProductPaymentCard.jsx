@@ -42,7 +42,7 @@ const ProductPaymentCard = ({ product }) => {
             </p>
             <p>
               <b>Topping: </b>
-              {product.toppings.map((topping) => topping.name).join(", ")}
+              {product.toppings.length > 0 ? product.toppings.map((topping) => topping.name).join(", ") : "Không có"}
             </p>
           </div>
         </div>
