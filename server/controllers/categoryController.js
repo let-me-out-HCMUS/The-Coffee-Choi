@@ -11,6 +11,7 @@ exports.getAllCategories = catchAsync(async (req, res, next) => {
     .sort()
     .limit()
     .paginate();
+  const categories = await feature.query;
   res.status(200).json({
     status: "success",
     results: categories.length,
