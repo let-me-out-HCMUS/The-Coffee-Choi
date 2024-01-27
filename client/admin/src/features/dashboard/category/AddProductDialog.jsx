@@ -9,11 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
 
 import InputFileUpload from "../../../ui/InputFileUpload";
-import { useMutation } from "@tanstack/react-query";
-import toast from "react-hot-toast";
 import { addProduct } from "../../../services/apiProduct";
+import Image from "../../../ui/Image";
 
 export default function AddProductDialog({ open, handleClose, category }) {
   const [product, setProduct] = useState({});
@@ -23,7 +24,7 @@ export default function AddProductDialog({ open, handleClose, category }) {
       addProduct({ data });
     },
     onSuccess: () => {
-      toast.success("Thêm sản phẩm thành công, vui lòng tải lại trang");
+      toast.success("Thêm sản phẩm thành công");
     },
     onError: () => {
       toast.error("Thêm sản phẩm thất bại");
@@ -131,6 +132,13 @@ export default function AddProductDialog({ open, handleClose, category }) {
             {product.file && <Typography>{product.file.name}</Typography>}
             <InputFileUpload onUpload={handleUpload} />
           </Box>
+          {product.file && (
+            <Image
+              src={URL.createObjectURL(product.file)}
+              width={45}
+              height={45}
+            />
+          )}
           <TextField
             id="description"
             name="description"

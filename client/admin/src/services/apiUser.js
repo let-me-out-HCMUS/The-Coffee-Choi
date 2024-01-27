@@ -39,7 +39,6 @@ export async function getCurrentUser() {
   return await axiosClient
     .get("/users")
     .then(function (response) {
-      console.log("GET CURRENT USER OK", response);
       return {
         data: response.data,
         count: response.results,
@@ -47,7 +46,6 @@ export async function getCurrentUser() {
       };
     })
     .catch(function (error) {
-      console.log("GET CURRENT USER ERROR", error);
       return {
         data: null,
         error,

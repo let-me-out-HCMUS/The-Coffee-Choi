@@ -10,7 +10,7 @@ const BreadcrumbsProduct = ({productName}) => {
         <Link
             underline='none'
             color="black"
-            href="/"
+            href="/menu/all"
             fontSize={15}
             fontWeight={700}
         >
@@ -19,7 +19,7 @@ const BreadcrumbsProduct = ({productName}) => {
         <Link
             underline='none'
             color="black"
-            href="/"
+            href="/menu/all"
             fontSize={15}
             fontWeight={700}
         >

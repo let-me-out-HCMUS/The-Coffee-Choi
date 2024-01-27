@@ -1,4 +1,5 @@
 import {
+  Button,
   CircularProgress,
   Paper,
   Table,
@@ -11,7 +12,7 @@ import {
 } from "@mui/material";
 import DashboardLayout from "../features/dashboard/DashboardLayout";
 import Row from "../features/dashboard/Row";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { formatCurrency } from "../utils/helpers";
 import Image from "../ui/Image";
 
@@ -48,7 +49,7 @@ const columns = [
     label: "Mô tả",
     minWidth: 300,
     align: "right",
-    format: (toppings, size) => `${toppings} - Size ${size}`,
+    format: (toppings, size) => [toppings, ` Size ${size}`].join(" "),
   },
 ];
 
@@ -66,8 +67,8 @@ const formatStatus = (status) => {
 };
 
 export default function DetailOrder() {
+  const navigate = useNavigate();
   const { id } = useParams();
-
   const { isLoading, error, data } = useQuery({
     queryKey: ["order", id],
     queryFn: () => getOrderById(id),
@@ -104,6 +105,9 @@ export default function DetailOrder() {
         </Row>
 
         <Row>
+          <Typography variant="h6">
+            <Button onClick={() => navigate(-1)}>Trở về</Button>
+          </Typography>
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">

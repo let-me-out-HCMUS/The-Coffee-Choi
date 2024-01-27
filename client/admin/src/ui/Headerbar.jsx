@@ -42,7 +42,7 @@ export default function Headerbar() {
     return <div>{error.message}</div>;
   }
 
-  const username = data?.data.user.name;
+  const username = data?.data?.user.name;
 
   return (
     <>

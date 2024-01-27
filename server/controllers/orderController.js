@@ -11,23 +11,27 @@ const axios = require("axios");
 exports.getAllOrders = catchAsync(async (req, res, next) => {
   let orders;
   if (req.user.role == "admin") {
-    orders = await Order.find().populate({
-      path: "orderItems",
-      populate: {
-        path: "product",
-        model: "Product",
-        select: "name",
-      },
-    });
+    orders = await Order.find()
+      .populate({
+        path: "orderItems",
+        populate: {
+          path: "product",
+          model: "Product",
+          select: "name",
+        },
+      })
+      .sort({ createdTime: -1 });
   } else {
-    orders = await Order.find({ user: req.user.id }).populate({
-      path: "orderItems",
-      populate: {
-        path: "product",
-        model: "Product",
-        select: "name",
-      },
-    });
+    orders = await Order.find({ userID: req.user._id })
+      .populate({
+        path: "orderItems",
+        populate: {
+          path: "product",
+          model: "Product",
+          select: "name",
+        },
+      })
+      .sort({ createdTime: -1 });
   }
 
   res.status(200).json({
@@ -137,7 +141,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   // Create order
   let totalMoney = orderItems.reduce((a, b) => a + b.price, 0);
   const order = await Order.create({
-    user: req.user.id,
+    userID: req.user.id,
     orderItems: orderItems.map((item) => item.id),
     couponUsed: coupon ? coupon._id : null,
     totalMoney: coupon

@@ -7,7 +7,6 @@ export default function FilterUser({ filter, setFilter }) {
     }
 
     setFilter(newFilter);
-    console.log(newFilter);
   };
 
   return (
@@ -16,7 +15,8 @@ export default function FilterUser({ filter, setFilter }) {
       value={filter}
       onChange={handleChange}
       aria-label="set filter"
-      color="primary">
+      color="primary"
+    >
       <ToggleButton value="admin" aria-label="paid">
         Quản trị viên
       </ToggleButton>
