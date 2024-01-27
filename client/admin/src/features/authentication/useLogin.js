@@ -13,7 +13,6 @@ export function useLogin() {
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (token) => {
-      console.log("LOGIN SUCCESS", token);
       queryClient.setQueryData(["user"], token);
       localStorage.setItem("token", token);
       toast.success("Đăng nhập thành công");
@@ -21,8 +20,9 @@ export function useLogin() {
       navigate("/dashboard", { replace: true });
     },
     onError: (err) => {
-      console.log("LOGIN ERROR", err);
-      toast.error("Email hoặc mật khẩu không chính xác");
+      if (err.response.status === 401)
+        toast.error("Email hoặc mật khẩu không chính xác");
+      else toast.error("Đã có lỗi xảy ra");
     },
   });
 

@@ -37,15 +37,8 @@ export default function Dashboard() {
   if (error) {
     return <div>{error.message}</div>;
   }
-
-  console.log(data);
-
   const filteredOrders = data?.orders.orders.filter((order) => {
     const today = new Date();
-
-    console.log(datediff(new Date(order.createdTime), today));
-    console.log(today);
-    console.log(order.createdTime);
 
     return filter !== null
       ? datediff(new Date(order.createdTime), today) <= filter
@@ -53,7 +46,6 @@ export default function Dashboard() {
   });
 
   const orders = data?.orders.orders;
-  console.log(orders);
 
   return (
     orders && (

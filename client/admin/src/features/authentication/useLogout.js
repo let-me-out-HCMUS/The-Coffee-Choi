@@ -20,8 +20,7 @@ export function useLogout() {
       setIsAuth(false);
       navigate("/login", { replace: true });
     },
-    onError: (err) => {
-      console.log("ERROR", err);
+    onError: () => {
       toast.error("Đăng xuất không thành công");
     },
   });
