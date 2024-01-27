@@ -9,8 +9,6 @@ const ProductList = () => {
   React.useEffect(() => {
     const getData = async () => {
       const data = await getDashboardProducts();
-
-      console.log(data);
       
       if (data.status === "success") {
         setProducts(data.data.products);
