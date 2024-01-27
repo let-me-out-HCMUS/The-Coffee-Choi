@@ -53,8 +53,18 @@ const Profile = () => {
                 </div>
                 <div className='md:col-span-2'>
                     <span className='leading-10'>
-                        deptrai@123
+                        {currentUser.email}
                     </span>
+                </div>
+                <div className='md:col-span-1 text-left md:text-right leading-10'>
+                    Số điện thoại
+                </div>
+                <div className='md:col-span-2'>
+                    <input 
+                        className='md:w-96 w-60 p-4 h-10 border border-gray-300 rounded-md'
+                        {
+                            ...register('phone', { required: true, value: currentUser.phone },)
+                        } />
                 </div>
                 <div className='md:col-span-1 text-left md:text-right leading-10'>
                     Địa chỉ
@@ -69,7 +79,7 @@ const Profile = () => {
                     Số dư khả dụng
                 </div>
                 <span className='leading-10'>
-                    {convertToVND(100000)}
+                    {convertToVND(currentUser.balance)}
                 </span>
             </div>
             <div className='flex justify-center'>

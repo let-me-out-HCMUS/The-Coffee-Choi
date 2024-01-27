@@ -106,11 +106,16 @@ exports.getUser = catchAsync(async (req, res, next) => {
     `https://localhost:8001/api/v1/paymentAccounts/user/${req.user._id}`
   );
   const payment = paymentAccount.data.data.paymentAccount;
+
+  if (!payment) {
+    return next(new AppError("No payment account found with that ID", 404));
+  }
+
   res.status(200).json({
     status: "success",
     data: {
       user: req.user,
-      payment,
+      balance: payment.balance,
     },
   });
 });
