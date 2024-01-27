@@ -103,7 +103,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
   // Check if category exists
   const category = await Category.findOne({ name: req.body.category });
   if (!category) {
-    return next(new AppError("No category found with that ID", 404));
+    return next(new AppError("No category found with that name", 404));
   }
   req.body.category = category._id;
 
@@ -161,7 +161,6 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
   if (!product) {
     return next(new AppError("No product found with that ID", 404));
   }
-
   product.name = req.body.name ? req.body.name : product.name;
   product.price = req.body.price;
   product.save();

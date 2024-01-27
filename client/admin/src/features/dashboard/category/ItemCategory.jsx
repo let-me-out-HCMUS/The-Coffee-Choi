@@ -17,6 +17,11 @@ export default function ItemCategory({ category }) {
     >
       <Link to={category.slug}>
         <Typography variant="h6">{category.name}</Typography>
+        {category.status === false && (
+          <Typography variant="body2" color="red">
+            Đang khóa
+          </Typography>
+        )}
       </Link>
     </DashboardItem>
   );
