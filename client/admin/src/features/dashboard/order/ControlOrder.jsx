@@ -1,10 +1,11 @@
 import { Button, Menu, MenuItem, Typography } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import PaymentIcon from "@mui/icons-material/Payment";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function ControlOrder() {
+export default function ControlOrder({ orderId }) {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -12,6 +13,7 @@ export default function ControlOrder() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+    navigate(`/order/${orderId}`);
   };
 
   return (
@@ -41,10 +43,6 @@ export default function ControlOrder() {
         <MenuItem onClick={handleClose}>
           <VisibilityIcon />
           <Typography sx={{ ml: 1 }}>Xem chi tiết</Typography>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <PaymentIcon />
-          <Typography sx={{ ml: 1 }}>Thanh toán</Typography>
         </MenuItem>
       </Menu>
     </>
