@@ -5,10 +5,13 @@ import Comfortaa from "../fonts/Comfortaa-VariableFont_wght.ttf";
 export const defaultTheme = createTheme({
   palette: {
     primary: {
-      main: "#f8b996",
+      main: "#b36337",
     },
     info: {
       main: grey[900],
+    },
+    background: {
+      default: "#f5f5f5",
     },
   },
   typography: {

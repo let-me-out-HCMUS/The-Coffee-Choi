@@ -10,11 +10,27 @@ export default function ProductsPagination({
   searchValue,
   isFilter,
   handleFilter,
+  sortValue,
 }) {
   const [productValue, setProductValue] = useState([]);
   const [PRODUCTS_PER_PAGE, setProductsPerPage] = useState(
     window.innerWidth <= 768 ? 4 : 8
   );
+
+  const handleSort = (list, sortValue) => {
+    switch (sortValue) {
+      case "price":
+        return list.sort((a, b) => a.price - b.price);
+      case "-price":
+        return list.sort((a, b) => b.price - a.price);
+      case "sold":
+        return list.sort((a, b) => b.sold - a.sold);
+      case "id":
+        return list.sort((a, b) => b.id - a.id);
+      default:
+        return list;
+    }
+  }
 
   //call api
   useEffect(() => {
@@ -28,6 +44,9 @@ export default function ProductsPagination({
       setCurrentPage(1);
     }
 
+    setProductValue((pre) => handleSort(pre, sortValue));
+
+
     if (searchValue) {
       // console.log("search", searchValue);
       setProductValue((pre) =>
@@ -37,7 +56,10 @@ export default function ProductsPagination({
       );
       setCurrentPage(1);
     }
+
   }, [searchValue, isFilter, products, handleFilter, category]);
+
+  
 
   // set number of products per page
   useEffect(() => {

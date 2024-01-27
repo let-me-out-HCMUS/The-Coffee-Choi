@@ -1,15 +1,25 @@
 /* eslint-disable react/prop-types */
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
-import { darkTheme } from "../ui/Theme";
+import { defaultTheme, darkTheme } from "../ui/Theme";
 
 const ThemeContext = createContext();
 
 function ThemeContextProvider({ children }) {
-  const [theme, setTheme] = useState(darkTheme);
+  const [theme, setTheme] = useState(defaultTheme);
+  const [isDarkmode, setIsDarkmode] = useState(true);
+
+  useEffect(
+    function () {
+      setTheme(isDarkmode ? darkTheme : defaultTheme);
+    },
+    [isDarkmode, setTheme]
+  );
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider
+      value={{ theme, setTheme, isDarkmode, setIsDarkmode }}
+    >
       {children}
     </ThemeContext.Provider>
   );
