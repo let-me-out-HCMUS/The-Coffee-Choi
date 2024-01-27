@@ -38,9 +38,10 @@ export default function FilterForm({ filterValue, submitFilter, resetFilter }) {
                 valueAsNumber: true,
                 min: 0,
                 max: 9999999,
-                validate: (value) => value <= watch("price.from"),
+                validate: (value) => value <= watch("price.to"),
               })}
             />
+            <div>_</div>
             <input
               type="text"
               className=" w-1/2 border-2 border-solid border-gray-300 rounded-lg px-4 py-1"
@@ -49,68 +50,23 @@ export default function FilterForm({ filterValue, submitFilter, resetFilter }) {
                 valueAsNumber: true,
                 min: 0,
                 max: 9999999,
-                validate: (value) => value >= watch("price.to"),
+                validate: (value) => value >= watch("price.from"),
               })}
             />
           </div>
-          <div>
-            {errors.price?.from?.type === "validate" && (
+          <div className=" mt-2 flex justify-between">
+            {errors.price?.from && (
               <p className=" text-red-500 text-sm">
-                Giá khởi điểm phải nhỏ hơn giá cuối cùng
+                *Giá tiền không hợp lệ
               </p>
             )}
-            {errors.price?.to?.type === "validate" && (
+            {errors.price?.to && (
               <p className=" text-red-500 text-sm">
-                Giá cuối cùng phải lớn hơn giá khởi điểm
+                *Giá tiền không hợp lệ
               </p>
             )}
           </div>
         </div>
-
-        {/* <div className=" mb-4">
-          <label htmlFor="" className=" block mb-2 font-semibold">
-            Đánh giá (1-5 <i className="fa-solid fa-star text-yellow-400"></i>)
-          </label>
-          <div className=" flex gap-x-2">
-            <input
-              type="number"
-              className=" w-1/2 border-2 border-solid border-gray-300 rounded-lg px-4 py-1"
-              placeholder="Từ"
-              {...register("rating.from", {
-                min: 1,
-                max: 5,
-                defaultValue: 1,
-                valueAsNumber: true,
-                validate: (value) => value <= watch("rating.to"),
-              })}
-            />
-            <input
-              type="number"
-              className=" w-1/2 border-2 border-solid border-gray-300 rounded-lg px-4 py-1"
-              placeholder="Đến"
-              {...register("rating.to", {
-                min: 1,
-                max: 5,
-                defaultValue: 5,
-                valueAsNumber: true,
-                validate: (value) => value >= watch("rating.from"),
-              })}
-            />
-          </div>
-          <div>
-            {errors.rating?.from?.type === "validate" && (
-              <p className=" text-red-500 text-sm">
-                Đánh giá khởi đầu phải nhỏ hơn đánh giá cuối cùng
-              </p>
-            )}
-            {errors.rating?.to?.type === "validate" && (
-              <p className=" text-red-500 text-sm">
-                Đánh giá cuối cùng phải lớn hơn đánh giá khởi đầu
-              </p>
-            )}
-          </div>
-        </div> */}
-
         <div className=" mb-4 flex">
           <label htmlFor="" className=" block mr-2 font-semibold">
             Giảm giá
