@@ -1,6 +1,7 @@
 const Category = require("../models/Category");
 const catchAsync = require("../utils/catchAsync");
 const Product = require("../models/Product");
+const APIFeatures = require("../utils/apiFeatures");
 
 // Get all categories
 exports.getAllCategories = catchAsync(async (req, res, next) => {
@@ -43,7 +44,16 @@ exports.getCategory = catchAsync(async (req, res, next) => {
   if (!category) {
     return next(new AppError("No category found with that slug", 404));
   }
-  const products = await Product.find({ category: category._id });
+  const feature = new APIFeatures(
+    Product.find({ category: category._id }),
+    req.query
+  )
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+  const products = await feature.query;
+
   res.status(200).json({
     status: "success",
     data: {
