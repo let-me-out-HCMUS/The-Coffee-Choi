@@ -141,8 +141,8 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     orderItems: orderItems.map((item) => item.id),
     couponUsed: coupon ? coupon._id : null,
     totalMoney: coupon
-      ? totalMoney - (coupon.discountValue / 100) * totalMoney
-      : totalMoney,
+      ? totalMoney - (coupon.discountValue / 100) * totalMoney + 30000
+      : totalMoney + 30000,
   });
 
   res.status(201).json({

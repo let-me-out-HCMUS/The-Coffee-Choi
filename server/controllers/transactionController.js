@@ -55,6 +55,12 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
     }
 
     // Update balance
+    if (payment.balance < order.totalMoney) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Not enough money!",
+      });
+    }
     payment.balance -= order.totalMoney;
     payment.save();
 
