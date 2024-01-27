@@ -7,6 +7,7 @@ import ProductCard from "../ProductCard/ProductCard";
 export default function ProductsPagination({
   products,
   category,
+  isSearch,
   searchValue,
   isFilter,
   handleFilter,
@@ -47,7 +48,7 @@ export default function ProductsPagination({
     setProductValue((pre) => handleSort(pre, sortValue));
 
 
-    if (searchValue) {
+    if (isSearch) {
       // console.log("search", searchValue);
       setProductValue((pre) =>
         pre.filter((product) =>
