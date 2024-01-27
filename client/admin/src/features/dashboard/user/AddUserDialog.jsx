@@ -18,8 +18,6 @@ export default function AddCategoryDialog({ open, handleClose }) {
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
 
-    console.log(formJson);
-
     if (formJson.password !== formJson.repassword) {
       toast.error("Mật khẩu không khớp");
       return;

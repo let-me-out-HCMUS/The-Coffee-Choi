@@ -46,8 +46,7 @@ export default function DeleteCategoryDialog({
 
   const handleConfirm = (event) => {
     event.preventDefault();
-    console.log("confirmed that you want to delete ", checked);
-
+    
     const target = categories.find((category) => category.name === checked);
     mutate({ ...target, status: false });
     setOpenConfirmDialog(false);
