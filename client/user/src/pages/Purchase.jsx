@@ -77,10 +77,11 @@ function Row(props) {
                 }}>
                 <thead>
                   <tr>
-                    <th>Ngày</th>
-                    <th>Số lượng </th>
-                    <th>Amount</th>
-                    <th>Tổng tiền</th>
+                    <th>Tên</th>
+                    <th>Số lượng</th>
+                    <th>Topping</th>
+                    <th>Size</th>
+                    <th>Thành tiền</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -92,6 +93,7 @@ function Row(props) {
                       <td>
                         {Math.round(historyRow.amount * row.price * 100) / 100}
                       </td>
+                      <td>bla bla</td>
                     </tr>
                   ))}
                 </tbody>
@@ -155,7 +157,7 @@ export default function Purchase() {
               <th style={{ width: 40 }} aria-label="empty" />
               <th style={{ width: "40%" }}>Ngày</th>
               <th>Số sản phẩm</th>
-              <th>Topping</th>
+              <th>Tổng số lượng</th>
               <th>Mã giảm giá</th>
               <th>Tổng tiền</th>
             </tr>
