@@ -1,7 +1,6 @@
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Pagination } from "@mui/material";
 
-// import { Pagination } from "../common/Pagination";
 import ProductCard from "../ProductCard/ProductCard";
 import { getProductsCustom } from "../../services/categories";
 
@@ -32,6 +31,7 @@ export default function ProductsPagination({
         filterValue.price.from,
         filterValue.price.to,
         filterValue.isDiscount ? 1 : 0,
+        searchValue
       );
 
       if (res.status === "fail") {
@@ -43,7 +43,7 @@ export default function ProductsPagination({
     };
 
     getData();
-  }, [sortValue, filterValue, category, currentPage]);
+  }, [sortValue, isSearch, filterValue, category, currentPage]);
 
   // set number of products per page
   useEffect(() => {
@@ -71,20 +71,12 @@ export default function ProductsPagination({
       </div>
       {products?.length !== 0 && (
         <div className=" mt-8 flex justify-center max-w-full">
-          {/* <Pagination
-            totalItems={products.length}
-            itemsPerPage={PRODUCTS_PER_PAGE}
-            currentPage={currentPage}
-            onPageChange={(page) => setCurrentPage(page)}
-          /> */}
-
           <Pagination
             count={totalPage}
             variant="outlined"
             shape="rounded"
             page={currentPage}
             onChange={(event, page) => setCurrentPage(page)}
-            perPage={PRODUCTS_PER_PAGE}
           />
         </div>
       )}

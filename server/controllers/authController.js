@@ -27,7 +27,11 @@ exports.signUp = catchAsync(async (req, res, next) => {
 
   const paymentAccount = await axios.post(
     "https://localhost:8001/api/v1/paymentAccounts",
-    { user: newUser._id, balance: 0, type: "user" }
+    {
+      user: newUser._id,
+      balance: 0,
+      type: "user",
+    }
   );
 
   res.status(201).json({
