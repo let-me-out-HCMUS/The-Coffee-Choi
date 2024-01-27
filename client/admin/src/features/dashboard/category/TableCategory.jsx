@@ -10,11 +10,14 @@ import {
   TableRow,
 } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router";
 import { formatCurrency } from "../../../utils/helpers";
 import Image from "../../../ui/Image";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { deleteProduct } from "../../../services/apiProduct";
+
+import ConfirmationDialog from "../../../ui/ConfirmationDialog";
 
 const columns = [
   {
@@ -62,8 +65,11 @@ const sortFunction = (a, b, sort) => {
 };
 
 export default function TableCategory({ products, sort }) {
+  const navigate = useNavigate();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const [open, setOpen] = React.useState(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -72,6 +78,12 @@ export default function TableCategory({ products, sort }) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleConfirmDelete = (event, slug) => {
+    event.preventDefault();
+    setOpen(false);
+    mutate(slug);
   };
 
   const { mutate } = useMutation({
@@ -87,6 +99,7 @@ export default function TableCategory({ products, sort }) {
   return (
     products && (
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <Button onClick={() => navigate(-1)}>Trở về</Button>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -127,13 +140,26 @@ export default function TableCategory({ products, sort }) {
                           >
                             {column.format ? column.format(value) : value}
                             {column.id === "action" && (
-                              <Button
-                                variant="contained"
-                                color="error"
-                                onClick={() => mutate(row.slug)}
-                              >
-                                Xóa
-                              </Button>
+                              <>
+                                <Button
+                                  variant="contained"
+                                  color="error"
+                                  onClick={() => setOpen(true)}
+                                >
+                                  Xóa
+                                </Button>
+
+                                <ConfirmationDialog
+                                  title="Xóa sản phẩm"
+                                  open={open}
+                                  handleClose={() => setOpen(false)}
+                                  onSubmit={(event) =>
+                                    handleConfirmDelete(event, row.slug)
+                                  }
+                                >
+                                  Bạn có chắc chắn muốn xóa {row.name}?
+                                </ConfirmationDialog>
+                              </>
                             )}
                           </TableCell>
                         );
