@@ -1,6 +1,6 @@
 import React from "react";
 import { TEInput, TERipple } from "tw-elements-react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/authContext";
 import { useNavigate } from "react-router-dom";
