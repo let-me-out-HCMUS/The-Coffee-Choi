@@ -187,7 +187,7 @@ export default function Navbar() {
                       </Link>
                     </li>
                     {menu?.map((item) => (
-                      <li className=" float-none inline-block px-[2.2%] py-[12px]">
+                      <li key={item._id} className=" float-none inline-block px-[2.2%] py-[12px]">
                         <Link
                           to={`/menu/${item.slug}`}
                           className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">

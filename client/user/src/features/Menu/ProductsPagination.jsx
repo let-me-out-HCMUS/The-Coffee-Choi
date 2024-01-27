@@ -5,12 +5,10 @@ import ProductCard from "../ProductCard/ProductCard";
 import { getProductsCustom } from "../../services/categories";
 
 export default function ProductsPagination({
-  // products,
   category,
   isSearch,
   searchValue,
   filterValue,
-  // handleFilter,
   sortValue,
 }) {
   const [products, setProducts] = useState([]);
