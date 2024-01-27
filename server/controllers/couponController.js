@@ -26,7 +26,7 @@ exports.createCoupon = catchAsync(async (req, res, next) => {
 
 // Get coupon by ID
 exports.getCoupon = catchAsync(async (req, res, next) => {
-  const coupon = await Coupon.findById(req.params.id);
+  const coupon = await Coupon.findOne({ code: req.params.couponId });
   res.status(200).json({
     status: "success",
     data: {
