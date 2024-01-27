@@ -4,9 +4,10 @@ const catchAsync = require("../utils/catchAsync");
 // Update user info
 exports.updateUserInfo = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  const { name, address } = req.body;
+  const { name, address, phone } = req.body;
   user.name = name;
   user.address = address;
+  user.phone = phone;
   await user.save();
   res.status(200).json({
     status: "success",
