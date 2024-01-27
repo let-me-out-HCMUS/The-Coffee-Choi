@@ -1,13 +1,75 @@
 import React from "react";
 import ProductPaymentCard from "../features/Payment/ProductPaymentCard";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../contexts/cartContext";
 import convertToVND from "../utils/convertToVND";
+import { useForm } from "react-hook-form";
+import { getCoupon } from "../services/coupons";
+import toast from "react-hot-toast";
+import { createOrder } from "../services/orders";
+import { useNavigate } from "react-router";
 
 const Payment = () => {
-  const { getCart, getCartTotal } = useContext(CartContext);
+  const navigate = useNavigate();
+  const { getCart, getCartTotal, clearCart } = useContext(CartContext);
 
   const cart = getCart();
+
+  const [coupon, setCoupon] = useState(null);
+  const [total, setTotal] = useState(getCartTotal());
+
+  useEffect(() => {
+    if (coupon) {
+      setTotal(
+        getCartTotal() -
+          (getCartTotal() * coupon.discountValue) / 100 +
+          30000
+      );
+    } else {
+      setTotal(getCartTotal() + 30000);
+    }
+  }, [coupon, getCartTotal]);
+
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const onSubmit = async (data) => {
+    try {
+      const res = await getCoupon(data.discountCode);
+    
+      if (res.data.coupon) {
+        toast.success("Áp dụng mã giảm giá thành công");
+        setCoupon(res.data.coupon);
+      } else {
+        toast.error("Mã giảm giá không tồn tại hoặc đã được sử dụng");
+      }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra, vui lòng thử lại");
+    }
+  };
+
+  const handleCreateOrder = async () => {
+    const order = {
+      products: cart.map((product) => ({
+        id: product._id,
+        quantity: product.quantity,
+        size: product.size._id,
+        toppings: product.toppings.map((topping) => topping._id),
+      })),
+      couponUsed: coupon ? coupon.code : null,
+    };
+
+    try {
+      const res = await createOrder(order);
+
+      if (res.status === "success") {
+        toast.success("Đặt hàng thành công");
+        clearCart();
+        navigate("/", { replace: true });
+      }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra, vui lòng thử lại");
+    }
+  }
 
   return (
     <div className="p-4 bg-orange-100">
@@ -32,11 +94,14 @@ const Payment = () => {
                 type="text"
                 className="w-full mr-5 border-2 border-gray-300 rounded-lg p-2 mt-2"
                 placeholder="Nhập mã giảm giá"
+
+                {...register("discountCode", { required: true })}
               />
-              <button className="w-32 bg-orange-500 text-white rounded-lg p-2 mt-2 hover:bg-orange-600 transition-all">
+              <button onClick={handleSubmit(onSubmit)} className="w-32 bg-orange-500 text-white rounded-lg p-2 mt-2 hover:bg-orange-600 transition-all">
                 Áp dụng
               </button>
             </div>
+            {errors.discountCode && <span className="text-red-500">Vui lòng nhập mã giảm giá</span>}
           </div>
           <div className="mb-2">
             <span className="font-semibold text-xl md:text-2xl">
@@ -47,16 +112,16 @@ const Payment = () => {
             <span>Tổng tiền hàng: </span>
             <span>+ {convertToVND(getCartTotal())}</span>
             <span>Phí vận chuyển: </span>
-            <span>+ 30.000đ</span>
-            <span>Mã giảm giá: </span>
-            <span>- 30.000đ</span>
+            <span>+ {convertToVND(30000)}</span>
+            <span>Mã giảm giá tiền hàng: </span>
+            <span>- {coupon ? `${coupon.discountValue}%` : 0}</span>
           </div>
           <div className="text-orange-400 text-2xl grid grid-cols-2 py-4 md:text-3xl md:px-5 md:pb-8">
             <span>Tổng: </span>
-            <span>{convertToVND(getCartTotal())}</span>
+            <span>{convertToVND(total)}</span>
           </div>
           <div className="flex justify-center">
-            <button className="w-48 md:w-60 leading-[48px] rounded-full bg-orange-500 text-white hover:bg-orange-600 hover:scale-105 transition-all text-xl">
+            <button onClick={handleCreateOrder} className="w-48 md:w-60 leading-[48px] rounded-full bg-orange-500 text-white hover:bg-orange-600 hover:scale-105 transition-all text-xl">
               Thanh toán
             </button>
           </div>
