@@ -26,35 +26,37 @@ export default function Order() {
     return <div>{error.message}</div>;
   }
 
-  const orders = data.orders;
+  const orders = data.orders.orders;
 
   return (
-    <DashboardLayout>
-      <Row
-        sx={{
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <DashboardItem
-          md={12}
-          sm={12}
+    orders && (
+      <DashboardLayout>
+        <Row
           sx={{
-            display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <Typography variant="h5">Đơn hàng</Typography>
-          <FilterOrder filter={filter} setFilter={setFilter} />
-          <SortOrder sort={sort} setSort={setSort} filter={filter} />
-        </DashboardItem>
-      </Row>
+          <DashboardItem
+            md={12}
+            sm={12}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography variant="h5">Đơn hàng</Typography>
+            <FilterOrder filter={filter} setFilter={setFilter} />
+            <SortOrder sort={sort} setSort={setSort} filter={filter} />
+          </DashboardItem>
+        </Row>
 
-      <Row>
-        <DashboardItem md={12} sm={12}>
-          <TableOrder orders={orders} sort={sort} filter={filter} />
-        </DashboardItem>
-      </Row>
-    </DashboardLayout>
+        <Row>
+          <DashboardItem md={12} sm={12}>
+            <TableOrder orders={orders} sort={sort} filter={filter} />
+          </DashboardItem>
+        </Row>
+      </DashboardLayout>
+    )
   );
 }

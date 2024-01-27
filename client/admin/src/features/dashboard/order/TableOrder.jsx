@@ -29,11 +29,11 @@ const sortFunction = (a, b, sort) => {
 const filterFunction = (row, filter) => {
   switch (filter) {
     case "paid":
-      return row.status === "Đã thanh toán";
+      return row.status === "Completed";
     case "unpaid":
-      return row.status === "Chưa thanh toán";
+      return row.status === "Pending";
     case "canceled":
-      return row.status === "Đã hủy";
+      return row.status === "Canceled";
     default:
       return true;
   }
@@ -41,13 +41,13 @@ const filterFunction = (row, filter) => {
 
 const columns = [
   {
-    id: "date",
+    id: "createdTime",
     label: "Ngày đặt",
     align: "center",
     minWidth: 100,
-    // format: (date) => new Date(date).toLocaleString("vi-VN"),
+    format: (date) => new Date(date).toLocaleString("vi-VN"),
   },
-  { id: "id", label: "Mã đơn hàng", align: "center", minWidth: 250 },
+  { id: "_id", label: "Mã đơn hàng", align: "center", minWidth: 250 },
   {
     id: "status",
     label: "Trạng thái",
@@ -63,7 +63,7 @@ const columns = [
       ),
   },
   {
-    id: "total",
+    id: "totalMoney",
     label: "Tổng tiền",
     minWidth: 170,
     align: "right",
