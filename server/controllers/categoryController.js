@@ -45,6 +45,7 @@ exports.getCategory = catchAsync(async (req, res, next) => {
   if (!category) {
     return next(new AppError("No category found with that slug", 404));
   }
+  console.log(req.query);
   const feature = new APIFeatures(
     Product.find({ category: category._id }),
     req.query
@@ -57,6 +58,13 @@ exports.getCategory = catchAsync(async (req, res, next) => {
   const products = await feature.query;
   let totalPage = 1;
   let totalProduct = await Product.countDocuments({ category: category._id });
+  if (req.query.price.lte || req.query.price.gte) {
+    totalProduct = await Product.countDocuments({
+      category: category._id,
+      price: { $gte: req.query.price.gte, $lte: req.query.price.lte },
+    });
+  }
+
   if (req.query.page && req.query.limit) {
     totalPage = Math.ceil(totalProduct / req.query.limit);
   }
