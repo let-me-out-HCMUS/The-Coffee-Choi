@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import CustomDialog from "../common/Dialog";
 
-// import ProductCard from "../ProductCard/ProductCard";
 import FilterForm from "./FilterForm";
 import ProductsPagination from "./ProductsPagination";
 
@@ -16,7 +15,7 @@ export default function MenuContent({ categories }) {
   };
 
   const [searchValue, setSearchValue] = useState("");
-  const [isSearch, setIsSearch] = useState(false); // if searchValue is not empty -> check value
+  const [isSearch, setIsSearch] = useState(0); // if searchValue is not empty -> check value
   const [openFilter, setOpenFilter] = useState(false);
 
   const [filterValue, setFilterValue] = useState(defaultFilter);
@@ -24,11 +23,7 @@ export default function MenuContent({ categories }) {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchValue === "") {
-      setIsSearch(false);
-      return;
-    }
-    setIsSearch(true);
+    setIsSearch(isSearch + 1);
   };
 
   // Filter
@@ -60,10 +55,8 @@ export default function MenuContent({ categories }) {
           placeholder="Tên sản phẩm"
           value={searchValue}
           onChange={(e) => {
-            // setIsSearch(false);
             setSearchValue(e.target.value);
           }}
-          // required
         />
 
         <button
@@ -113,25 +106,8 @@ export default function MenuContent({ categories }) {
             isSearch={isSearch}
             searchValue={searchValue}
             filterValue={filterValue}
-            // handleFilter={handleFilter}
             sortValue={sortValue}
           />
-
-          {/* <div className=" mb-12 grid grid-cols-2 gap-x-8 md:grid-cols-4 md:gap-x-4 lg:grid-cols-4 lg:gap-x-4">
-            {products
-              .filter((product) => product.category === category.id)
-              .filter((product) => (isFilter ? handleFilter(product) : true)) // if isFilter is true -> check filter
-              .filter((product) =>
-                searchValue !== "" // if searchValue is not empty -> check value
-                  ? product.name
-                      .toLowerCase()
-                      .includes(searchValue.toLowerCase())
-                  : true
-              )
-              .map((product, index) => (
-                <ProductCard key={index} product={product} />
-              ))}
-          </div> */}
         </div>
       ))}
     </div>

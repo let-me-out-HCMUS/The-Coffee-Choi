@@ -2,15 +2,14 @@ import { useState, useEffect } from "react";
 import { Pagination } from "@mui/material";
 
 import ProductCard from "../ProductCard/ProductCard";
+import Spinner from "../common/Spinner";
 import { getProductsCustom } from "../../services/categories";
 
 export default function ProductsPagination({
-  // products,
   category,
   isSearch,
   searchValue,
   filterValue,
-  // handleFilter,
   sortValue,
 }) {
   const [products, setProducts] = useState([]);
@@ -19,6 +18,7 @@ export default function ProductsPagination({
   );
   const [totalPage, setTotalPage] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   //call api
   useEffect(() => {
@@ -40,9 +40,11 @@ export default function ProductsPagination({
 
       setProducts(res.data.products);
       setTotalPage(res.data.totalPage);
+      setIsLoading(false);
     };
 
     getData();
+
   }, [sortValue, isSearch, filterValue, category, currentPage]);
 
   // set number of products per page
@@ -59,6 +61,7 @@ export default function ProductsPagination({
 
   return (
     <div className="mb-12">
+      {isLoading && <Spinner />}
       {products?.length === 0 && (
         <div className=" text-center text-xl font-semibold">
           Không có sản phẩm nào

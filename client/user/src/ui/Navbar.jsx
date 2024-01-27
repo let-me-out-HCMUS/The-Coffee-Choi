@@ -187,7 +187,7 @@ export default function Navbar() {
                       </Link>
                     </li>
                     {menu?.map((item) => (
-                      <li className=" float-none inline-block px-[2.2%] py-[12px]">
+                      <li key={item._id} className=" float-none inline-block px-[2.2%] py-[12px]">
                         <Link
                           to={`/menu/${item.slug}`}
                           className=" hover:text-orange-400 border-b-2 border-solid border-black hover:border-orange-400">
@@ -319,7 +319,7 @@ export default function Navbar() {
             {isOpenUser && (
               <div className="mt-2 pr-2 absolute flex flex-col items-center right-2 z-50 w-[24vw] rounded-sm bg-white shadow-[0_1px_10px_rgba(0,0,0,0.2)] lg:w-[200px]">
                 <div className="cursor-default my-[8px] ml-[12px] text-left text-sm font-medium">
-                  Số dư khả dụng: 100.000đ
+                  Số dư khả dụng: {convertToVND(currentUser.balance)}
                 </div>
                 <Link to="profile" className="py-2 w-full text-center rounded-lg my-[8px] ml-[12px] text-sm font-medium text-orange-400 hover:bg-slate-200">
                   Thông tin tài khoản

@@ -2,21 +2,25 @@ import React from "react";
 import ProductPaymentCard from "../features/Payment/ProductPaymentCard";
 import { useContext, useState, useEffect } from "react";
 import { CartContext } from "../contexts/cartContext";
+import { AuthContext } from "../contexts/authContext";
 import convertToVND from "../utils/convertToVND";
 import { useForm } from "react-hook-form";
 import { getCoupon } from "../services/coupons";
 import toast from "react-hot-toast";
 import { createOrder } from "../services/orders";
 import { useNavigate } from "react-router";
+import Spinner from "../features/common/Spinner"
 
 const Payment = () => {
   const navigate = useNavigate();
   const { getCart, getCartTotal, clearCart } = useContext(CartContext);
+  const { currentUser, loadUser } = useContext(AuthContext);
 
   const cart = getCart();
 
   const [coupon, setCoupon] = useState(null);
   const [total, setTotal] = useState(getCartTotal());
+  const [isPaying, setIsPaying] = useState(false);
 
   useEffect(() => {
     if (coupon) {
@@ -48,6 +52,26 @@ const Payment = () => {
   };
 
   const handleCreateOrder = async () => {
+    setIsPaying(true);
+
+    if (!currentUser) {
+      toast.error("Vui lòng đăng nhập để thanh toán");
+      setIsPaying(false);
+      return;
+    }
+
+    if (cart.length === 0) {
+      toast.error("Giỏ hàng của bạn đang trống");
+      setIsPaying(false);
+      return;
+    }
+
+    if (currentUser.balance < total) {
+      toast.error("Số dư trong tài khoản không đủ để thực hiện thanh toán");
+      setIsPaying(false);
+      return;
+    }
+
     const order = {
       products: cart.map((product) => ({
         id: product._id,
@@ -64,12 +88,19 @@ const Payment = () => {
       if (res.status === "success") {
         toast.success("Đặt hàng thành công");
         clearCart();
+        await loadUser();
         navigate("/", { replace: true });
       }
     } catch (error) {
+      console.log(error);
       toast.error("Có lỗi xảy ra, vui lòng thử lại");
     }
+
+    setIsPaying(false);
   }
+
+  if (isPaying)
+    return <Spinner />
 
   return (
     <div className="p-4 bg-orange-100">
