@@ -1,20 +1,19 @@
 import { axiosClient } from "./axiosClient";
-
-export async function getOrders() {
+export async function getAllUser() {
   return await axiosClient
-    .get("/orders")
+    .get("/users/getAllUsers")
     .then(function (response) {
-      console.log("Get Orders OK", response);
+      console.log("getAllUser OK", response);
       return {
-        orders: response.data,
+        data: response.data,
         count: response.results,
         error: null,
       };
     })
     .catch(function (error) {
-      console.log("Get Orders ERROR", error);
+      console.log("getAllUser ERROR", error);
       return {
-        orders: null,
+        data: null,
         error,
       };
     });
