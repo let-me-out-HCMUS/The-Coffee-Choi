@@ -3,7 +3,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import React from "react";
 
-export default function ControlUser({ user,deleteUser, editUser}) {
+export default function ControlUser({ user, deleteUser, editUser }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -12,7 +12,6 @@ export default function ControlUser({ user,deleteUser, editUser}) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
 
   return (
     <>
@@ -38,9 +37,26 @@ export default function ControlUser({ user,deleteUser, editUser}) {
           "aria-labelledby": "basic-button",
         }}
       >
-        {user.role === "admin" ? ( <MenuItem disabled>Không thể sửa</MenuItem>) : ( <MenuItem onClick={()=>{editUser(user); handleClose()}}>Sửa</MenuItem>)}
-        {/* <MenuItem onClick={()=>{editUser(user); handleClose()}}>Sửa</MenuItem> */}
-        <MenuItem onClick={()=>{deleteUser(user); handleClose()}}>Xoá</MenuItem>
+        {user.role === "admin" ? (
+          <MenuItem disabled>Không thể sửa</MenuItem>
+        ) : (
+          <MenuItem
+            onClick={() => {
+              editUser(user);
+              handleClose();
+            }}
+          >
+            Sửa
+          </MenuItem>
+        )}
+        <MenuItem
+          onClick={() => {
+            deleteUser(user);
+            handleClose();
+          }}
+        >
+          Xoá
+        </MenuItem>
       </Menu>
     </>
   );

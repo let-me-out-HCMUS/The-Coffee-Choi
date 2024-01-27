@@ -1,4 +1,6 @@
 import {
+  Box,
+  Button,
   Paper,
   Table,
   TableBody,
@@ -11,12 +13,11 @@ import {
 } from "@mui/material";
 import { formatCurrency } from "../../../utils/helpers";
 import styled from "@emotion/styled";
-import CustomDialog from "../../common/CustomDialog";
-
 import { useState } from "react";
 import ControlUser from "./ControlUser";
-import FormAdd from "./FormAddUser";
-import FormEdit from "./FormEditUser";
+import Row from "../Row";
+
+import AddUserDialog from "./AddUserDialog";
 
 function createData(name, email, role, money) {
   return { name, email, role, money };
@@ -100,11 +101,7 @@ const Admin = styled(Typography)(({ theme }) => ({
 }));
 
 export default function TableUser({ sort, filter }) {
-  // handle open dialog
-  const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
-  const [isOpenAddDialog, setIsOpenAddDialog] = useState(false);
-  const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [openAddAdmin, setOpenAddAdmin] = useState(false);
 
   //   Pagination
   const [page, setPage] = useState(0);
@@ -121,153 +118,85 @@ export default function TableUser({ sort, filter }) {
     setPage(0);
   };
 
-  //   Dialog
-  const handleOpenDeleteDialog = (user) => {
-    setSelectedUser(user);
-    setIsOpenDeleteDialog(true);
-  };
-
-  const handleOpenAddDialog = () => {
-    setIsOpenAddDialog(true);
-  };
-
-  const handleOpenEditDialog = (user) => {
-    setSelectedUser(user);
-    // console.log(user);
-    setIsOpenEditDialog(true);
-  };
-
-  //   Work with api
-  const deleteUser = (user) => {
-    // console.log(user);
-    setRows(rows.filter((row) => row.email !== user.email));
-  };
-
-  const addUser = (user) => {
-    setIsOpenAddDialog(false);
-    // console.log(user);
-    setRows([...rows, user]);
-  };
-
-  const editUser = (user) => {
-    setIsOpenEditDialog(false);
-    // console.log(user);
-    setRows(rows.map((row) => (row.email === user.email ? user : row)));
-  };
-
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      {/* Dialog add uer */}
-      <CustomDialog
-        open={isOpenAddDialog}
-        title={"Thêm người dùng"}
-        onClose={() => setIsOpenAddDialog(false)}>
-        <FormAdd addUser={addUser} />
-      </CustomDialog>
-
-      {/* Dialog delete user */}
-      <CustomDialog
-        open={isOpenEditDialog}
-        title={"Chỉnh sửa người dùng"}
-        onClose={() => setIsOpenEditDialog(false)}>
-        <FormEdit user={selectedUser} editUser={editUser} />
-      </CustomDialog>
-
-      {/* Dialog delete user */}
-      <CustomDialog
-        open={isOpenDeleteDialog}
-        title={"Xác nhận xoá"}
-        onClose={() => setIsOpenDeleteDialog(false)}>
-        <Typography>
-          Bạn có chắc chắn muốn xoá người dùng {selectedUser?.name}?
-        </Typography>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginTop: 20,
-          }}>
-          <button
-            className=" mr-2 bg-red-500 text-white px-4 py-2 rounded"
-            onClick={() => {
-              deleteUser(selectedUser);
-              setIsOpenDeleteDialog(false);
-            }}>
-            Xoá
-          </button>
-          <button
-            className=""
-            onClick={() => {
-              setIsOpenDeleteDialog(false);
-            }}>
-            Huỷ
-          </button>
-        </div>
-      </CustomDialog>
-
-      <button
-        className=" m-2 bg-amber-700 text-white px-4 py-2 rounded"
-        onClick={handleOpenAddDialog}>
+    <Row>
+      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth, fontSize: 20 }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .filter((row) => filterFunction(row, filter))
+                .sort((a, b) => sortFunction(a, b, sort))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.code}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            sx={{
+                              fontSize: 16,
+                            }}
+                          >
+                            {column.id === "navigation" && (
+                              <ControlUser user={row} />
+                            )}
+                            {column.format ? column.format(value) : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+      <Button
+        variant="contained"
+        onClick={() => setOpenAddAdmin(true)}
+        sx={{
+          marginTop: 2,
+          fontSize: 16,
+        }}
+      >
         Thêm người dùng
-      </button>
+      </Button>
 
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth, fontSize: 20 }}>
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .filter((row) => filterFunction(row, filter))
-              .sort((a, b) => sortFunction(a, b, sort))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          sx={{
-                            fontSize: 16,
-                          }}>
-                          {column.id === "navigation" && (
-                            <ControlUser
-                              user={row}
-                              editUser={handleOpenEditDialog}
-                              deleteUser={handleOpenDeleteDialog}
-                            />
-                          )}
-                          {column.format ? column.format(value) : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 15]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+      <AddUserDialog
+        open={openAddAdmin}
+        handleClose={() => setOpenAddAdmin(false)}
       />
-    </Paper>
+    </Row>
   );
 }
