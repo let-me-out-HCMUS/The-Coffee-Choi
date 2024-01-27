@@ -9,8 +9,10 @@ export default function ({ children }){
     const [cart, setCart] = useState([]); // [{}]
 
     useEffect(() => {
-        if (currentUser)
-            setCart(JSON.parse(localStorage.getItem(`coffee-choi-cart-${currentUser.email}`)));
+        if (currentUser){
+            const cart = JSON.parse(localStorage.getItem(`coffee-choi-cart-${currentUser.email}`));
+            setCart(cart || []);
+        }
     }, [currentUser])
 
     const findIndex = (product) => {
