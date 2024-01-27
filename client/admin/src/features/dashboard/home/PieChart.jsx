@@ -1,7 +1,28 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import {
+  red,
+  green,
+  blue,
+  yellow,
+  pink,
+  purple,
+  cyan,
+  lime,
+} from "@mui/material/colors";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+const baseColor = [
+  yellow[700],
+  green[700],
+  blue[700],
+  red[700],
+  pink[700],
+  purple[700],
+  cyan[700],
+  lime[700],
+];
 
 export default function PieChart({ orders }) {
   const orderItems = orders?.map((order) => order.orderItems).flat();
@@ -21,8 +42,8 @@ export default function PieChart({ orders }) {
       {
         label: "Số lượng đã bán",
         data: preprocess.map((item) => item.quantity),
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
-        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
+        backgroundColor: baseColor,
+        borderColor: baseColor,
         borderWidth: 1,
       },
     ],
