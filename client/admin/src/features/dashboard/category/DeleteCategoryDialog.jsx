@@ -70,14 +70,16 @@ export default function DeleteCategoryDialog({
               aria-labelledby="list-of-categories"
               name="category-to-delete"
             >
-              {categories.map((category, index) => (
-                <FormControlLabel
-                  key={index}
-                  value={category.name}
-                  control={<Radio />}
-                  label={category.name}
-                />
-              ))}
+              {categories
+                .filter((category) => category.status)
+                .map((category, index) => (
+                  <FormControlLabel
+                    key={index}
+                    value={category.name}
+                    control={<Radio />}
+                    label={category.name}
+                  />
+                ))}
             </RadioGroup>
           </FormControl>
         </DialogContent>
