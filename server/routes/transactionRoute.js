@@ -4,11 +4,7 @@ const authController = require("../controllers/authController");
 
 const router = express.Router();
 
-router.post(
-  "/",
-  authController.protect,
-  transactionController.createTransaction
-);
+router.post("/", transactionController.createTransaction);
 
 router.get(
   "/",
