@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8000/api/v1/categories';
 
 export const getCategories = async () => {
-    const res = await axios.get(API_URL);
+    const res = await axios.get(`${API_URL}?status=true`);
     return res.data;
 }
 
