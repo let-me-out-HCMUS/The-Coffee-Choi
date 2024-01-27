@@ -38,3 +38,22 @@ export async function getProductsFromSlug(slug) {
       };
     });
 }
+
+export async function addCategory(category) {
+  return await axiosClient
+    .post("/categories", category)
+    .then(function (response) {
+      console.log("Add category OK", response);
+      return {
+        category: response.data.category,
+        error: null,
+      };
+    })
+    .catch(function (error) {
+      console.log("Add category ERROR", error);
+      return {
+        category: null,
+        error,
+      };
+    });
+}

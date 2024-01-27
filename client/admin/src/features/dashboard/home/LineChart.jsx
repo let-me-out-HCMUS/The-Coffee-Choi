@@ -56,5 +56,6 @@ const data = {
 };
 
 export default function LineChart() {
+  console.log(data);
   return <Line options={options} data={data} />;
 }
