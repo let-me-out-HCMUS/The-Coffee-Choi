@@ -2,8 +2,14 @@ const PaymentAccount = require("../models/PaymentAccount");
 const catchAsync = require("../utils/catchAsync");
 const User = require("../models/User");
 
+// Get all payment accounts, if user is admin, get all payment accounts, else get payment accounts of user
 exports.getAllPaymentAccounts = catchAsync(async (req, res, next) => {
-  const paymentAccounts = await PaymentAccount.find();
+  let paymentAccounts;
+  if (req.user.roles == "admin") {
+    paymentAccounts = await PaymentAccount.find();
+  } else {
+    paymentAccounts = await PaymentAccount.find({ user: req.user._id });
+  }
   res.status(200).json({
     status: "success",
     data: {
@@ -12,6 +18,7 @@ exports.getAllPaymentAccounts = catchAsync(async (req, res, next) => {
   });
 });
 
+// Get payment account by ID
 exports.getPaymentAccountById = catchAsync(async (req, res, next) => {
   const paymentAccount = await PaymentAccount.findById(req.params.id);
   res.status(200).json({
@@ -22,6 +29,7 @@ exports.getPaymentAccountById = catchAsync(async (req, res, next) => {
   });
 });
 
+// Create payment account
 exports.createPaymentAccount = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.body.user);
   if (!user) {
@@ -37,6 +45,7 @@ exports.createPaymentAccount = catchAsync(async (req, res, next) => {
   });
 });
 
+// Update payment account
 exports.updatePaymentAccount = catchAsync(async (req, res, next) => {
   const paymentAccount = await PaymentAccount.findByIdAndUpdate(
     {
@@ -60,6 +69,7 @@ exports.updatePaymentAccount = catchAsync(async (req, res, next) => {
   });
 });
 
+// Delete payment account
 exports.deletePaymentAccount = catchAsync(async (req, res, next) => {
   const paymentAccount = await PaymentAccount.findByIdAndDelete(req.params.id);
   if (!paymentAccount) {

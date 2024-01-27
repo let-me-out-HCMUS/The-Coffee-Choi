@@ -4,12 +4,11 @@ const jwt = require("jsonwebtoken");
 const userRouter = express.Router();
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
-const axios = require("axios");
 
 require("dotenv").config({ path: "./config.env" });
 // For testing purposes
 userRouter.get(
-  "/testing",
+  "/getAllUsers",
   authController.protect,
   authController.restrictTo("admin"),
   authController.getAllUsers
@@ -40,10 +39,7 @@ userRouter.get(
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
-    const paymentAccount = await axios.post(
-      "https://localhost:8001/api/v1/paymentAccounts",
-      { user: req.user._id, balance: 0, type: "user" }
-    );
+
     res.redirect(`http://localhost:5173/third-party?token=${token}`);
   }
 );
@@ -68,10 +64,6 @@ userRouter.get(
     const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
-    const paymentAccount = await axios.post(
-      "https://localhost:8001/api/v1/paymentAccounts",
-      { user: req.user._id, balance: 0, type: "user" }
-    );
     res.redirect(`http://localhost:5173/third-party?token=${token}`);
   }
 );
@@ -88,5 +80,11 @@ userRouter.patch(
   "/change-password",
   authController.protect,
   userController.changePassword
+);
+
+userRouter.delete(
+  "/delete-account",
+  authController.protect,
+  userController.deleteAccount
 );
 module.exports = userRouter;

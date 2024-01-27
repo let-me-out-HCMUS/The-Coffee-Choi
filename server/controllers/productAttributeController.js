@@ -17,7 +17,10 @@ exports.getAllProductAttributes = catchAsync(async (req, res, next) => {
 
 // Get by category
 exports.getProductAttributeByCategory = catchAsync(async (req, res, next) => {
-  const category = await Category.findOne({ slug: req.params.slug });
+  const category = await Category.findOne({
+    slug: req.params.slug,
+    status: true,
+  });
   if (!category) {
     return next(new AppError("No category found with that ID", 404));
   }
@@ -81,5 +84,25 @@ exports.deleteProductAttribute = catchAsync(async (req, res, next) => {
   res.status(204).json({
     status: "success",
     data: null,
+  });
+});
+
+// Update product attribute
+exports.updateProductAttribute = catchAsync(async (req, res, next) => {
+  const productAttribute = await ProductAttribute.findOne({
+    slug: req.params.slug,
+  });
+
+  if (!productAttribute) {
+    return next(new AppError("No product attribute found with that ID", 404));
+  }
+  productAttribute.name = req.body.name ? req.body.name : productAttribute.name;
+  productAttribute.price = req.body.price;
+  productAttribute.save();
+  res.status(200).json({
+    status: "success",
+    data: {
+      productAttribute,
+    },
   });
 });

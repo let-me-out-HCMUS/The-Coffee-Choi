@@ -4,7 +4,13 @@ const router = express.Router();
 
 const paymentAccountController = require("../controllers/paymentAccountController");
 
-router.get("/", paymentAccountController.getAllPaymentAccounts);
+const authController = require("../controllers/authController");
+
+router.get(
+  "/",
+  authController.protect,
+  paymentAccountController.getAllPaymentAccounts
+);
 
 router.get("/:id", paymentAccountController.getPaymentAccountById);
 
@@ -12,6 +18,10 @@ router.post("/", paymentAccountController.createPaymentAccount);
 
 router.patch("/:id", paymentAccountController.updatePaymentAccount);
 
-router.delete("/:id", paymentAccountController.deletePaymentAccount);
+router.delete(
+  "/:id",
+  authController.protect,
+  paymentAccountController.deletePaymentAccount
+);
 
 module.exports = router;

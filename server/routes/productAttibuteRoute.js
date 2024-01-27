@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ProductAttributeController = require("../controllers/productAttributeController");
 const authController = require("../controllers/authController");
+const { auth } = require("firebase-admin");
 
 router
   .route("/")
@@ -17,8 +18,13 @@ router
   .get(ProductAttributeController.getProductAttributeByCategory)
   .delete(
     authController.protect,
-    authController.restrictTo("admin, user"),
+    authController.restrictTo("admin", "user"),
     ProductAttributeController.deleteProductAttribute
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo("admin"),
+    ProductAttributeController.updateProductAttribute
   );
 
 module.exports = router;
