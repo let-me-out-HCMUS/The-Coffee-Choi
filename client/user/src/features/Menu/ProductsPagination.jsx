@@ -1,66 +1,49 @@
-import { useMemo, useState, useEffect, useLayoutEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Pagination } from "@mui/material";
 
 // import { Pagination } from "../common/Pagination";
 import ProductCard from "../ProductCard/ProductCard";
+import { getProductsCustom } from "../../services/categories";
 
 export default function ProductsPagination({
-  products,
+  // products,
   category,
   isSearch,
   searchValue,
-  isFilter,
-  handleFilter,
+  filterValue,
+  // handleFilter,
   sortValue,
 }) {
-  const [productValue, setProductValue] = useState([]);
+  const [products, setProducts] = useState([]);
   const [PRODUCTS_PER_PAGE, setProductsPerPage] = useState(
     window.innerWidth <= 768 ? 4 : 8
   );
-
-  const handleSort = (list, sortValue) => {
-    switch (sortValue) {
-      case "price":
-        return list.sort((a, b) => a.price - b.price);
-      case "-price":
-        return list.sort((a, b) => b.price - a.price);
-      case "sold":
-        return list.sort((a, b) => b.sold - a.sold);
-      case "id":
-        return list.sort((a, b) => b.id - a.id);
-      default:
-        return list;
-    }
-  }
+  const [totalPage, setTotalPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   //call api
   useEffect(() => {
-    setProductValue(
-      products.filter((product) => product.category === category)
-    );
-
-    if (isFilter) {
-      // console.log("filter");
-      setProductValue((pre) => pre.filter(handleFilter));
-      setCurrentPage(1);
-    }
-
-    setProductValue((pre) => handleSort(pre, sortValue));
-
-
-    if (isSearch) {
-      // console.log("search", searchValue);
-      setProductValue((pre) =>
-        pre.filter((product) =>
-          product.name.toLowerCase().includes(searchValue.toLowerCase())
-        )
+    const getData = async () => {
+      const res = await getProductsCustom(
+        category,
+        currentPage,
+        PRODUCTS_PER_PAGE,
+        sortValue,
+        filterValue.price.from,
+        filterValue.price.to,
+        filterValue.isDiscount ? 1 : 0,
       );
-      setCurrentPage(1);
-    }
 
-  }, [searchValue, isFilter, products, handleFilter, category]);
+      if (res.status === "fail") {
+        return window.location.replace("/404");
+      }
 
-  
+      setProducts(res.data.products);
+      setTotalPage(res.data.totalPage);
+    };
+
+    getData();
+  }, [sortValue, filterValue, category, currentPage]);
 
   // set number of products per page
   useEffect(() => {
@@ -74,37 +57,29 @@ export default function ProductsPagination({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const currentProducts = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-    const lastPageIndex = firstPageIndex + PRODUCTS_PER_PAGE;
-    return productValue.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, productValue]);
-
   return (
     <div className="mb-12">
-      {productValue.length === 0 && (
+      {products?.length === 0 && (
         <div className=" text-center text-xl font-semibold">
           Không có sản phẩm nào
         </div>
       )}
       <div className=" grid grid-cols-2 gap-y-4 gap-x-8 md:grid-cols-4 md:gap-x-4">
-        {currentProducts.map((product, index) => (
-          <ProductCard key={index} product={product} />
+        {products?.map((product) => (
+          <ProductCard key={product._id} product={product} />
         ))}
       </div>
-      {productValue.length !== 0 && (
+      {products?.length !== 0 && (
         <div className=" mt-8 flex justify-center max-w-full">
           {/* <Pagination
-            totalItems={productValue.length}
+            totalItems={products.length}
             itemsPerPage={PRODUCTS_PER_PAGE}
             currentPage={currentPage}
             onPageChange={(page) => setCurrentPage(page)}
           /> */}
 
           <Pagination
-            count={Math.ceil(productValue.length / PRODUCTS_PER_PAGE)}
+            count={totalPage}
             variant="outlined"
             shape="rounded"
             page={currentPage}
