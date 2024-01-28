@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const Register = ({ setIsLogin }) => {
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: {errors}, watch, control } = useForm();
+  const { register, handleSubmit, formState: {errors}, watch } = useForm();
 
   const pw = watch("password", "");
 
@@ -56,6 +56,16 @@ const Register = ({ setIsLogin }) => {
         className="mb-6"
 
         {...register("email", {required: true})}
+      ></TEInput>
+
+      {errors.phone && <span className="text-red-500 text-sm">Số điện thoại không hợp lệ</span>}
+      <TEInput
+        type="text"
+        label="Số điện thoại"
+        size="lg"
+        className="mb-6"
+        maxLength={10}
+        {...register("phone", {validate: (value) => value.startsWith('0') && value.length === 10})}
       ></TEInput>
 
 

@@ -8,7 +8,7 @@ import { updateUser } from '../services/users'
 
 const Profile = () => {
     const { currentUser, isLoading } = React.useContext(AuthContext)
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: {errors} } = useForm()
 
     const onSubmit = async (data) => {
         try {
@@ -59,12 +59,14 @@ const Profile = () => {
                 <div className='md:col-span-1 text-left md:text-right leading-10'>
                     Số điện thoại
                 </div>
-                <div className='md:col-span-2'>
+                <div className='md:col-span-2 flex flex-col'>
                     <input 
+                        maxLength={10}
                         className='md:w-96 w-60 p-4 h-10 border border-gray-300 rounded-md'
                         {
-                            ...register('phone', { required: true, value: currentUser.phone },)
+                            ...register('phone', { validate: (value) => value.startsWith('0') && value.length === 10, value: currentUser.phone },)
                         } />
+                    {errors.phone && <span className='text-red-500 text-sm'>Số điện thoại không hợp lệ</span>}
                 </div>
                 <div className='md:col-span-1 text-left md:text-right leading-10'>
                     Địa chỉ
