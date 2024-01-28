@@ -16,6 +16,13 @@ router
     orderController.createOrder
   );
 
-router.route("/:id").get(orderController.getOrder);
+router
+  .route("/:id")
+  .get(orderController.getOrder)
+  .patch(
+    authController.protect,
+    authController.restrictTo("admin"),
+    orderController.updateStatus
+  );
 
 module.exports = router;

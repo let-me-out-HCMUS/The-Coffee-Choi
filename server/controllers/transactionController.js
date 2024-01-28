@@ -71,10 +71,6 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
     adminAccount.balance += order.totalMoney;
     adminAccount.save();
 
-    // Update order status
-    order.status = "Completed";
-    order.save();
-
     // Create transaction
     const transaction = await Transaction.create({
       paymentAccount: payment.id,

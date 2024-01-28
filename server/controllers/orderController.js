@@ -176,9 +176,53 @@ exports.createOrder = catchAsync(async (req, res, next) => {
 
 // Update status
 exports.updateStatus = catchAsync(async (req, res, next) => {
-  const order = await Order.findByIdAndUpdate(req.params.id, {
-    status: req.body.status,
-  });
+  const order = await Order.findById(req.params.id);
+  if (req.body.status == "Rejected") {
+    // Refund
+    const paymentAccountsServerUrl =
+      "https://localhost:8001/api/v1/paymentAccounts";
+    // Get payment account
+    const paymentAccount = await axios.get(
+      paymentAccountsServerUrl + "/" + req.user._id
+    );
+    // Update admin balance
+    const updateBalance =
+      paymentAccount.data.data.paymentAccount.balance - order.totalMoney;
+    await axios.patch(paymentAccountsServerUrl + "/" + order.userID, {
+      balance: updateBalance,
+    });
+
+    // Update user balance
+    const userPaymentAccount = await axios.get(
+      paymentAccountsServerUrl + "/" + order.userID
+    );
+    const updateUserBalance =
+      userPaymentAccount.data.data.paymentAccount.balance + order.totalMoney;
+    await axios.patch(paymentAccountsServerUrl + "/" + order.userID, {
+      balance: updateUserBalance,
+    });
+
+    // update product sold
+    const orderItems = await OrderItem.find({ order: order.id });
+    for (const orderItem of orderItems) {
+      const product = await Product.findById(orderItem.product);
+      product.sold -= orderItem.quantity;
+      await product.save();
+    }
+
+    // Update coupon
+    if (order.couponUsed) {
+      const coupon = await Coupon.findById(order.couponUsed);
+      coupon.timeUsed--;
+      await coupon.save();
+    }
+
+    // Update status
+    order.status = req.body.status;
+  } else {
+    order.status = req.body.status;
+  }
+  await order.save();
   res.status(200).json({
     status: "success",
     data: {

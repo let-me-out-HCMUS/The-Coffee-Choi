@@ -12,7 +12,7 @@ router.get(
   paymentAccountController.getAllPaymentAccounts
 );
 
-router.get("/user/:id", paymentAccountController.getPaymentAccountByUserId);
+router.get("/:id", paymentAccountController.getPaymentAccountByUserId);
 
 router.post("/", paymentAccountController.createPaymentAccount);
 

@@ -1,6 +1,7 @@
 const PaymentAccount = require("../models/PaymentAccount");
 const catchAsync = require("../utils/catchAsync");
 const User = require("../models/User");
+const AppError = require("../utils/appError");
 
 // Get all payment accounts, if user is admin, get all payment accounts, else get payment accounts of user
 exports.getAllPaymentAccounts = catchAsync(async (req, res, next) => {
@@ -47,19 +48,13 @@ exports.createPaymentAccount = catchAsync(async (req, res, next) => {
 
 // Update payment account
 exports.updatePaymentAccount = catchAsync(async (req, res, next) => {
-  const paymentAccount = await PaymentAccount.findByIdAndUpdate(
-    {
-      _id: req.params.id,
-    },
-    req.body,
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+  const paymentAccount = await PaymentAccount.findOne({ user: req.params.id });
   if (!paymentAccount) {
     return next(new AppError("No payment account found with that ID", 404));
   }
+
+  paymentAccount.balance = req.body.balance;
+  await paymentAccount.save();
 
   res.status(200).json({
     status: "success",

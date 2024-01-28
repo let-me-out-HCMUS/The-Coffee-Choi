@@ -107,7 +107,7 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 
 exports.getUser = catchAsync(async (req, res, next) => {
   const paymentAccount = await axios.get(
-    `https://localhost:8001/api/v1/paymentAccounts/user/${req.user._id}`
+    `https://localhost:8001/api/v1/paymentAccounts/${req.user._id}`
   );
   const payment = paymentAccount.data.data.paymentAccount;
 
