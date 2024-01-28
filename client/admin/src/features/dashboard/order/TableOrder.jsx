@@ -89,8 +89,17 @@ export default function TableOrder({ orders, sort, filter }) {
   };
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+      }}
+    >
+      <TableContainer
+        sx={{
+          maxHeight: 440,
+        }}
+      >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -113,12 +122,7 @@ export default function TableOrder({ orders, sort, filter }) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                   return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row._id}>
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
@@ -130,7 +134,10 @@ export default function TableOrder({ orders, sort, filter }) {
                             }}
                           >
                             {column.id === "navigation" && (
-                              <ControlOrder orderId={row._id} />
+                              <ControlOrder
+                                status={row.status}
+                                orderId={row._id}
+                              />
                             )}
                             {column.format ? column.format(value) : value}
                           </TableCell>

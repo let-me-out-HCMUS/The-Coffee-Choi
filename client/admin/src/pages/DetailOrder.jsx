@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   CircularProgress,
   Paper,
@@ -10,15 +11,21 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+import toast from "react-hot-toast";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
 import DashboardLayout from "../features/dashboard/DashboardLayout";
 import Row from "../features/dashboard/Row";
-import { useNavigate, useParams } from "react-router-dom";
 import { formatCurrency } from "../utils/helpers";
 import Image from "../ui/Image";
 
 import { Paid, Unpaid, Canceled } from "../features/dashboard/order/Paid";
-import { getOrderById } from "../services/apiOrder";
-import { useQuery } from "@tanstack/react-query";
+import { getOrderById, updateOrder } from "../services/apiOrder";
+import ConfirmationDialog from "../ui/ConfirmationDialog";
 
 const columns = [
   {
@@ -59,7 +66,7 @@ const formatStatus = (status) => {
       return <Paid>{status}</Paid>;
     case "Pending":
       return <Unpaid>{status}</Unpaid>;
-    case "Canceled":
+    case "Rejected":
       return <Canceled>{status}</Canceled>;
     default:
       return status;
@@ -67,12 +74,45 @@ const formatStatus = (status) => {
 };
 
 export default function DetailOrder() {
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [action, setAction] = useState("");
+
   const navigate = useNavigate();
   const { id } = useParams();
   const { isLoading, error, data } = useQuery({
     queryKey: ["order", id],
     queryFn: () => getOrderById(id),
   });
+
+  const { mutate } = useMutation({
+    mutationFn: (data) => {
+      updateOrder(data);
+    },
+    onSuccess: () => {
+      toast.success("Thao tác thành công");
+    },
+    onError: () => {
+      toast.error("Thao tác thất bại");
+    },
+  });
+
+  const handleAbort = (event) => {
+    event.preventDefault();
+    setOpenConfirm(true);
+    setAction("Rejected");
+  };
+
+  const handleConfirm = (event) => {
+    event.preventDefault();
+    setOpenConfirm(true);
+    setAction("Completed");
+  };
+
+  const handleConfirmDialog = (event, id) => {
+    event.preventDefault();
+    setOpenConfirm(false);
+    mutate({ id, action });
+  };
 
   if (isLoading) {
     return <CircularProgress />;
@@ -83,7 +123,8 @@ export default function DetailOrder() {
   }
 
   const order = data.order.order;
-  const products = order.orderItems.map((item) => ({
+
+  const products = order?.orderItems.map((item) => ({
     price: item.price,
     size: item.size,
     toppings: item.toppings,
@@ -100,14 +141,41 @@ export default function DetailOrder() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5">Chi tiết đơn hàng {id}</Typography>
-          {formatStatus(order.status)}
+          <Typography component={"div"} variant="h5">
+            Chi tiết đơn hàng {id}
+          </Typography>
+          <Typography component={"div"}>
+            {formatStatus(order.status)}
+          </Typography>
         </Row>
 
         <Row>
-          <Typography variant="h6">
-            <Button onClick={() => navigate(-1)}>Trở về</Button>
-          </Typography>
+          <Button onClick={() => navigate(-1)}>
+            <ArrowBackIcon color="primary" />
+            <Typography component={"div"}>Trở về</Typography>
+          </Button>
+
+          {order.status === "Pending" && (
+            <Box>
+              <Button onClick={handleAbort}>
+                <Typography component={"div"} color="red">
+                  Hủy đơn hàng
+                </Typography>
+              </Button>
+              <Button onClick={handleConfirm}>
+                <Typography component={"div"} color="green">
+                  Xác nhận đơn hàng
+                </Typography>
+              </Button>
+              <ConfirmationDialog
+                open={openConfirm}
+                title="Xác nhận thao tác"
+                handleClose={() => setOpenConfirm(false)}
+                onSubmit={(event) => handleConfirmDialog(event, order._id)}
+              ></ConfirmationDialog>
+            </Box>
+          )}
+
           <Paper sx={{ width: "100%", overflow: "hidden" }}>
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">
@@ -125,14 +193,9 @@ export default function DetailOrder() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {products.map((row) => {
+                  {products.map((row, index) => {
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.name}
-                      >
+                      <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                         {columns.map((column) => {
                           const value = row[column.id];
                           return (
@@ -162,11 +225,22 @@ export default function DetailOrder() {
 
         <Row
           sx={{
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
           <Typography
+            component={"div"}
+            sx={{
+              marginTop: 1,
+              fontWeight: "bold",
+            }}
+          >
+            Coupon đã dùng: {order.couponUsed ? order.couponUsed : "Không"}
+          </Typography>
+
+          <Typography
+            component={"div"}
             variant="h5"
             sx={{
               marginTop: 2,
