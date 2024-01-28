@@ -181,14 +181,16 @@ exports.updateStatus = catchAsync(async (req, res, next) => {
     // Refund
     const paymentAccountsServerUrl =
       "https://localhost:8001/api/v1/paymentAccounts";
+
     // Get payment account
-    const paymentAccount = await axios.get(
+    const adminPaymentAccount = await axios.get(
       paymentAccountsServerUrl + "/" + req.user._id
     );
     // Update admin balance
+    // console.log(adminPaymentAccount.data.data.paymentAccount);
     const updateBalance =
-      paymentAccount.data.data.paymentAccount.balance - order.totalMoney;
-    await axios.patch(paymentAccountsServerUrl + "/" + order.userID, {
+      adminPaymentAccount.data.data.paymentAccount.balance - order.totalMoney;
+    await axios.patch(paymentAccountsServerUrl + "/" + req.user._id, {
       balance: updateBalance,
     });
 
@@ -196,6 +198,8 @@ exports.updateStatus = catchAsync(async (req, res, next) => {
     const userPaymentAccount = await axios.get(
       paymentAccountsServerUrl + "/" + order.userID
     );
+    //console.log(userPaymentAccount.data.data.paymentAccount);
+    // console.log(userPaymentAccount.data.data.paymentAccount.balance);
     const updateUserBalance =
       userPaymentAccount.data.data.paymentAccount.balance + order.totalMoney;
     await axios.patch(paymentAccountsServerUrl + "/" + order.userID, {
