@@ -6,3 +6,8 @@ export const createOrder = async (order) => {
     const res = await axios.post(API_URL, order);
     return res.data;
 }
+
+export const getOrders = async () => {
+    const res = await axios.get(API_URL);
+    return res.data;
+}
