@@ -19,10 +19,8 @@ export function useLogin() {
       setIsAuth(true);
       navigate("/dashboard", { replace: true });
     },
-    onError: (err) => {
-      if (err.response.status === 401)
-        toast.error("Email hoặc mật khẩu không chính xác");
-      else toast.error("Đã có lỗi xảy ra");
+    onError: () => {
+      toast.error("Email hoặc mật khẩu không chính xác");
     },
   });
 

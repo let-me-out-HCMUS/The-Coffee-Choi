@@ -31,7 +31,7 @@ const filterFunction = (row, filter) => {
     case "unpaid":
       return row.status === "Pending";
     case "canceled":
-      return row.status === "Canceled";
+      return row.status === "Rejected";
     default:
       return true;
   }
