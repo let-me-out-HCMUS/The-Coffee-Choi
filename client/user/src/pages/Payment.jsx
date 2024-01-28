@@ -89,7 +89,7 @@ const Payment = () => {
         toast.success("Đặt hàng thành công");
         clearCart();
         await loadUser();
-        navigate("/", { replace: true });
+        navigate("/purchase", { replace: true });
       }
     } catch (error) {
       console.log(error);
