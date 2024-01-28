@@ -20,6 +20,11 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
           select: "name",
         },
       })
+      .populate({
+        path: "couponUsed",
+        model: "Coupon",
+        select: "code discountValue",
+      })
       .sort({ createdTime: -1 });
   } else {
     orders = await Order.find({ userID: req.user._id })
@@ -30,6 +35,11 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
           model: "Product",
           select: "name",
         },
+      })
+      .populate({
+        path: "couponUsed",
+        model: "Coupon",
+        select: "code discountValue",
       })
       .sort({ createdTime: -1 });
   }
