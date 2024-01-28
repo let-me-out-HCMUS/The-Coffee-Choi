@@ -65,7 +65,7 @@ export default function Dashboard() {
 
         <Row>
           <Stats
-            orders={data.count}
+            orders={filteredOrders.length}
             sales={filteredOrders.reduce(
               (acc, order) => acc + order.totalMoney,
               0

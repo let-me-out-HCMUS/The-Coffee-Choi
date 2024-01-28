@@ -27,7 +27,9 @@ function Stats({ orders, sales }) {
     return <div>{error.message}</div>;
   }
 
-  const patron = data.count;
+  const patron = data?.data?.users.filter(
+    (user) => user.role === "user"
+  ).length;
 
   return (
     data && (
