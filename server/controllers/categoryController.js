@@ -52,7 +52,7 @@ exports.getCategory = catchAsync(async (req, res, next) => {
   }
   console.log(req.query);
   const feature = new APIFeatures(
-    Product.find({ category: category._id }),
+    Product.find({ category: category._id, status: true }),
     req.query
   )
     .search()
