@@ -92,7 +92,6 @@ const Payment = () => {
         navigate("/purchase", { replace: true });
       }
     } catch (error) {
-      console.log(error);
       toast.error("Có lỗi xảy ra, vui lòng thử lại");
     }
 

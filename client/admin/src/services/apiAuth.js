@@ -7,14 +7,12 @@ async function validate(email, password) {
       password,
     })
     .then(function (response) {
-      console.log("Validate OK", response);
       return {
         user: response.token,
         error: null,
       };
     })
     .catch(function (error) {
-      console.log("Validate ERROR", error);
       return {
         user: null,
         error,

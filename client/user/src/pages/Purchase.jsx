@@ -25,14 +25,15 @@ function Row(props) {
             variant="plain"
             color="neutral"
             size="sm"
-            onClick={() => setOpen(!open)}>
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </td>
         <th scope="row">{new Date(row.createdTime).toLocaleString("vi-VN")}</th>
         <td>
           {row?.status === "Completed" ? (
-            <p className=" text-green-500 font-bold">Hoàn tất</p> 
+            <p className=" text-green-500 font-bold">Hoàn tất</p>
           ) : row?.status === "Pending" ? (
             <p className=" text-yellow-500 font-bold">Đang chờ</p>
           ) : (
@@ -55,7 +56,8 @@ function Row(props) {
                 pl: 6,
                 boxShadow: "inset 0 3px 6px 0 rgba(0 0 0 / 0.08)",
                 width: "100%",
-              }}>
+              }}
+            >
               <Typography level="body-lg" component="div">
                 Chi tiết đơn hàng
               </Typography>
@@ -67,7 +69,8 @@ function Row(props) {
                   "& > thead > tr > th:nth-child(n + 4), & > tbody > tr > td:nth-child(n + 4)":
                     { textAlign: "right" },
                   "--TableCell-paddingX": "0.5rem",
-                }}>
+                }}
+              >
                 <thead>
                   <tr>
                     <th>Tên sản phẩm</th>
@@ -149,8 +152,6 @@ export default function Purchase() {
     fetchOrders();
   }, []);
 
-  // console.log(orders);
-
   return (
     <div className="p-4 bg-orange-100">
       <div className=" mb-4">
@@ -168,7 +169,8 @@ export default function Purchase() {
               {
                 borderBottom: 0,
               },
-          }}>
+          }}
+        >
           <thead>
             <tr>
               <th style={{ width: 40 }} aria-label="empty" />

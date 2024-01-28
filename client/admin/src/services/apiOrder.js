@@ -36,20 +36,15 @@ export async function getOrderById(id) {
 }
 
 export async function updateOrder(order) {
-  console.log("Update order", order);
-
-  console.log("Update order status", { status: order.action });
   return await axiosClient
     .patch(`/orders/${order.id}`, { status: order.action })
     .then(function (response) {
-      console.log("Update order response", response);
       return {
         order: response.data,
         error: null,
       };
     })
     .catch(function (error) {
-      console.log("Update order error", error);
       return {
         order: null,
         error,

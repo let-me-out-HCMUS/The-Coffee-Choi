@@ -37,15 +37,18 @@ export default function Dashboard() {
   if (error) {
     return <div>{error.message}</div>;
   }
-  const filteredOrders = data?.orders.orders.filter((order) => {
-    const today = new Date();
+  const filteredOrders = data?.orders.orders
+    .filter((order) => order.status === "Completed")
+    .filter((order) => {
+      const today = new Date();
+      return filter !== null
+        ? datediff(new Date(order.createdTime), today) <= filter
+        : true;
+    });
 
-    return filter !== null
-      ? datediff(new Date(order.createdTime), today) <= filter
-      : true;
-  });
-
-  const orders = data?.orders.orders;
+  const orders = data?.orders.orders.filter(
+    (order) => order.status === "Completed"
+  );
 
   return (
     orders && (

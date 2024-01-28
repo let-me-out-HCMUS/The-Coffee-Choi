@@ -28,7 +28,6 @@ export default function MenuContent({ categories }) {
 
   // Filter
   const submitFilter = (data) => {
-    // console.log(data);
     setFilterValue(data);
     setOpenFilter(false);
   };
@@ -40,7 +39,6 @@ export default function MenuContent({ categories }) {
 
   // Sort
   const handleSort = (value) => {
-    // console.log(value);
     setSortValue(value);
   };
 
@@ -61,7 +59,8 @@ export default function MenuContent({ categories }) {
 
         <button
           type="submit"
-          className="text-white absolute end-2.5 bottom-1 bg-amber-700 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-2 py-1 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">
+          className="text-white absolute end-2.5 bottom-1 bg-amber-700 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-2 py-1 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800"
+        >
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
@@ -70,14 +69,16 @@ export default function MenuContent({ categories }) {
       <div className=" mt-4 mb-8">
         <button
           className=" py-1 px-2 rounded border-2 border-solid text-sm border-gray-200"
-          onClick={() => setOpenFilter(true)}>
+          onClick={() => setOpenFilter(true)}
+        >
           <i className="fa-solid fa-filter mr-2"></i>
           Bộ lọc
         </button>
         <div>
           <select
             className="px-1 py-1 border rounded mt-2"
-            onChange={(e) => handleSort(e.target.value)}>
+            onChange={(e) => handleSort(e.target.value)}
+          >
             <option value="">Sắp xếp theo mặc định</option>
             <option value="price">Giá thấp đến cao</option>
             <option value="-price">Giá cao đến thấp</option>
@@ -89,7 +90,8 @@ export default function MenuContent({ categories }) {
       <CustomDialog
         title={"Bộ lọc"}
         onClose={() => setOpenFilter(false)}
-        open={openFilter}>
+        open={openFilter}
+      >
         <FilterForm
           filterValue={filterValue}
           submitFilter={submitFilter}
